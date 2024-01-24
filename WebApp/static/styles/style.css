@@ -35,17 +35,21 @@ header {
     bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
     left: 0;
     height: 5px; /* Hauteur de la barre de chargement */
-    width: 0; /* La largeur initiale est 0, elle augmentera avec l'animation */
+    width: 100%; /* La largeur initiale est 0, elle augmentera avec l'animation */
     background-color: #4CAF50; /* Couleur de la barre de chargement */
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
 }
 
-h1 {
+h1, #affichage_etape {
 	margin : 0px;
 	margin-left: 100px;
 	margin-right: 100px;
 	font-size : 50px;
 	font-weight : bold;
+}
+
+#affichage_etape {
+    opacity : 0.5;
 }
 
 p {
@@ -143,4 +147,18 @@ p {
 
 #image-display{
     position: relative;
+}
+
+
+
+#schema {
+    border: 1px solid #000;
+}
+
+.point {
+    fill: #ff0000;
+}
+
+.ligne {
+    stroke: #000;
 }

@@ -5,6 +5,7 @@
 
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import to_rgba
 import seaborn as sns
 import numpy as np
 import random as rd
@@ -12,7 +13,8 @@ from sklearn.datasets import make_circles,make_moons,make_classification,make_bl
 from pprint import pprint
 import os
 
-# In[10]:
+LIGHT_COLOR = to_rgba('#BFBFBF')
+
 
 
 class ReseauSimple:
@@ -41,6 +43,7 @@ class ReseauSimple:
 			raise ValueError("Invalid weight_init option. Choose 'default', 'he' or 'xavier'.")
             
 		self.stock = [[self.W_1, self.W_2, self.b_1, self.b_2]]
+		self.nb_pass = 0
         
         
 	def sigmoid(self, z):
@@ -67,7 +70,7 @@ class ReseauSimple:
 	def dJdW_1(self, X, d1):
 		return d1 @ X.T
 
-	def train(self, data, labels, passages=10, lr=0.01):
+	def train(self, data, labels, passages=1, lr=0.01):
 		n=passages//50
 		for j in range(passages):
 			#n = int(np.ceil(100*j/passages))
@@ -94,6 +97,8 @@ class ReseauSimple:
 				self.b_1 -= lr * djdb_1
 
 			self.stock.append([np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)])
+			self.nb_pass += 1
+
 
 	def predict(self, X, etape=-1):
 		h = self.hidden(X.reshape(-1, 1), self.stock[etape][0], self.stock[etape][2])
@@ -106,26 +111,33 @@ class ReseauSimple:
 			y_hat.append(self.predict(x, etape=etape))
 		return y_hat
 
-	def visualisation(self, data, labels, savemod=False, folder="Saves", etape=-1, nb_levels=10):
-		plt.figure(figsize=(12,8))
-		hh = .02
-		x_r = data[:, 0].max() - data[:, 0].min()
-		y_r = data[:, 1].max() - data[:, 1].min()
-		x_min, x_max = data[:, 0].min() - x_r/10, data[:, 0].max() + x_r/10
-		y_min, y_max = data[:, 1].min() - y_r/10, data[:, 1].max() + y_r/10
-		xx, yy = np.meshgrid(np.arange(x_min, x_max, (x_max-x_min)/100),
-							np.arange(y_min, y_max, (y_max-y_min)/100))
-		Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], etape=etape))
-		Z = Z.reshape(xx.shape)
+	def visualisation(self, data, labels, savemod=False, folder="Saves", img_name=None, etape=-1, nb_levels=10, show_data=True, show_previsu=True):
+		plt.figure(figsize=(12,8), facecolor=LIGHT_COLOR)
+		if show_previsu:
+			hh = .02
+			x_r = data[:, 0].max() - data[:, 0].min()
+			y_r = data[:, 1].max() - data[:, 1].min()
+			x_min, x_max = data[:, 0].min() - x_r/10, data[:, 0].max() + x_r/10
+			y_min, y_max = data[:, 1].min() - y_r/10, data[:, 1].max() + y_r/10
+			xx, yy = np.meshgrid(np.arange(x_min, x_max, (x_max-x_min)/100),
+								np.arange(y_min, y_max, (y_max-y_min)/100))
+			Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], etape=etape))
+			Z = Z.reshape(xx.shape)
 
-		contour = plt.contourf(xx, yy, Z, alpha=1, levels=[i/nb_levels for i in range(nb_levels+1)], cmap='plasma')
-		sns.scatterplot(x=data[:, 0], y=data[:, 1], hue=labels).set_aspect('equal')
+			#plt.title('Prédiction du réseau en fonction de la position', fontsize=16, color=LIGHT_COLOR)
+
+			contour = plt.contourf(xx, yy, Z, alpha=1, levels=[i/nb_levels for i in range(nb_levels+1)], cmap='plasma')
+
+		if show_data:
+			sns.scatterplot(x=data[:, 0], y=data[:, 1], hue=labels).set_aspect('equal')
 
 		plt.colorbar(contour, label = 'prediction')
 		if savemod:
-			img_name = f'fig{etape:03d}.svg'
+			if img_name is None:
+				img_name = f'fig{etape:03d}.svg'
 			img_path = os.path.join(folder, img_name)
 			plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
+			print(f'{img_name} generated')
 			return img_name
 		else:
 			plt.show()

@@ -17,16 +17,19 @@
             <div class="header-title">
                 <h1>RESEAU SIMPLE</h1>
             </div>
+            <p id="affichage_etape">0</p>
             <div class="header-buttons">
-                <button class="round-button">P</button>
-                <button class="round-button">R</button>
+                <input type="number" id="nombre_passages" name="nombre de passages" value=10>
+                <button class="round-button" onclick="startTraining()">P</button>
+                <button class="round-button" onclick="restartTraining()">R</button>
                 <button class="round-button">S</button>
             </div>
             <div class="header-buttons">
                 <a href="../pages/tictactoe.html" class="page-link"><img src="../static/icons/next.svg" alt="Next" class="icon-button" id="nextButton"></a>
             </div>
         </div>
-        <div id="loading-bar"></div>
+
+        <input type="range" id="loading-bar" name="valeur" min="0" max="0" step="1" value="0" oninput="showImageN()">
     </header>
 
     <div class="main-content">
@@ -38,10 +41,14 @@
 
         </div>
         <div class="right-content">
-            <button id="commencerBtn" onclick="startTraining()">Commencer</button>
-            <form onsubmit="startTraining(); return false;">
-                <button type="submit">Générer des images</button>
-            </form>
+            <svg id="schema" width="400" height="200">
+                <circle class="point" cx="50" cy="50" r="5" fill="#ff0000"/>
+                <circle class="point" cx="150" cy="100" r="5" fill="#ff0000"/>
+                <circle class="point" cx="250" cy="150" r="5" fill="#ff0000"/>
+
+                <line class="ligne" x1="50" y1="50" x2="150" y2="100" stroke="#000"/>
+                <line class="ligne" x1="150" y1="100" x2="250" y2="150" stroke="#000"/>
+            </svg>
         </div>
     </div>
 

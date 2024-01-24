@@ -8,8 +8,8 @@ function actualiserImage(imagePath) {
     nouvelleImage.style.position = 'absolute';
     nouvelleImage.style.top = 0;
     nouvelleImage.style.left = 0;
-    nouvelleImage.style.zIndex = imageDisplay.childNodes.length+1;
     nouvelleImage.style.width = '100%';
+    nouvelleImage.style.zIndex = 1;
     if (imageDisplay.firstChild === null){
 					imageDisplay.appendChild(nouvelleImage);
 				}
@@ -19,12 +19,14 @@ function actualiserImage(imagePath) {
     while (imageDisplay.childNodes.length > 2) {
         imageDisplay.removeChild(imageDisplay.lastChild);
     }
+    imageDisplay.lastChild.style.zIndex = 0;
 }
 
 function actualiserBarre(avancement) {
     var barre = document.getElementById('loading-bar');
-    var pourcentage = avancement*100
-    barre.style.width = pourcentage+'%';
+    barre.value = avancement;
+    var etape = document.getElementById('affichage_etape');
+    etape.textContent = avancement;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,6 +39,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function startTraining() {
-    socket.emit('update_image');
+    var nombre_passages = parseInt(document.getElementById('nombre_passages').value, 10);
+    var barre = document.getElementById('loading-bar');
+    barre.max = parseInt(barre.max) + nombre_passages;
+    socket.emit('start_training', {passages:nombre_passages});
     return false;  // Empêche le formulaire de recharger la page
 }
+
+function restartTraining() {
+    var barre = document.getElementById('loading-bar');
+    barre.max = 0;
+    barre.value = 0;
+    var etape = document.getElementById('affichage_etape');
+    etape.textContent = 0;
+    socket.emit('resume_training');
+}
+
+function showImageN() {
+    var n = parseInt(document.getElementById('loading-bar').value, 10);
+    var etape = document.getElementById('affichage_etape');
+    etape.textContent = n;
+    socket.emit('get_image', {etape:n});
+}
+
+window.onbeforeunload = function() {
+    socket.emit('closing_page');
+};
