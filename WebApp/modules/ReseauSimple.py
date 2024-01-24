@@ -10,7 +10,7 @@ import numpy as np
 import random as rd
 from sklearn.datasets import make_circles,make_moons,make_classification,make_blobs,make_regression,make_biclusters
 from pprint import pprint
-
+import os
 
 # In[10]:
 
@@ -118,14 +118,15 @@ class ReseauSimple:
 		Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], etape=etape))
 		Z = Z.reshape(xx.shape)
 
-		contour = plt.contourf(xx, yy, Z, alpha=1, levels=[i/nb_levels for i in range(nb_levels+1)])
+		contour = plt.contourf(xx, yy, Z, alpha=1, levels=[i/nb_levels for i in range(nb_levels+1)], cmap='plasma')
 		sns.scatterplot(x=data[:, 0], y=data[:, 1], hue=labels).set_aspect('equal')
 
 		plt.colorbar(contour, label = 'prediction')
 		if savemod:
-			img_name = f'./{folder}/fig{etape:03d}.svg'
-			plt.savefig(img_name, format='svg')
-			return f'fig{etape:03d}.svg'
+			img_name = f'fig{etape:03d}.svg'
+			img_path = os.path.join(folder, img_name)
+			plt.savefig(img_path, format='svg', transparent=True)
+			return img_name
 		else:
 			plt.show()
 		

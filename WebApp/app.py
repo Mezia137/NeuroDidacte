@@ -2,6 +2,7 @@
 from flask import Flask, render_template, jsonify, send_file,url_for
 from flask_socketio import SocketIO
 import webbrowser
+
 from modules.ReseauSimple import ReseauSimple, clans1v1, clans2v2
 
 
