@@ -35,7 +35,7 @@ header {
     bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
     left: 0;
     height: 5px; /* Hauteur de la barre de chargement */
-    width: 100px; /* La largeur initiale est 0, elle augmentera avec l'animation */
+    width: 0; /* La largeur initiale est 0, elle augmentera avec l'animation */
     background-color: #4CAF50; /* Couleur de la barre de chargement */
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
 }
@@ -100,6 +100,7 @@ p {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
+    width:50%;
 }
 
 .left-content {
@@ -138,4 +139,8 @@ p {
 
 .page-link {
     text-decoration: none;
+}
+
+#image-display{
+    position: relative;
 }

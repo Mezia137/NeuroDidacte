@@ -28,11 +28,13 @@ def test_disconnect():
 def generer_images():
     er = ReseauSimple(xmod=True)
     data, label = clans1v1()
-    for i in range(100):
+    passages = 30
+    for i in range(passages):
         er.train(data, label, passages=1)
         image_name = er.visualisation(data, label, savemod=True, folder="static/svg", etape=i)
         image_path = url_for('static', filename=f'svg/{image_name}')
         socketio.emit('nouvelle_image', {'image_path': image_path}, namespace='/reseausimple')
+        socketio.emit('avancement', (i+1)/passages, namespace='/reseausimple')
 
 
 if __name__ == '__main__':

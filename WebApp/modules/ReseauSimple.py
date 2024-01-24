@@ -125,7 +125,7 @@ class ReseauSimple:
 		if savemod:
 			img_name = f'fig{etape:03d}.svg'
 			img_path = os.path.join(folder, img_name)
-			plt.savefig(img_path, format='svg', transparent=True)
+			plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
 			return img_name
 		else:
 			plt.show()
