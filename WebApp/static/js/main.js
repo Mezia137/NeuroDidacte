@@ -6,11 +6,15 @@ function actualiserImage(imagePath) {
     var nouvelleImage = document.createElement('img');
     nouvelleImage.src = imagePath;
     if (imageDisplay.firstChild === null){
+                    nouvelleImage.style.position = 'absolute';
 					imageDisplay.appendChild(nouvelleImage);
 				}
 				else{
 					imageDisplay.insertBefore(nouvelleImage,imageDisplay.firstChild)
                 }
+    while (imageDisplay.childNodes.length > 2) {
+        imageDisplay.removeChild(imageDisplay.lastChild);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
