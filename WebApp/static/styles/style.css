@@ -1,0 +1,141 @@
+:root {
+	--light-color : #BFBFBF;
+	--dark-color : #262626;
+}
+
+body {
+    font-family : 'Ubuntu', sans-serif;
+    color : var(--light-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Utilisation de 100% de la hauteur de la fenêtre */
+
+}
+header {
+    /* ... Vos styles CSS pour le header ... */
+    position: relative;
+}
+
+
+.header-content {
+    display: flex;
+    height : 100px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--dark-color);
+    padding: 10px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+}
+
+#loading-bar {
+    position: absolute;
+    bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
+    left: 0;
+    height: 5px; /* Hauteur de la barre de chargement */
+    width: 100px; /* La largeur initiale est 0, elle augmentera avec l'animation */
+    background-color: #4CAF50; /* Couleur de la barre de chargement */
+    transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+}
+
+h1 {
+	margin : 0px;
+	margin-left: 100px;
+	margin-right: 100px;
+	font-size : 50px;
+	font-weight : bold;
+}
+
+p {
+	font-size : 30px;
+	margin : 0;
+}
+
+.header-buttons, .header-title, .header-container{
+    display: flex;
+    align-items: center;
+}
+
+#nextButton, #previousButton {
+    height:50px;
+    margin-left: 30px;
+	margin-right: 30px;
+}
+
+.round-button {
+    margin: 10px;
+    cursor: pointer;
+
+    display : inline;
+	height : 40px;
+	width : 40px;
+
+	font-size : 15px;
+	color : var(--light-color);
+	background-color : transparent;
+	transition: background-color 0.3s ease-out, color 0.3s ease-out;
+
+	border : var(--light-color) solid 1px;
+	border : none;
+	border-radius: 50%;
+
+	position: relative;
+	vertical-align: middle;
+}
+
+.round-button:hover {
+	background-color : var(--light-color);
+	color : var(--dark-color);
+	transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.main-content {
+    display: flex;
+    height: 100vh;
+}
+
+.left-content, .right-content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.left-content {
+    flex: 1;
+    background-color: #e0e0e0;
+}
+
+.right-content {
+    flex: 1;
+    background-color: #f0f0f0;
+}
+
+
+.center-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.center-button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.center-button:hover {
+    background-color: #777;
+}
+
+.page-link {
+    text-decoration: none;
+}

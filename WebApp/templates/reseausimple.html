@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Page</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="header-buttons">
+                <a href="../pages/perceptron.html" class="page-link"><img src="../static/icons/previous.svg" alt="Previous" class="icon-button" id="previousButton"></a>
+            </div>
+            <div class="header-title">
+                <h1>RESEAU SIMPLE</h1>
+            </div>
+            <div class="header-buttons">
+                <button class="round-button">P</button>
+                <button class="round-button">R</button>
+                <button class="round-button">S</button>
+            </div>
+            <div class="header-buttons">
+                <a href="../pages/tictactoe.html" class="page-link"><img src="../static/icons/next.svg" alt="Next" class="icon-button" id="nextButton"></a>
+            </div>
+        </div>
+        <div id="loading-bar"></div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-content">
+            <div id="image-display">
+
+            </div>
+
+
+        </div>
+        <div class="right-content">
+            <button id="commencerBtn" onclick="startTraining()">Commencer</button>
+            <form onsubmit="startTraining(); return false;">
+                <button type="submit">Générer des images</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
