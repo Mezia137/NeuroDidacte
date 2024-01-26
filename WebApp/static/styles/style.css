@@ -153,6 +153,8 @@ p {
 
 #schema {
     border: 1px solid #000;
+    width:100%;
+    aspect-ratio: 3/2;
 }
 
 .point {
