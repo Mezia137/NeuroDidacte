@@ -2,14 +2,15 @@ from flask import Flask, render_template, jsonify, send_file,url_for
 from flask_socketio import SocketIO
 import webbrowser
 import os
-from modules.ReseauSimple import ReseauSimple, clans1v1, clans2v2
+from modules.ReseauSimple import ReseauSimple, clans1v1, clans2v2, circles
 
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 er = ReseauSimple(xmod=True)
-data, label = clans1v1()
+#data, label = clans1v1()
+data, label = circles()
 
 @app.route('/')
 def index():

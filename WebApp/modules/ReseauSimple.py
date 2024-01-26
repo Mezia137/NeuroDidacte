@@ -168,6 +168,5 @@ def clans2v2(center=(0,0), dist=40, etendue=(2, 2)):
 	l = [1 for _ in range(2000)] + [0 for _ in range(2000)]
 	return p, l 
 
-
-
-
+def circles():
+    return make_circles(10000, noise=0.07, factor=0.1, random_state=42)
