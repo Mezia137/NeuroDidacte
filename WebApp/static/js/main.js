@@ -23,10 +23,21 @@ function actualiserImage(imagePath) {
 }
 
 function actualiserBarre(avancement) {
-    var barre = document.getElementById('loading-bar');
-    barre.value = avancement;
+    var barre = document.getElementById('loading-bar2');
+    barre.style.width = avancement;
     var etape = document.getElementById('affichage_etape');
     etape.textContent = avancement;
+}
+
+function actualiserReseau(weights) {
+    Object.keys(weights).forEach(function(cle) {weights[cle] = Math.abs(weights[cle]);});
+    var wmax = Math.max(...Object.values(weights));
+    var wmin = Math.min(...Object.values(weights));
+    var echelle = 30/(wmax - wmin)
+    for (var w in weights) {
+        document.getElementById(w).style.strokeWidth = parseInt(Math.abs((weights[w]-wmin)*echelle + 10));
+    }
+    console.log(document.getElementById('w020').style.strokeWidth)
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     socket.on('avancement', function(data) {
         actualiserBarre(data);
+    });
+    socket.on('update_net', function(data) {
+        actualiserReseau(data);
     });
 });
 
@@ -55,12 +69,43 @@ function restartTraining() {
     socket.emit('resume_training');
 }
 
-function showImageN() {
-    var n = parseInt(document.getElementById('loading-bar').value, 10);
-    var etape = document.getElementById('affichage_etape');
-    etape.textContent = n;
+function showImageN(n) {
+    document.getElementById('affichage_etape').textContent = n;
     socket.emit('get_image', {etape:n});
 }
+
+const fond = document.getElementById('loading-bar-container');
+const barre = document.getElementById('loading-bar2');
+
+let isDragging = false;
+let nombrePointsSnap = 0;
+
+fond.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    fond.style.userSelect = 'none';
+    fond.style.height = '10px';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        const mouseX = e.clientX - fond.getBoundingClientRect().left;
+        const pointSnap = Math.round((mouseX / fond.clientWidth) * nombrePointsSnap);
+        console.log(pointSnap)
+        let new_width = Math.max(0, Math.min(100, pointSnap * 100 / nombrePointsSnap))
+        if (new_width !=== barre.offsetWidth) {
+            barre.style.width = new_width + '%';
+            showImageN(parseInt(barre.offsetWidth / (100 / nombrePointsSnap))
+        }
+    }
+});
+
+document.addEventListener('mouseup', () => {
+    if (isDragging) {
+        isDragging = false;
+        fond.style.userSelect = '';
+        fond.style.height = '5px';
+    }
+});
 
 window.onbeforeunload = function() {
     socket.emit('closing_page');

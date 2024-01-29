@@ -1,43 +1,32 @@
 :root {
 	--light-color : #BFBFBF;
-	--dark-color : #262626;
+	--dark-color : #353535;
 }
 
 body {
     font-family : 'Ubuntu', sans-serif;
     color : var(--light-color);
+    background-color : var(--dark-color);
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     height: 100vh; /* Utilisation de 100% de la hauteur de la fenêtre */
-
+    overflow: hidden;
 }
 header {
-    /* ... Vos styles CSS pour le header ... */
     position: relative;
+    background-color: #262626;
 }
-
 
 .header-content {
     display: flex;
     height : 100px;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--dark-color);
     padding: 10px;
     padding-bottom: 15px;
-    box-sizing: border-box;
-}
-
-#loading-bar {
-    position: absolute;
-    bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
-    left: 0;
-    height: 5px; /* Hauteur de la barre de chargement */
-    width: 100%; /* La largeur initiale est 0, elle augmentera avec l'animation */
-    background-color: #4CAF50; /* Couleur de la barre de chargement */
-    transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+    /*box-sizing: border-box;*/
 }
 
 h1, #affichage_etape {
@@ -50,11 +39,6 @@ h1, #affichage_etape {
 
 #affichage_etape {
     opacity : 0.5;
-}
-
-p {
-	font-size : 30px;
-	margin : 0;
 }
 
 .header-buttons, .header-title, .header-container{
@@ -95,6 +79,34 @@ p {
 	transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
+#loading-bar-container {
+    position: absolute;
+    bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
+    left: 0;
+    height: 5px; /* Hauteur de la barre de chargement */
+    width: 100%; /* La largeur initiale est 0, elle augmentera avec l'animation */
+    background-color: #CCCCCC; /* Couleur de la barre de chargement */
+
+    transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+}
+
+#loading-bar-container:hover {
+    height: 10px;
+    transition: height 0.2s;
+}
+
+#loading-bar2 {
+    position: absolute;
+    bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
+    left: 0;
+    height: 100%; /* Hauteur de la barre de chargement */
+    width: 50px; /* La largeur initiale est 0, elle augmentera avec l'animation */
+    background-color: #FF0000; /* Couleur de la barre de chargement */
+    transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+    cursor: pointer;
+
+}
+
 .main-content {
     display: flex;
     height: 100vh;
@@ -107,52 +119,12 @@ p {
     width:50%;
 }
 
-.left-content {
-    flex: 1;
-    background-color: #e0e0e0;
-}
-
-.right-content {
-    flex: 1;
-    background-color: #f0f0f0;
-}
-
-
-.center-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.center-button {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #555;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-.center-button:hover {
-    background-color: #777;
-}
-
-.page-link {
-    text-decoration: none;
-}
-
 #image-display{
     position: relative;
 }
 
-
-
 #schema {
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     width:100%;
     aspect-ratio: 3/2;
 }
@@ -162,5 +134,6 @@ p {
 }
 
 .ligne {
-    stroke: #000;
+    stroke: #BFBFBF;
+    transition: stroke-width 0.3s;
 }

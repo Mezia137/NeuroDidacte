@@ -145,6 +145,11 @@ class ReseauSimple:
 	def history(self):
 		return self.stock
 
+	def get_w(self, i):
+		w = self.stock[i]
+		return {'w000':w[0][0,0].item(), 'w001':w[0][0,1].item(), 'w010':w[0][1,0].item(), 'w011':w[0][1,1].item(), 'w020':w[0][2,0].item(), 'w021':w[0][2,1].item(),
+				'w10':w[1][0].item(), 'w11':w[1][1].item(), 'w12':w[1][2].item()}
+
 
 # In[11]:
 
