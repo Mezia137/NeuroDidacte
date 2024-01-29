@@ -1,14 +1,20 @@
 
 import numpy as np
+import random as rd
+from pprint import pprint
 
 class TicTacToe:
     def __init__(self):
         self.board = np.zeros((3, 3), dtype=int)
         self.current_player = 1  # 1 for X, -1 for O
-
+    def get_board(self):
+        l = []
+        for row in self.board:
+            l.append([case for case in row])
+        return [l[i][k]for i in range(3)for k in range(3)]
     def print_board(self):
         for row in self.board:
-            print(" ".join(["X" if cell == 1 else "O" if cell == -1 else "-" for cell in row]))
+            print(" ".join(["X" if case == 1 else "O" if case == -1 else "-" for case in row]))
 
     def is_valid_move(self, row, col):
         return self.board[row, col] == 0
@@ -16,31 +22,33 @@ class TicTacToe:
     def make_move(self, row, col):
         if self.is_valid_move(row, col):
             self.board[row, col] = self.current_player
-            self.current_player *= -1  # Switch player
+            self.current_player *= -1  
             return True
         else:
             print("Invalid move. Try again.")
             return False
 
     def check_winner(self):
-        # Check rows, columns, and diagonals for a winner
         for i in range(3):
+
             if np.all(self.board[i, :] == 1) or np.all(self.board[:, i] == 1):
-                return 1  # Player X wins
+                return 1
             elif np.all(self.board[i, :] == -1) or np.all(self.board[:, i] == -1):
-                return -1  # Player O wins
+                return -1 
+
 
         if np.all(np.diag(self.board) == 1) or np.all(np.diag(np.fliplr(self.board)) == 1):
-            return 1  # Player X wins
+            return 1  
 
         if np.all(np.diag(self.board) == -1) or np.all(np.diag(np.fliplr(self.board)) == -1):
-            return -1  # Player O wins
+            return -1 
+        
 
-        # Check for a tie
+
         if np.all(self.board != 0):
-            return 0  # It's a tie
+            return 0 
 
-        return None  # No winner yet
+        return None 
 
     def play(self, player1, player2):
         while True:
@@ -62,7 +70,20 @@ class TicTacToe:
                 else:
                     print("It's a tie!")
                 break
-
+    def get_3matrice(self):
+        M1 = np.zeros((3, 3), dtype=int)
+        M2 = np.zeros((3, 3), dtype=int)
+        M3 = np.zeros((3, 3), dtype=int)
+        for i,j in enumerate(self.board) :
+            for h ,k in enumerate(j) :
+                if k == self.current_player :
+                    M1[i,h] = 1
+                elif k == self.current_player*(-1) :
+                    M2[i,h] = 1
+                else :
+                    M3[i,h] = 1
+        return M1 , M2 , M3
+    
 class HumanPlayer:
     def make_move(self, game):
         while True:
@@ -77,9 +98,34 @@ class HumanPlayer:
             except ValueError:
                 print("Invalid input. Enter numbers only.")
 
+                
+class Hasard:
+    def make_move(self, game):
+        while True:
+            nb = rd.randrange(1, 10)
+            row = nb // 3
+            col = nb % 3
+            if game.is_valid_move(row, col):
+                game.make_move(row, col)
+                break
+
+class NNplayer:
+    def __init__(self, reseau):
+        self.NN = reseau
+    def make_move(self, game):
+        while True:
+            nb = self.NN.predict(game.get_3matrice)
+            row = nb // 3
+            col = nb % 3
+            if game.is_valid_move(row, col):
+                game.make_move(row, col)
+                break
+
+
 if __name__ == "__main__":
+
     game = TicTacToe()
-    player1 = HumanPlayer()
-    player2 = HumanPlayer()
+    player1 = NNplayer()
+    player2 = Hasard()
 
     game.play(player1, player2)
