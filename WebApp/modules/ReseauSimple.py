@@ -6,6 +6,9 @@
 
 import matplotlib.pyplot as plt
 from matplotlib.colors import to_rgba
+import queue
+import threading
+
 import seaborn as sns
 import numpy as np
 import random as rd
@@ -137,7 +140,7 @@ class ReseauSimple:
 				img_name = f'fig{etape:03d}.svg'
 			img_path = os.path.join(folder, img_name)
 			plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
-			print(f'{img_name} generated')
+			# print(f'{img_name} generated')
 			return img_name
 		else:
 			plt.show()

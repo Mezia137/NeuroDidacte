@@ -90,12 +90,8 @@ h1, #affichage_etape {
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
 }
 
-#loading-bar-container:hover {
-    height: 10px;
-    transition: height 0.2s;
-}
 
-#loading-bar2 {
+#loading-bar {
     position: absolute;
     bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
     left: 0;

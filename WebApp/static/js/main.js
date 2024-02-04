@@ -1,7 +1,13 @@
 // Connexion au namespace 'reseausimple'
-var socket = io.connect('http://' + document.domain + ':' + location.port + '/reseausimple');
+const socket = io.connect('http://' + document.domain + ':' + location.port + '/reseausimple');
+const barContainer = document.getElementById('loading-bar-container');
+const bar = document.getElementById('loading-bar');
 
-function actualiserImage(imagePath) {
+let isDraggingBar = false;
+let totalSteps = 0;
+let step = 0;
+
+function updateImage(imagePath) {
     var imageDisplay = document.getElementById('image-display');
     var nouvelleImage = document.createElement('img');
     nouvelleImage.src = imagePath;
@@ -22,14 +28,18 @@ function actualiserImage(imagePath) {
     imageDisplay.lastChild.style.zIndex = 0;
 }
 
-function actualiserBarre(avancement) {
-    var barre = document.getElementById('loading-bar2');
-    barre.style.width = avancement;
-    var etape = document.getElementById('affichage_etape');
-    etape.textContent = avancement;
+function updateBar(toStep) {
+    if (totalSteps === 0) {
+            bar.style.width = '0';
+    } else {
+            let new_width = toStep * 100 / totalSteps;
+            console.log(new_width);
+            bar.style.width = new_width + '%';
+    }
+    document.getElementById('affichage_etape').textContent = toStep;
 }
 
-function actualiserReseau(weights) {
+function updateNet(weights) {
     Object.keys(weights).forEach(function(cle) {weights[cle] = Math.abs(weights[cle]);});
     var wmax = Math.max(...Object.values(weights));
     var wmin = Math.min(...Object.values(weights));
@@ -42,68 +52,58 @@ function actualiserReseau(weights) {
 
 document.addEventListener('DOMContentLoaded', function() {
     socket.on('nouvelle_image', function(data) {
-        actualiserImage(data.image_path);
+        updateImage(data.image_path);
     });
     socket.on('avancement', function(data) {
-        actualiserBarre(data);
+        updateBar(data);
     });
     socket.on('update_net', function(data) {
-        actualiserReseau(data);
+        updateNet(data);
     });
 });
 
 function startTraining() {
     var nombre_passages = parseInt(document.getElementById('nombre_passages').value, 10);
-    var barre = document.getElementById('loading-bar');
-    barre.max = parseInt(barre.max) + nombre_passages;
+    totalSteps += nombre_passages;
     socket.emit('start_training', {passages:nombre_passages});
     return false;  // Empêche le formulaire de recharger la page
 }
 
 function restartTraining() {
-    var barre = document.getElementById('loading-bar');
-    barre.max = 0;
-    barre.value = 0;
-    var etape = document.getElementById('affichage_etape');
-    etape.textContent = 0;
+    totalSteps = 0;
+    updateBar(0);
+    document.getElementById('affichage_etape').textContent = 0;
     socket.emit('resume_training');
 }
 
 function showImageN(n) {
-    document.getElementById('affichage_etape').textContent = n;
+    // document.getElementById('affichage_etape').textContent = n;
     socket.emit('get_image', {etape:n});
 }
 
-const fond = document.getElementById('loading-bar-container');
-const barre = document.getElementById('loading-bar2');
-
-let isDragging = false;
-let nombrePointsSnap = 0;
-
-fond.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    fond.style.userSelect = 'none';
-    fond.style.height = '10px';
+barContainer.addEventListener('mousedown', (e) => {
+    isDraggingBar = true;
+    barContainer.style.userSelect = 'none';
+    barContainer.style.height = '10px';
 });
 
 document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-        const mouseX = e.clientX - fond.getBoundingClientRect().left;
-        const pointSnap = Math.round((mouseX / fond.clientWidth) * nombrePointsSnap);
-        console.log(pointSnap)
-        let new_width = Math.max(0, Math.min(100, pointSnap * 100 / nombrePointsSnap))
-        if (new_width !=== barre.offsetWidth) {
-            barre.style.width = new_width + '%';
-            showImageN(parseInt(barre.offsetWidth / (100 / nombrePointsSnap))
+    if (isDraggingBar) {
+        let mouseX = e.clientX - barContainer.getBoundingClientRect().left;
+        oldstep = step;
+        step = Math.round((Math.min(Math.max(mouseX, 0), window.innerWidth) / barContainer.clientWidth) * totalSteps);
+        updateBar(step);
+        if (oldstep != step) {
+            showImageN(step);
         }
     }
 });
 
 document.addEventListener('mouseup', () => {
-    if (isDragging) {
-        isDragging = false;
-        fond.style.userSelect = '';
-        fond.style.height = '5px';
+    if (isDraggingBar) {
+        isDraggingBar = false;
+        barContainer.style.userSelect = '';
+        barContainer.style.height = '5px';
     }
 });
 
