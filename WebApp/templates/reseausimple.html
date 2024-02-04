@@ -19,9 +19,11 @@
             </div>
             <p id="affichage_etape">0</p>
             <div class="header-buttons">
-                <input type="number" id="nombre_passages" name="nombre de passages" value=10>
-                <button class="round-button" onclick="startTraining()">P</button>
-                <button class="round-button" onclick="restartTraining()">R</button>
+                <div class="round-button" id="pp-button">
+                    <input type="number" id="nombre_passages" name="nombre de passages" value=10 min="1" max="99">
+                    <button onclick="startTraining()"><img src="../static/icons/pause.svg" alt="Play" class="icon-button" id="playButton" height="30px"></button>
+                </div>
+                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Rewind" class="icon-button" id="rewindButton" height="30px"></button>
                 <button class="round-button">S</button>
             </div>
             <div class="header-buttons">

@@ -67,10 +67,17 @@ h1, #affichage_etape {
 
 	border : var(--light-color) solid 1px;
 	border : none;
-	border-radius: 50%;
+	border-radius: 20px;
 
 	position: relative;
 	vertical-align: middle;
+}
+
+#pp-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width : 120px; /* Ajuste la hauteur selon tes besoins */
 }
 
 .round-button:hover {
@@ -78,6 +85,21 @@ h1, #affichage_etape {
 	color : var(--dark-color);
 	transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
+
+#nombre_passages {
+    background: none;
+    border: none;
+    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-size: 20px;
+    color: gray;
+    width: 40px;
+    height: 30px;
+    padding: 0; /* Supprime le padding par défaut */
+    margin: 0; /* Supprime la marge par défaut */
+    outline: none; /* Supprime la bordure de focus */
+}
+
+
 
 #loading-bar-container {
     position: absolute;

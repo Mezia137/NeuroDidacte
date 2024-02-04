@@ -42,6 +42,8 @@ def test_disconnect():
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
     socketio.stop()
+    for svgimage in os.listdir('./static/svg'):
+        os.remove(os.path.join('./static/svg', svgimage))
 
 
 def generate_image(img_name, folder="static/svg", show_data=True, show_previsu=True, etape=-1):
