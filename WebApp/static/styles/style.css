@@ -1,12 +1,12 @@
 :root {
-	--light-color : #BFBFBF;
+	--light-color : #c0bab2;
 	--dark-color : #353535;
 }
 
 body {
     font-family : 'Ubuntu', sans-serif;
     color : var(--light-color);
-    background-color : var(--dark-color);
+    background-color : #282b2d;
     margin: 0;
     padding: 0;
     display: flex;
@@ -14,9 +14,10 @@ body {
     height: 100vh; /* Utilisation de 100% de la hauteur de la fenêtre */
     overflow: hidden;
 }
+
 header {
     position: relative;
-    background-color: #262626;
+    background-color: rgb(29, 31, 32);
 }
 
 .header-content {
@@ -26,10 +27,9 @@ header {
     align-items: center;
     padding: 10px;
     padding-bottom: 15px;
-    /*box-sizing: border-box;*/
 }
 
-h1, #affichage_etape {
+h1 {
 	margin : 0px;
 	margin-left: 100px;
 	margin-right: 100px;
@@ -39,67 +39,81 @@ h1, #affichage_etape {
 
 #affichage_etape {
     opacity : 0.5;
+    width : 100px;
 }
 
-.header-buttons, .header-title, .header-container{
-    display: flex;
-    align-items: center;
-}
+#previouspage-icon, #nextpage-icon {position: relative;height : 65px;}
+#previouspage-link, #nextpage-link {width : 100px;}
 
-#nextButton, #previousButton {
-    height:50px;
-    margin-left: 30px;
-	margin-right: 30px;
+#previouspage-icon {left: 30px; transition: left 0.3s ease;}
+#previouspage-link:hover #previouspage-icon {left: 0}
+
+#nextpage-icon {right: 0px; transition: right 0.3s ease;}
+#nextpage-link:hover #nextpage-icon {right: -30px}
+
+button {
+    border : none;
+    background-color : transparent;
+    padding : 0px;
 }
 
 .round-button {
-    margin: 10px;
+    height : 50px;
+    min-width : 50px;
+    border-radius : 25px;
+    margin : 10px;
+
+
+    transition: border 0.3s;
+    border: 2px solid #c0bab250;
+
     cursor: pointer;
-
-    display : inline;
-	height : 40px;
-	width : 40px;
-
-	font-size : 15px;
-	color : var(--light-color);
-	background-color : transparent;
-	transition: background-color 0.3s ease-out, color 0.3s ease-out;
-
-	border : var(--light-color) solid 1px;
-	border : none;
-	border-radius: 20px;
-
-	position: relative;
-	vertical-align: middle;
-}
-
-#pp-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width : 120px; /* Ajuste la hauteur selon tes besoins */
 }
 
 .round-button:hover {
-	background-color : var(--light-color);
-	color : var(--dark-color);
-	transition: background-color 0.3s ease-out, color 0.3s ease-out;
+    border-color : var(--light-color);
 }
 
-#nombre_passages {
+.round-button:disabled {
+    border-color : var(--light-color);
+    opacity : 0.2;
+    cursor: not-allowed;
+}
+
+#control-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#play-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius : 27px;
+}
+
+#play-button-icon {
+    height : 40px;
+    margin-right: 5px;
+}
+
+#rewind-button-icon {
+    height : 30px;
+}
+
+#input-nombre_passages {
     background: none;
     border: none;
     font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
-    font-size: 20px;
-    color: gray;
-    width: 40px;
+    font-size: 30px;
+    color: var(--light-color);
+    width: 50px;
     height: 30px;
-    padding: 0; /* Supprime le padding par défaut */
-    margin: 0; /* Supprime la marge par défaut */
+    padding: 0;
+    margin: 0 -5px 0 13px;
     outline: none; /* Supprime la bordure de focus */
 }
-
-
 
 #loading-bar-container {
     position: absolute;
@@ -107,18 +121,17 @@ h1, #affichage_etape {
     left: 0;
     height: 5px; /* Hauteur de la barre de chargement */
     width: 100%; /* La largeur initiale est 0, elle augmentera avec l'animation */
-    background-color: #CCCCCC; /* Couleur de la barre de chargement */
+    background-color: rgb(53, 57, 59); /* Couleur de la barre de chargement */
 
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
 }
-
 
 #loading-bar {
     position: absolute;
     bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
     left: 0;
     height: 100%; /* Hauteur de la barre de chargement */
-    width: 50px; /* La largeur initiale est 0, elle augmentera avec l'animation */
+    width: 0; /* La largeur initiale est 0, elle augmentera avec l'animation */
     background-color: #FF0000; /* Couleur de la barre de chargement */
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
     cursor: pointer;
@@ -152,6 +165,6 @@ h1, #affichage_etape {
 }
 
 .ligne {
-    stroke: #BFBFBF;
+    stroke: #42484a;
     transition: stroke-width 0.3s;
 }

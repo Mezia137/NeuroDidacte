@@ -11,28 +11,26 @@
 
     <header>
         <div class="header-content">
-            <div class="header-buttons">
-                <a href="../pages/perceptron.html" class="page-link"><img src="../static/icons/previous.svg" alt="Previous" class="icon-button" id="previousButton"></a>
-            </div>
+
+            <a href="../pages/perceptron.html"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
+
             <div class="header-title">
                 <h1>RESEAU SIMPLE</h1>
             </div>
-            <p id="affichage_etape">0</p>
-            <div class="header-buttons">
-                <div class="round-button" id="pp-button">
-                    <input type="number" id="nombre_passages" name="nombre de passages" value=10 min="1" max="99">
-                    <button onclick="startTraining()"><img src="../static/icons/pause.svg" alt="Play" class="icon-button" id="playButton" height="30px"></button>
+            <h1 id="affichage_etape">0</h1>
+            <div id="control-buttons-container">
+                <div class="round-button" id="play-button-container">
+                    <input type="number" id="input-nombre_passages" name="nombre de passages" value=10 min="1" max="99">
+                    <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Play" id="play-button-icon"></button>
                 </div>
-                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Rewind" class="icon-button" id="rewindButton" height="30px"></button>
-                <button class="round-button">S</button>
+                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Rewind" id="rewind-button-icon"></button>
             </div>
-            <div class="header-buttons">
-                <a href="../pages/tictactoe.html" class="page-link"><img src="../static/icons/next.svg" alt="Next" class="icon-button" id="nextButton"></a>
-            </div>
+
+            <a href="../pages/tictactoe.html"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Next" id="nextpage-icon"></div></a>
+
         </div>
 
         <div id="loading-bar-container"><div id="loading-bar" ></div></div>
-        <!-- <input type="range" id="loading-bar" name="valeur" min="0" max="0" step="1" value="0" oninput="showImageN()">-->
     </header>
 
     <div class="main-content">

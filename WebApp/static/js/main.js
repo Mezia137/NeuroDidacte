@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function startTraining() {
-    var nombre_passages = parseInt(document.getElementById('nombre_passages').value, 10);
+    // disableButtons()
+    var nombre_passages = parseInt(document.getElementById('input-nombre_passages').value, 10);
     totalSteps += nombre_passages;
     socket.emit('start_training', {passages:nombre_passages});
     return false;  // Empêche le formulaire de recharger la page
@@ -77,8 +78,11 @@ function restartTraining() {
 }
 
 function showImageN(n) {
-    // document.getElementById('affichage_etape').textContent = n;
     socket.emit('get_image', {etape:n});
+}
+
+function disableButtons() {
+    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
 }
 
 barContainer.addEventListener('mousedown', (e) => {
