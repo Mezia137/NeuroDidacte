@@ -75,8 +75,8 @@ button {
 }
 
 .round-button:disabled {
-    border-color : var(--light-color);
     opacity : 0.2;
+    border-color : var(--light-color);
     cursor: not-allowed;
 }
 
@@ -124,6 +124,7 @@ button {
     background-color: rgb(53, 57, 59); /* Couleur de la barre de chargement */
 
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+    cursor: pointer;
 }
 
 #loading-bar {
@@ -134,8 +135,6 @@ button {
     width: 0; /* La largeur initiale est 0, elle augmentera avec l'animation */
     background-color: #FF0000; /* Couleur de la barre de chargement */
     transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
-    cursor: pointer;
-
 }
 
 .main-content {

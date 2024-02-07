@@ -3,6 +3,8 @@ const socket = io.connect('http://' + document.domain + ':' + location.port + '/
 const barContainer = document.getElementById('loading-bar-container');
 const bar = document.getElementById('loading-bar');
 
+let isTraining = false;
+
 let isDraggingBar = false;
 let totalSteps = 0;
 let step = 0;
@@ -56,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     socket.on('avancement', function(data) {
         updateBar(data);
+        if (data === totalSteps) {
+            reableButtons();
+        }
     });
     socket.on('update_net', function(data) {
         updateNet(data);
@@ -63,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function startTraining() {
-    // disableButtons()
+    disableButtons()
     var nombre_passages = parseInt(document.getElementById('input-nombre_passages').value, 10);
     totalSteps += nombre_passages;
     socket.emit('start_training', {passages:nombre_passages});
@@ -82,13 +87,35 @@ function showImageN(n) {
 }
 
 function disableButtons() {
+    isTraining = true;
     document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
+    document.getElementById("input-nombre_passages").disabled = true;
+
+    document.getElementById("loading-bar-container").style.cursor = "not-allowed";
+
+    document.getElementById("#previouspage-link").style.cursor = "not-allowed";
+    document.getElementById("#previouspage-link").style.opacity = "0.2";
+    document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
+
+    document.querySelector('header').style.cursor = 'not-allowed';
+}
+
+function reableButtons() {
+    isTraining = false;
+    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = false;});
+    document.getElementById("input-nombre_passages").disabled = false;
+
+    document.getElementById("loading-bar-container").style.cursor = "pointer";
+
+    document.querySelector('header').style.cursor = 'auto';
 }
 
 barContainer.addEventListener('mousedown', (e) => {
-    isDraggingBar = true;
-    barContainer.style.userSelect = 'none';
-    barContainer.style.height = '10px';
+    if (isTraining === false) {
+        isDraggingBar = true;
+        barContainer.style.userSelect = 'none';
+        barContainer.style.height = '10px';
+    }
 });
 
 document.addEventListener('mousemove', (e) => {
