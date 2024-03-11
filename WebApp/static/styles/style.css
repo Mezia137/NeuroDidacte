@@ -46,10 +46,10 @@ h1 {
 #previouspage-link, #nextpage-link {width : 100px;}
 
 #previouspage-icon {left: 30px; transition: left 0.3s ease;}
-#previouspage-link:hover #previouspage-icon {left: 0}
+#previouspage-link:not(.disabled_button):hover #previouspage-icon {left: 0}
 
 #nextpage-icon {right: 0px; transition: right 0.3s ease;}
-#nextpage-link:hover #nextpage-icon {right: -30px}
+#nextpage-link:not(.disabled_button):hover #nextpage-icon {right: -30px}
 
 button {
     border : none;
@@ -70,11 +70,17 @@ button {
     cursor: pointer;
 }
 
-.round-button:hover {
+.round-button:hover:not(.disabled_button) {
     border-color : var(--light-color);
 }
 
 .round-button:disabled {
+    opacity : 0.2;
+    border-color : var(--light-color);
+    cursor: not-allowed;
+}
+
+.round-button.disabled_button {
     opacity : 0.2;
     border-color : var(--light-color);
     cursor: not-allowed;

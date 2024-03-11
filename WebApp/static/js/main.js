@@ -3,6 +3,10 @@ const socket = io.connect('http://' + document.domain + ':' + location.port + '/
 const barContainer = document.getElementById('loading-bar-container');
 const bar = document.getElementById('loading-bar');
 
+const pp_button = document.getElementById("previouspage-link");
+const np_button = document.getElementById("nextpage-link");
+
+
 let isTraining = false;
 
 let isDraggingBar = false;
@@ -89,26 +93,33 @@ function showImageN(n) {
 
 function disableButtons() {
     isTraining = true;
-    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
+    // document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
+    document.querySelectorAll('.round-button').forEach(function(bouton) {bouton.classList.add('disabled_button')});
     document.getElementById("input-nombre_passages").disabled = true;
 
     document.getElementById("loading-bar-container").style.cursor = "not-allowed";
 
-    document.getElementById("previouspage-link").style.cursor = "not-allowed";
-    document.getElementById("previouspage-link").style.opacity = "0.2";
+    pp_button.style.cursor = "not-allowed";
+    pp_button.style.opacity = "0.2";
+    pp_button.classList.add('no-hover');
+    
+    np_button.style.cursor = "not-allowed";
+    np_button.style.opacity = "0.2";
+    np_button.classList.add('disabled_button');
+    
     document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
 
     document.querySelector('header').style.cursor = 'not-allowed';
 }
 
 function reableButtons() {
-    isTraining = false;
-    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = false;});
-    document.getElementById("input-nombre_passages").disabled = false;
+    //isTraining = false;
+    //document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = false;});
+    //document.getElementById("input-nombre_passages").disabled = false;
 
-    document.getElementById("loading-bar-container").style.cursor = "pointer";
+    //document.getElementById("loading-bar-container").style.cursor = "pointer";
 
-    document.querySelector('header').style.cursor = 'auto';
+    //document.querySelector('header').style.cursor = 'auto';
 }
 
 barContainer.addEventListener('mousedown', (e) => {
