@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function startTraining() {
     disableButtons()
     var nombre_passages = parseInt(document.getElementById('input-nombre_passages').value, 10);
+    console.log(nombre_passages);
     totalSteps += nombre_passages;
     socket.emit('start_training', {passages:nombre_passages});
     return false;  // Empêche le formulaire de recharger la page
@@ -93,8 +94,8 @@ function disableButtons() {
 
     document.getElementById("loading-bar-container").style.cursor = "not-allowed";
 
-    document.getElementById("#previouspage-link").style.cursor = "not-allowed";
-    document.getElementById("#previouspage-link").style.opacity = "0.2";
+    document.getElementById("previouspage-link").style.cursor = "not-allowed";
+    document.getElementById("previouspage-link").style.opacity = "0.2";
     document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
 
     document.querySelector('header').style.cursor = 'not-allowed';
