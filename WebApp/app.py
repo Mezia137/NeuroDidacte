@@ -42,8 +42,9 @@ def test_disconnect():
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
     socketio.stop()
-    for svgimage in os.listdir('./static/svg'):
-        os.remove(os.path.join('./static/svg', svgimage))
+    for file in os.listdir('./static/svg'):
+        if file.startswith('tmp-'):
+            os.remove(os.path.join('./static/svg', file))
 
 
 def generate_image(img_name, folder="static/svg", show_data=True, show_previsu=True, etape=-1):
@@ -61,7 +62,7 @@ def emit_training(webdata):
     for i in range(dp + 1, passages + dp + 1):
         er.train(data, label)
         # image_name = er.visualisation(data, label, savemod=True, folder="static/svg", etape=i)
-        image_path = generate_image(f'fig{i:03d}.svg')
+        image_path = generate_image(f'tmp-{i:03d}.svg')
         socketio.emit('nouvelle_image', {'image_path': image_path}, namespace='/reseausimple')
         socketio.emit('avancement', i, namespace='/reseausimple')
         # pprint(er.get_w(i))
@@ -71,7 +72,7 @@ def emit_training(webdata):
 @socketio.on('get_image', namespace='/reseausimple')
 def emit_image(webdata):
     etape = webdata['etape']
-    img_name = f'fig{etape:03d}.svg'
+    img_name = f'tmp-{etape:03d}.svg'
     img_path = url_for('static', filename=f'svg/{img_name}')
 
     if not os.path.exists('.' + img_path):
@@ -85,8 +86,8 @@ def emit_image(webdata):
 def resume_training():
     global er
     er = ReseauSimple(xmod=True)
-    img_path = generate_image('fig000.svg', folder="static/svg", show_data=True, show_previsu=True)
-    socketio.emit('nouvelle_image', {'image_path': img_path}, namespace='/reseausimple')
+    #img_path = generate_image('fig000.svg', folder="static/svg", show_data=True, show_previsu=True)
+    #socketio.emit('nouvelle_image', {'image_path': img_path}, namespace='/reseausimple')
     socketio.emit('update_net', er.get_w(0), namespace='/reseausimple')
 
 

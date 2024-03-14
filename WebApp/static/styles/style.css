@@ -153,16 +153,38 @@ button {
     padding: 20px;
     box-sizing: border-box;
     width:50%;
+    height: 100%;
+}
+.right-content {
+    display: flex;
+    align-items: center;
 }
 
 #image-display{
     position: relative;
 }
 
+.image {
+    position : absolute;
+    top : 0;
+    left : 0;
+    width : 100%;
+
+}
+
 #schema {
-    /* border: 1px solid #000; */
     width:100%;
     aspect-ratio: 3/2;
+}
+
+.net-layer {
+    fill: #383b3d;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.net-layer:hover {
+    opacity: 1;
 }
 
 .point {

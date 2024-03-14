@@ -17,10 +17,7 @@ function updateImage(imagePath) {
     var imageDisplay = document.getElementById('image-display');
     var nouvelleImage = document.createElement('img');
     nouvelleImage.src = imagePath;
-    nouvelleImage.style.position = 'absolute';
-    nouvelleImage.style.top = 0;
-    nouvelleImage.style.left = 0;
-    nouvelleImage.style.width = '100%';
+    nouvelleImage.classList.add('image')
     nouvelleImage.style.zIndex = 1;
     if (imageDisplay.firstChild === null){
 					imageDisplay.appendChild(nouvelleImage);
@@ -84,6 +81,7 @@ function restartTraining() {
     totalSteps = 0;
     updateBar(0);
     document.getElementById('affichage_etape').textContent = 0;
+    updateImage('static/svg/0-000.svg');
     socket.emit('resume_training');
 }
 
@@ -93,7 +91,7 @@ function showImageN(n) {
 
 function disableButtons() {
     isTraining = true;
-    // document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
+    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
     document.querySelectorAll('.round-button').forEach(function(bouton) {bouton.classList.add('disabled_button')});
     document.getElementById("input-nombre_passages").disabled = true;
 
@@ -101,7 +99,7 @@ function disableButtons() {
 
     pp_button.style.cursor = "not-allowed";
     pp_button.style.opacity = "0.2";
-    pp_button.classList.add('no-hover');
+    pp_button.classList.add('disabled_button');
     
     np_button.style.cursor = "not-allowed";
     np_button.style.opacity = "0.2";
@@ -113,13 +111,24 @@ function disableButtons() {
 }
 
 function reableButtons() {
-    //isTraining = false;
-    //document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = false;});
-    //document.getElementById("input-nombre_passages").disabled = false;
+    isTraining = false;
+    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = false;});
+    document.querySelectorAll('.round-button').forEach(function(bouton) {bouton.classList.remove('disabled_button')});
+    document.getElementById("input-nombre_passages").disabled = false;
 
-    //document.getElementById("loading-bar-container").style.cursor = "pointer";
+    document.getElementById("loading-bar-container").style.cursor = "pointer";
 
-    //document.querySelector('header').style.cursor = 'auto';
+    pp_button.style.cursor = "pointer";
+    pp_button.style.opacity = "1";
+    pp_button.classList.remove('disabled_button');
+
+    np_button.style.cursor = "pointer";
+    np_button.style.opacity = "1";
+    np_button.classList.remove('disabled_button');
+
+    document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
+
+    document.querySelector('header').style.cursor = 'auto';
 }
 
 barContainer.addEventListener('mousedown', (e) => {
@@ -137,7 +146,9 @@ document.addEventListener('mousemove', (e) => {
         step = Math.round((Math.min(Math.max(mouseX, 0), window.innerWidth) / barContainer.clientWidth) * totalSteps);
         updateBar(step);
         if (oldstep != step) {
-            showImageN(step);
+            if (step === 0){
+                updateImage('static/svg/0-000.svg');
+            } else {showImageN(step)}
         }
     }
 });
