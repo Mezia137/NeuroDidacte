@@ -82,6 +82,7 @@ function restartTraining() {
     updateBar(0);
     document.getElementById('affichage_etape').textContent = 0;
     updateImage('static/svg/0-000.svg');
+    document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
     socket.emit('resume_training');
 }
 

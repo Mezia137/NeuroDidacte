@@ -88,7 +88,7 @@ def resume_training():
     er = ReseauSimple(xmod=True)
     #img_path = generate_image('fig000.svg', folder="static/svg", show_data=True, show_previsu=True)
     #socketio.emit('nouvelle_image', {'image_path': img_path}, namespace='/reseausimple')
-    socketio.emit('update_net', er.get_w(0), namespace='/reseausimple')
+    #socketio.emit('update_net', er.get_w(0), namespace='/reseausimple')
 
 
 if __name__ == '__main__':
