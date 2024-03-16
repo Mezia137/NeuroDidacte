@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Page</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+</head>
+<body>
+<div id="overlay">
+        <h1>POULET</h1>
+        <p>aofhasodghfokasdhgoklasdfogljdaslfgjldasfjgadfsgasd
+        dfgdsfgggggggggggggggggg
+        zsdf
+        gdzsf
+        gdzsf
+        gzsdfffffffffffffffffffffffffffffbvg
+        zasdf
+        gvd
+        zsfgv
+        zsdf
+        bvgzas
+        fdzasbvgzadsfggggggggbv
+        gzad
+        fsbvg
+        fdzasssssssssssssss</p>
+    </div>
+    <header>
+        <div class="header-content">
+            <div class="header-title">
+                <h1>PERCEPTRON</h1>
+            </div>
+            <h1 id="affichage_etape">0</h1>
+            <div id="control-buttons-container">
+                <div class="round-button" id="play-button-container">
+                    <input type="number" id="input-nombre_passages" name="nombre de passages" value=10 min="1" max="99">
+                    <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Play" id="play-button-icon"></button>
+                </div>
+                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Rewind" id="rewind-button-icon"></button>
+            </div>
+
+            <a href="{{ url_for('reseausimple') }}"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Next" id="nextpage-icon"></div></a>
+
+        </div>
+
+        <div id="loading-bar-container"><div id="loading-bar" ></div></div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-content">
+            <div id="image-display">
+                <img src="../static/svg/0-000.svg" class="image">
+            </div>
+
+
+        </div>
+        <div class="right-content">
+            <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%">
+            <svg id="schema">
+
+                <line class="ligne" id="w0" x1="10%" y1="32%" x2="40%" y2="50%" stroke-width="30"/>
+                <line class="ligne" id="w1" x1="10%" y1="68%" x2="40%" y2="50%" stroke-width="30"/>
+
+                <line class="ligne" id="w1" x1="30%" y1="18%" x2="40%" y2="50%" stroke-width="15"/>
+
+                <rect class="info-box" x="2%" y="25%" width="15%" height="50%"/>
+                <circle class="info-box" cx="30%" cy="18%" r="7%"/>
+
+                <image class="info-box" href="../static/icons/perceptron.svg" x="30%" y="30%" width="40%" height="40%"/>
+
+                <rect class="info-box" x="70%" y="40%" width="15%" height="20%"/>
+
+                <text x="42.5%" y="85%" class="schema-text" id="perceptron-title-left">
+                    <tspan x="43.5%" dy="-1em">FONCTION</tspan>
+                    <tspan x="42.5%" dy="1.1em">DE SOMME</tspan>
+                </text>
+                <text x="52%" y="85%" class="schema-text" id="perceptron-title-right">
+                    <tspan x="52%" dy="-1em">FONCTION</tspan>
+                    <tspan x="52%" dy="1.1em">D'ACTIVATION</tspan>
+                </text>
+
+            </svg>
+            <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%">
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/perceptron.js') }}"></script>
+</body>
+</html>

@@ -24,6 +24,9 @@
                 <button class="center-button">Morpion</button>
             </a>
         </div>
+        <form action="{{ url_for('perceptron') }}" method="get">
+            <button type="submit">Accéder à la page Perceptron</button>
+        </form>
         <form action="{{ url_for('reseausimple') }}" method="get">
             <button type="submit">Accéder à la page ReseauSimple</button>
         </form>

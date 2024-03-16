@@ -8,11 +8,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
 </head>
 <body>
-
+    <div id="overlay">
+        <h1>POULET</h1>
+        <p>aofhasodghfokasdhgoklasdfogljdaslfgjldasfjgadfsgasd
+        dfgdsfgggggggggggggggggg
+        zsdf
+        gdzsf
+        gdzsf
+        gzsdfffffffffffffffffffffffffffffbvg
+        zasdf
+        gvd
+        zsfgv
+        zsdf
+        bvgzas
+        fdzasbvgzadsfggggggggbv
+        gzad
+        fsbvg
+        fdzasssssssssssssss</p>
+    </div>
     <header>
         <div class="header-content">
 
-            <a href="../pages/perceptron.html"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
+            <a href="{{ url_for('perceptron') }}"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
 
             <div class="header-title">
                 <h1>RESEAU SIMPLE</h1>
@@ -45,17 +62,17 @@
             <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%">
             <svg id="schema">
 
-                <text x="22%" y="8%" class="layer-title">
+                <text x="22%" y="8%" class="schema-text layer-title">
                     <tspan x="22%" dy="-1em">COUCHE</tspan>
                     <tspan x="22%" dy="1.1em">D'ENTRÉE</tspan>
                 </text>
 
-                <text x="50%" y="8%" class="layer-title">
+                <text x="50%" y="8%" class="schema-text layer-title">
                     <tspan x="50%" dy="-1em">COUCHE</tspan>
                     <tspan x="50%" dy="1.1em">CACHÉE</tspan>
                 </text>
 
-                <text x="78%" y="8%" class="layer-title">
+                <text x="78%" y="8%" class="schema-text layer-title">
                     <tspan x="78%" dy="-1em">COUCHE</tspan>
                     <tspan x="78%" dy="1.1em">DE SORTIE</tspan>
                 </text>
@@ -92,6 +109,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/reseausimple.js') }}"></script>
 </body>
 </html>

@@ -27,6 +27,10 @@ def index():
 def reseausimple():
     return render_template('reseausimple.html')
 
+@app.route('/perceptron')
+def perceptron():
+    return render_template('perceptron.html')
+
 
 @socketio.on('connect', namespace='/reseausimple')
 def test_connect():

@@ -15,6 +15,24 @@ body {
     overflow: hidden;
 }
 
+#overlay{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Fond semi-transparent */
+    backdrop-filter: blur(0px); /* Applique un flou à l'arrière-plan */
+    z-index: 999; /* Empilement au-dessus de tout */
+    transition: backdrop-filter 0.3 ease;
+}
+
+#overlay:hover {
+    display: block;
+    backdrop-filter: blur(20px);
+}
+
 header {
     position: relative;
     background-color: rgb(29, 31, 32);
@@ -191,21 +209,41 @@ button {
     margin: 20px;
 }
 
-.layer-title {
+.schema-text {
     font-family:Ubuntu;
     font-size: 25px;
     font-weight: bold;
+    fill: var(--light-color);
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.schema-text:hover {
+    opacity: 1;
+}
+
+.layer-title {
     text-anchor: middle;
     dominant-baseline: middle;
-    fill: var(--light-color);
+}
+
+#perceptron-title-left {
+    text-anchor: end;
+}
+
+#perceptron-title-right {
+    text-anchor: start;
+}
+
+rect {
+    rx: 20px;
+    ry: 20px;
 }
 
 .info-box {
     fill: #282b2d;
     stroke: var(--light-color);
     stroke-width: 3px;
-    rx: 20px;
-    ry: 20px;
     stroke-opacity: 0.5;
     transition: stroke-opacity 0.3s ease-in-out;
 }

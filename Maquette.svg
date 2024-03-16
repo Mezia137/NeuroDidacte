@@ -36,16 +36,16 @@
      inkscape:snap-intersection-paths="true"
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-midpoints="true"
-     inkscape:snap-global="true"
-     inkscape:zoom="1.4744992"
-     inkscape:cx="-1247.5422"
-     inkscape:cy="-386.23284"
+     inkscape:snap-global="false"
+     inkscape:zoom="0.41904209"
+     inkscape:cx="-1664.5106"
+     inkscape:cy="-656.25867"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     inkscape:window-height="1043"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g163322" />
+     inkscape:current-layer="layer2" />
   <defs
      id="defs2">
     <linearGradient
@@ -299,7 +299,27 @@
        xlink:href="#linearGradient17358"
        id="linearGradient163324"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-1,0,0,1,428.95177,176.02104)"
+       gradientTransform="matrix(-1,0,0,1,-116.17645,-158.71836)"
+       x1="293.08353"
+       y1="73.363014"
+       x2="135.96532"
+       y2="73.400787" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient17358"
+       id="linearGradient163491"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1,0,0,1,-116.17644,-114.3686)"
+       x1="293.08353"
+       y1="73.363014"
+       x2="135.96532"
+       y2="73.400787" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient17358"
+       id="linearGradient163652"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-545.12788,-114.3686)"
        x1="293.08353"
        y1="73.363014"
        x2="135.96532"
@@ -5251,52 +5271,122 @@ AAAAAACkhIAXAAAAAAAAICX+HwYg8SYXfSpKAAAAAElFTkSuQmCC
          sodipodi:nodetypes="ccc" />
     </g>
     <g
-       id="g163322"
-       transform="translate(-545.12822,-334.7394)">
+       id="g163628">
       <path
          id="path163306"
-         style="opacity:1;fill:url(#linearGradient163324);fill-opacity:1;stroke:none;stroke-width:25;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
-         d="m 292.92538,236.55429 -12.32808,12.80625 12.32808,12.80675 h -144.5712 l -12.32779,-12.80675 12.32779,-12.80625 z"
+         style="fill:url(#linearGradient163324);fill-opacity:1;stroke:none;stroke-width:25;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m -252.20284,-98.18511 -12.32808,12.80625 12.32808,12.80675 h -144.5712 l -12.32779,-12.80675 12.32779,-12.80625 z"
          sodipodi:nodetypes="ccccccc" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
-         x="199.61948"
-         y="247.8644"
+         x="-345.50876"
+         y="-86.875008"
          id="text163312"><tspan
            sodipodi:role="line"
            id="tspan163308"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
-           x="199.61948"
-           y="247.8644">BACKWARD</tspan><tspan
+           x="-345.50876"
+           y="-86.875008">BACKWARD</tspan><tspan
            sodipodi:role="line"
            style="fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
-           x="199.61948"
-           y="261.09351"
+           x="-345.50876"
+           y="-73.645897"
            id="tspan163310" /></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
-         x="167.84024"
-         y="258.96817"
+         x="-377.28799"
+         y="-75.771233"
          id="text163316"><tspan
            sodipodi:role="line"
            id="tspan163314"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
-           x="167.84024"
-           y="258.96817">PROPAGATION</tspan></text>
+           x="-377.28799"
+           y="-75.771233">PROPAGATION</tspan></text>
       <path
          id="path163318"
          style="fill:none;stroke:#282b2d;stroke-width:3.89806;stroke-miterlimit:4;stroke-dasharray:none"
-         inkscape:transform-center-x="2.561169"
-         d="m 158.34272,235.49066 -15.36702,13.87013 15.36702,13.87014"
-         sodipodi:nodetypes="ccc" />
+         inkscape:transform-center-x="2.3479789"
+         d="m -386.20679,-100.40619 -14.08782,15.02758 14.08782,15.02758"
+         sodipodi:nodetypes="ccc"
+         inkscape:transform-center-y="-5.0023208e-06" />
       <path
          id="path163320"
          style="fill:none;stroke:#282b2d;stroke-width:3.89806;stroke-miterlimit:4;stroke-dasharray:none"
-         inkscape:transform-center-x="2.1495537"
-         d="m 285.66647,235.49066 -12.89731,13.87013 12.89731,13.87014"
-         sodipodi:nodetypes="ccc" />
+         inkscape:transform-center-x="2.2758256"
+         d="m -259.70684,-99.98537 -13.65497,14.60675 13.65497,14.60676"
+         sodipodi:nodetypes="ccc"
+         inkscape:transform-center-y="-1.0001477e-05" />
+    </g>
+    <g
+       id="g163636">
+      <path
+         id="path163475"
+         style="fill:url(#linearGradient163491);fill-opacity:1;stroke:none;stroke-width:25;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m -396.77422,-53.835474 -12.32741,12.806455 12.32741,12.806452 h 5.81462 l -12.0065,-12.805936 12.006,-12.806971 z m 11.15746,0 -12.00547,12.806971 12.00597,12.805936 h 121.55796 l -11.97239,-12.805936 11.97343,-12.806971 z m 126.89664,0 -11.97448,12.806971 11.97293,12.805936 h 6.51898 l -12.32845,-12.806452 12.32845,-12.806455 z" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-345.50876"
+         y="-42.525257"
+         id="text163481"><tspan
+           sodipodi:role="line"
+           id="tspan163477"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-345.50876"
+           y="-42.525257">BACKWARD</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-345.50876"
+           y="-29.296133"
+           id="tspan163479" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-377.28799"
+         y="-31.421469"
+         id="text163485"><tspan
+           sodipodi:role="line"
+           id="tspan163483"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-377.28799"
+           y="-31.421469">PROPAGATION</tspan></text>
+    </g>
+    <g
+       id="g163650"
+       transform="translate(0,34.339701)">
+      <path
+         id="path163638"
+         style="fill:url(#linearGradient163652);fill-opacity:1;stroke:none;stroke-width:25;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m -264.5301,-53.835474 12.32741,12.806455 -12.32741,12.806452 h -5.81462 l 12.0065,-12.805936 -12.006,-12.806971 z m -11.15746,0 12.00547,12.806971 -12.00597,12.805936 h -121.55796 l 11.97239,-12.805936 -11.97343,-12.806971 z m -126.89664,0 11.97448,12.806971 -11.97293,12.805936 h -6.51898 l 12.32845,-12.806452 -12.32845,-12.806455 z" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-370.26712"
+         y="-42.525257"
+         id="text163644"><tspan
+           sodipodi:role="line"
+           id="tspan163640"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-370.26712"
+           y="-42.525257">FORWARD</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-370.26712"
+           y="-29.296133"
+           id="tspan163642" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-360.4921"
+         y="-31.421469"
+         id="text163648"><tspan
+           sodipodi:role="line"
+           id="tspan163646"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-360.4921"
+           y="-31.421469">PROPAGATION</tspan></text>
     </g>
   </g>
   <g
