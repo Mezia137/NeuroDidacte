@@ -45,10 +45,11 @@ def test_disconnect():
 @socketio.on('closing_page', namespace='/reseausimple')
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
-    socketio.stop()
+    #socketio.stop()
     for file in os.listdir('./static/svg'):
         if file.startswith('tmp-'):
-            os.remove(os.path.join('./static/svg', file))
+            #os.remove(os.path.join('./static/svg', file))
+            pass
 
 
 def generate_image(img_name, folder="static/svg", show_data=True, show_previsu=True, etape=-1):
@@ -93,7 +94,6 @@ def resume_training():
     #img_path = generate_image('fig000.svg', folder="static/svg", show_data=True, show_previsu=True)
     #socketio.emit('nouvelle_image', {'image_path': img_path}, namespace='/reseausimple')
     #socketio.emit('update_net', er.get_w(0), namespace='/reseausimple')
-
 
 if __name__ == '__main__':
     webbrowser.open('http://127.0.0.1:5000/')

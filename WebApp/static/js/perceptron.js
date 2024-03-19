@@ -1,5 +1,5 @@
 // Connexion au namespace 'reseausimple'
-const socket = io.connect('http://' + document.domain + ':' + location.port + '/reseausimple');
+const socket = io.connect('http://' + document.domain + ':' + location.port + '/perceptron');
 const barContainer = document.getElementById('loading-bar-container');
 const bar = document.getElementById('loading-bar');
 
@@ -39,7 +39,7 @@ function updateBar(toStep) {
             console.log(new_width);
             bar.style.width = new_width + '%';
     }
-    document.getElementById('affichage_step').textContent = toStep;
+    document.getElementById('affichage_etape').textContent = toStep;
 }
 
 function updateNet(weights) {
@@ -50,7 +50,6 @@ function updateNet(weights) {
     for (var w in weights) {
         document.getElementById(w).style.strokeWidth = parseInt(Math.abs((weights[w]-wmin)*echelle + 10));
     }
-    console.log(document.getElementById('w020').style.strokeWidth)
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -80,7 +79,7 @@ function startTraining() {
 function restartTraining() {
     totalSteps = 0;
     updateBar(0);
-    document.getElementById('affichage_step').textContent = 0;
+    document.getElementById('affichage_etape').textContent = 0;
     updateImage('static/svg/0-000.svg');
     document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
     socket.emit('resume_training');
@@ -98,9 +97,9 @@ function disableButtons() {
 
     document.getElementById("loading-bar-container").style.cursor = "not-allowed";
 
-    pp_button.style.cursor = "not-allowed";
-    pp_button.style.opacity = "0.2";
-    pp_button.classList.add('disabled_button');
+    //pp_button.style.cursor = "not-allowed";
+    //pp_button.style.opacity = "0.2";
+    //pp_button.classList.add('disabled_button');
     
     np_button.style.cursor = "not-allowed";
     np_button.style.opacity = "0.2";
@@ -119,9 +118,9 @@ function reableButtons() {
 
     document.getElementById("loading-bar-container").style.cursor = "pointer";
 
-    pp_button.style.cursor = "pointer";
-    pp_button.style.opacity = "1";
-    pp_button.classList.remove('disabled_button');
+    // pp_button.style.cursor = "pointer";
+    // pp_button.style.opacity = "1";
+    // pp_button.classList.remove('disabled_button');
 
     np_button.style.cursor = "pointer";
     np_button.style.opacity = "1";

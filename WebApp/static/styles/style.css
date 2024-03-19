@@ -218,13 +218,17 @@ button {
     transition: opacity 0.3s ease-in-out;
 }
 
-.schema-text:hover {
+.schema-text:not(.layer-title):hover {
     opacity: 1;
 }
 
 .layer-title {
     text-anchor: middle;
     dominant-baseline: middle;
+}
+
+#input-layer-box:hover + #input-layer-title {
+    opacity: 1;
 }
 
 #perceptron-title-left {
@@ -248,9 +252,11 @@ rect {
     transition: stroke-opacity 0.3s ease-in-out;
 }
 
-.info-box:hover {
+.info-box:not(.net-layer):hover {
     stroke-opacity: 1;
 }
+
+
 
 .point {
     fill: #ff0000;
