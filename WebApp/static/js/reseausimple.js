@@ -106,8 +106,9 @@ function disableButtons() {
     np_button.style.opacity = "0.2";
     np_button.classList.add('disabled_button');
     
-    document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
-
+    // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
+    Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
+    
     document.querySelector('header').style.cursor = 'not-allowed';
 }
 
@@ -127,8 +128,9 @@ function reableButtons() {
     np_button.style.opacity = "1";
     np_button.classList.remove('disabled_button');
 
-    document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
-
+    // document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
+    Array.from(document.links).forEach(link => {link.onclick = null;});
+    
     document.querySelector('header').style.cursor = 'auto';
 }
 
