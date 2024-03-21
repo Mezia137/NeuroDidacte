@@ -12,58 +12,51 @@ import seaborn as sns
 class Perceptron:
 
     # Initialisation avec des paramètres par défaut
-    def __init__(self, learning_rate=0.01, passage=1):
-        self.lr = learning_rate  # Taux d'apprentissage
-        self.passage = passage  # Nombre d'itérations
+    def __init__(self):
         self.activation_func = self.sigmoid  # Fonction d'activation
         self.weights = None  # Poids du perceptron
-        self.bias = None  # Biais du perceptron
+        self.biais = 0  # Biais du perceptron
 
-        self.stock = [[np.copy(self.weights), np.copy(self.bias)]]
-        self.nb_pass = 0
+        self.stock = [[np.copy(self.weights), np.copy(self.biais)]]
+        self.age = 0
+        self.life = 0
 
     def sigmoid(self, z):
         return 1 / (1 + np.exp(-z))
 
     # Méthode pour entraîner le perceptron
-    def train(self, X, y):
+    def train(self, X, y, passages=1, lr=0.01):
         n_samples, n_features = X.shape
-
-        # Initialisation des paramètres
-        self.weights = np.zeros(n_features)
-        #self.weights = np.array([-100.0, 0.01])
-        self.bias = 0
-
+        if self.weights is None:
+            self.weights = np.zeros(n_features)
         # Conversion de la sortie y en 0 et 1
         y_ = np.where(y > 0, 1, 0)
 
         # Apprentissage des poids
-        for i in range(self.passage):
+        for i in range(passages):
+            self.life += 1
+            self.age = self.life
             for idx, x_i in enumerate(X):
-                linear_output = np.dot(x_i, self.weights) + self.bias
+                linear_output = np.dot(x_i, self.weights) + self.biais
                 y_predicted = self.activation_func(linear_output)
 
                 # Règle de mise à jour du perceptron
-                update = self.lr * (y_[idx] - y_predicted)
+                update = lr * (y_[idx] - y_predicted)
                 self.weights += update * x_i
-                self.bias += update
+                self.biais += update
 
-
-            # sauvegarder l'étape
-            self.visualisation(X, y, img_name=f'tmp-0-{i:03d}.svg')
-
-        self.nb_pass += 1
+            self.stock.append([np.copy(self.weights), np.copy(self.biais)])
 
     # Méthode pour prédire les sorties
-    def predict(self, X, etape=-1):
-        linear_output = np.dot(X, self.weights) + self.bias
+    def predict(self, X, age=-1):
+        linear_output = np.dot(X, self.stock[age][0]) + self.stock[age][1]
         y_predicted = self.activation_func(linear_output)
         return y_predicted
 
-    def predict_list(self, X, etape=-1):
+    def predict_list(self, X, age=-1):
         y_hat = []
         for x in X:
-            y_hat.append(self.predict(x, etape=etape))
+            y_hat.append(self.predict(x, age=age))
         return y_hat
 
     # Méthode pour visualiser les étapes d'apprentissage
@@ -101,7 +94,7 @@ class Perceptron:
             plt.show()
         plt.close()
 
-    def visualisation(self, data, labels, savemod=True, folder="../", img_name=None, etape=-1, nb_levels=10,
+    def visualisation(self, data, labels, savemod=True, folder="../", img_name=None, age=-1, nb_levels=10,
                       show_data=True, show_previsu=True):
         plt.figure(figsize=(12, 8))
         if show_previsu:
@@ -112,7 +105,7 @@ class Perceptron:
             y_min, y_max = data[:, 1].min() - y_r / 10, data[:, 1].max() + y_r / 10
             xx, yy = np.meshgrid(np.arange(x_min, x_max, (x_max - x_min) / 100),
                                  np.arange(y_min, y_max, (y_max - y_min) / 100))
-            Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], etape=etape))
+            Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], age=age))
             Z = Z.reshape(xx.shape)
 
             # plt.title('Prédiction du réseau en fonction de la position', fontsize=16, color=LIGHT_COLOR)
@@ -126,7 +119,7 @@ class Perceptron:
         plt.colorbar(contour, label='prediction')
         if savemod:
             if img_name is None:
-                img_name = f'fig{etape:03d}.svg'
+                img_name = f'fig{age:03d}.svg'
             img_path = os.path.join(folder, img_name)
             plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
             # print(f'{img_name} generated')
@@ -135,14 +128,11 @@ class Perceptron:
             plt.show()
         plt.close()
 
-    def get_w(self):
-        return {'w0':self.weights[0],
-                'w1':self.weights[1],
-                'b':self.bias}
-
-# Fonction pour générer les clusters
-import numpy as np
-import random as rd
+    def get_w(self, age=-1):
+        s = self.stock[age]
+        return {'w0':s[0][0].item(),
+                'w1':s[0][1].item(),
+                'b':s[1].item()}
 
 
 def cluster(pos, size=100, etendue=(2, 2)):
@@ -161,13 +151,3 @@ def clans1v1(center=(0, 0), dist=10, etendue=(2, 2)):
                  cluster((center[0] - dist / 2, center[1] + dist / 2), size=1000, etendue=etendue))
     l = [1 for _ in range(1000)] + [0 for _ in range(1000)]
     return p, l
-
-if __name__ == '__main__':
-    # Génération des données
-    data, labels = clans1v1()
-
-    # Création d'une instance de Perceptron
-    p = Perceptron(passage=30)
-
-    # Entraînement du Perceptron
-    p.train(np.array(data), np.array(labels))

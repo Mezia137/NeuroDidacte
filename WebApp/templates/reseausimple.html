@@ -8,32 +8,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
 </head>
 <body>
-    <div id="overlay">
-        <h1>POULET</h1>
-        <p>aofhasodghfokasdhgoklasdfogljdaslfgjldasfjgadfsgasd
-        dfgdsfgggggggggggggggggg
-        zsdf
-        gdzsf
-        gdzsf
-        gzsdfffffffffffffffffffffffffffffbvg
-        zasdf
-        gvd
-        zsfgv
-        zsdf
-        bvgzas
-        fdzasbvgzadsfggggggggbv
-        gzad
-        fsbvg
-        fdzasssssssssssssss</p>
-    </div>
     <header>
         <div class="header-content">
 
             <a href="{{ url_for('perceptron') }}"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
 
-            <div class="header-title">
-                <h1>RESEAU SIMPLE</h1>
-            </div>
+            <select id="network-selection" onchange="changeNetwork()">
+                  <option value="1">RESEAU SIMPLE 1</option>
+                  <option value="2">RESEAU SIMPLE 2</option>
+            </select>
             <h1 id="affichage_step">0</h1>
             <div id="control-buttons-container">
                 <div class="round-button" id="play-button-container">
@@ -53,7 +36,7 @@
     <div class="main-content">
         <div class="left-content">
             <div id="image-display">
-                <img src="../static/svg/0-000.svg" class="image">
+
             </div>
 
 

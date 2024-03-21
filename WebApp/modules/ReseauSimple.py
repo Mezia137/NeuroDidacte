@@ -1,26 +1,18 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import matplotlib.pyplot as plt
 from matplotlib.colors import to_rgba
-import queue
-import threading
 
 import seaborn as sns
 import numpy as np
 import random as rd
-from sklearn.datasets import make_circles, make_moons, make_classification, make_blobs, make_regression, make_biclusters
-from pprint import pprint
 import os
 
 LIGHT_COLOR = to_rgba('#BFBFBF')
 
 
 class ReseauSimple:
-    def __init__(self, archi=[2, 3, 1], xmod=False, init_met="default", seed=42):
+    def __init__(self, archi=None, xmod=False, init_met="default", seed=42, idi=None):
+        if archi is None:
+            archi = [2, 3, 1]
         np.random.seed(seed)
         rd.seed(seed)
         if xmod:
@@ -44,9 +36,13 @@ class ReseauSimple:
         else:
             raise ValueError("Invalid weight_init option. Choose 'default', 'he' or 'xavier'.")
 
-        #self.stock = [[np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)]]
-        self.stock = [[self.W_1, self.W_2, self.b_1, self.b_2]]
-        self.nb_pass = 0
+        # self.stock = [[np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)]]
+        self.stock = [[np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)]]
+        self.life = 0
+        self.age = 0
+
+        if id is not None:
+            self.idi = idi
 
     def sigmoid(self, z):
         return 1 / (1 + np.exp(-z))
@@ -74,9 +70,11 @@ class ReseauSimple:
 
     def train(self, X, y, passages=1, lr=0.01):
         n = passages // 50
-        for j in range(passages):
+        for _ in range(passages):
+            self.life += 1
+            self.age = self.life
             # n = int(np.ceil(100*j/passages))
-            n = round(100 * (j + 1) / passages)
+            n = round(100 * (self.life + 1) / passages)
             # print(f'|{n*"█"}{(100-n)*" "}|', end='\r')
             print(f'{n * "▣"}{(100 - n) * "▢"}', end='\r')
             for i in range(X.shape[0]):
@@ -98,7 +96,6 @@ class ReseauSimple:
                 self.b_1 -= lr * djdb_1
 
             self.stock.append([np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)])
-            self.nb_pass += 1
 
     def predict(self, X, age=-1):
         h = self.hidden(X.reshape(-1, 1), self.stock[age][0], self.stock[age][2])
@@ -112,7 +109,7 @@ class ReseauSimple:
         return y_hat
 
     def visualisation(self, X, y, savemod=False, folder="Saves", img_name=None, age=-1, nb_levels=10):
-        #plt.figure(figsize=(12, 8), facecolor=LIGHT_COLOR)
+        # plt.figure(figsize=(12, 8), facecolor=LIGHT_COLOR)
         plt.figure()
 
         hh = .02
@@ -128,7 +125,7 @@ class ReseauSimple:
         # plt.title('Prédiction du réseau en fonction de la position', fontsize=16, color=LIGHT_COLOR)
 
         contour = plt.contourf(xx, yy, Z, alpha=1, levels=[i / nb_levels for i in range(nb_levels + 1)],
-                                   cmap='plasma')
+                               cmap='plasma')
 
         sns.scatterplot(x=X[:, 0], y=X[:, 1], hue=y).set_aspect('equal')
 
@@ -185,36 +182,3 @@ class ReseauSimple:
         return {'w000': w[0][0, 0].item(), 'w001': w[0][0, 1].item(), 'w010': w[0][1, 0].item(),
                 'w011': w[0][1, 1].item(), 'w020': w[0][2, 0].item(), 'w021': w[0][2, 1].item(),
                 'w10': w[1][0].item(), 'w11': w[1][1].item(), 'w12': w[1][2].item()}
-
-
-# In[11]:
-
-
-def cluster(pos, size=100, etendue=(2, 2)):
-    c = []
-    for n in range(1, size + 1):
-        x = rd.gauss(pos[0], etendue[0])
-        y = rd.gauss(pos[1], etendue[1])
-        c.append((x, y))
-
-    return c
-
-
-def clans1v1(center=(0, 0), dist=40, etendue=(2, 2), size=100):
-    p = np.array(cluster((center[0] + dist / 2, center[1] + dist / 2), size=size, etendue=etendue) + cluster(
-        (center[0] - dist / 2, center[1] - dist / 2), size=size, etendue=etendue))
-    l = np.array([1 for _ in range(size)] + [0 for _ in range(size)])
-    return p, l
-
-
-def clans2v2(center=(0, 0), dist=40, etendue=(2, 2)):
-    p = np.array(cluster((center[0] + dist / 2, center[1] + dist / 2), size=1000, etendue=etendue) + cluster(
-        (center[0] - dist / 2, center[1] - dist / 2), size=1000, etendue=etendue) + cluster(
-        (center[0] - dist / 2, center[1] + dist / 2), size=1000, etendue=etendue) + cluster(
-        (center[0] + dist / 2, center[1] - dist / 2), size=1000, etendue=etendue))
-    l = [1 for _ in range(2000)] + [0 for _ in range(2000)]
-    return p, l
-
-
-def circles():
-    return make_circles(10000, noise=0.07, factor=0.1, random_state=42)

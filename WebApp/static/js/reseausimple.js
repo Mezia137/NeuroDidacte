@@ -1,5 +1,7 @@
 // Connexion au namespace 'reseausimple'
 const socket = io.connect('http://' + document.domain + ':' + location.port + '/reseausimple');
+socket.emit('init', '1')
+
 const barContainer = document.getElementById('loading-bar-container');
 const bar = document.getElementById('loading-bar');
 
@@ -50,10 +52,13 @@ function updateNet(weights) {
     for (var w in weights) {
         document.getElementById(w).style.strokeWidth = parseInt(Math.abs((weights[w]-wmin)*echelle + 10));
     }
-    console.log(document.getElementById('w020').style.strokeWidth)
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    socket.on('init_bar', function(data) {
+        totalSteps = data['life'];
+        updateBar(data['age']);
+    });
     socket.on('nouvelle_image', function(data) {
         updateImage(data.image_path);
     });
@@ -68,6 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function changeNetwork() {
+    console.log(document.getElementById("network-selection").value)
+    socket.emit('init', document.getElementById("network-selection").value)
+}
+
 function startTraining() {
     disableButtons()
     var nombre_passages = parseInt(document.getElementById('input-nombre_passages').value, 10);
@@ -78,16 +88,16 @@ function startTraining() {
 }
 
 function restartTraining() {
-    totalSteps = 0;
-    updateBar(0);
-    document.getElementById('affichage_step').textContent = 0;
-    updateImage('static/svg/0-000.svg');
+    //totalSteps = 0;
+    //updateBar(0);
+    //document.getElementById('affichage_step').textContent = 0;
+    // updateImage('static/svg/0-000.svg');
     document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
     socket.emit('resume_training');
 }
 
 function showImageN(n) {
-    socket.emit('get_image', {step:n});
+    socket.emit('update', {age:n});
 }
 
 function disableButtons() {
@@ -149,10 +159,11 @@ document.addEventListener('mousemove', (e) => {
         step = Math.round((Math.min(Math.max(mouseX, 0), window.innerWidth) / barContainer.clientWidth) * totalSteps);
         updateBar(step);
         if (oldstep != step) {
-            if (step === 0){
-                updateImage('static/svg/0-000.svg');
-            } else {showImageN(step)}
-        }
+            showImageN(step)
+            if (step === 0) {
+                document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
+            }
+            }
     }
 });
 

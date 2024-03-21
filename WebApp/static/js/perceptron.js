@@ -1,5 +1,7 @@
 // Connexion au namespace 'reseausimple'
 const socket = io.connect('http://' + document.domain + ':' + location.port + '/perceptron');
+socket.emit('init')
+
 const barContainer = document.getElementById('loading-bar-container');
 const bar = document.getElementById('loading-bar');
 
@@ -53,6 +55,10 @@ function updateNet(weights) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    socket.on('init_bar', function(data) {
+        totalSteps = data['life'];
+        updateBar(data['age']);
+    });
     socket.on('nouvelle_image', function(data) {
         updateImage(data.image_path);
     });
@@ -77,16 +83,16 @@ function startTraining() {
 }
 
 function restartTraining() {
-    totalSteps = 0;
-    updateBar(0);
-    document.getElementById('affichage_etape').textContent = 0;
-    updateImage('static/svg/0-000.svg');
+    // totalSteps = 0;
+    // updateBar(0);
+    // document.getElementById('affichage_etape').textContent = 0;
+    // updateImage('static/svg/0-000.svg');
     document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
     socket.emit('resume_training');
 }
 
 function showImageN(n) {
-    socket.emit('get_image', {step:n});
+    socket.emit('update', {age:n});
 }
 
 function disableButtons() {
@@ -97,15 +103,16 @@ function disableButtons() {
 
     document.getElementById("loading-bar-container").style.cursor = "not-allowed";
 
-    //pp_button.style.cursor = "not-allowed";
-    //pp_button.style.opacity = "0.2";
-    //pp_button.classList.add('disabled_button');
+    pp_button.style.cursor = "not-allowed";
+    pp_button.style.opacity = "0.2";
+    pp_button.classList.add('disabled_button');
     
     np_button.style.cursor = "not-allowed";
     np_button.style.opacity = "0.2";
     np_button.classList.add('disabled_button');
     
-    document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
+    // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
+    Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
 
     document.querySelector('header').style.cursor = 'not-allowed';
 }
@@ -118,15 +125,16 @@ function reableButtons() {
 
     document.getElementById("loading-bar-container").style.cursor = "pointer";
 
-    // pp_button.style.cursor = "pointer";
-    // pp_button.style.opacity = "1";
-    // pp_button.classList.remove('disabled_button');
+    pp_button.style.cursor = "pointer";
+    pp_button.style.opacity = "1";
+    pp_button.classList.remove('disabled_button');
 
     np_button.style.cursor = "pointer";
     np_button.style.opacity = "1";
     np_button.classList.remove('disabled_button');
 
-    document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
+    // document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
+    Array.from(document.links).forEach(link => {link.onclick = null;});
 
     document.querySelector('header').style.cursor = 'auto';
 }
@@ -146,9 +154,10 @@ document.addEventListener('mousemove', (e) => {
         step = Math.round((Math.min(Math.max(mouseX, 0), window.innerWidth) / barContainer.clientWidth) * totalSteps);
         updateBar(step);
         if (oldstep != step) {
-            if (step === 0){
-                updateImage('static/svg/0-000.svg');
-            } else {showImageN(step)}
+            showImageN(step)
+            if (step === 0) {
+                document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
+            }
         }
     }
 });

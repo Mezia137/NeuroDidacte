@@ -2,7 +2,11 @@ from flask import Flask, render_template, jsonify, send_file, url_for
 from flask_socketio import SocketIO, Namespace, emit
 import webbrowser
 import os
-from modules.ReseauSimple import ReseauSimple, clans1v1, clans2v2, circles
+import numpy as np
+import random as rd
+from sklearn.datasets import make_circles
+
+from modules.ReseauSimple import ReseauSimple
 from modules.Perceptron import Perceptron
 
 from pprint import pprint
@@ -29,77 +33,167 @@ def perceptron():
 class ReseauSimpleNamespace(Namespace):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.network = ReseauSimple(xmod=True)
-        self.dots, self.labels = clans1v1(size=1000)
+        self.network1 = ReseauSimple(xmod=True, idi='1')
+        self.network2 = ReseauSimple(xmod=True, idi='2')
 
-    def generate_image(self, img_name, folder="static/svg", show_data=True, show_previsu=True, step=-1):
-        self.network.visualisation(self.dots, self.labels, savemod=True, folder=folder, img_name=img_name, age=step)
+        self.network = None
+        self.dots, self.labels = None, None
+
+        os.makedirs('./static/svg', exist_ok=True)
+
+    def on_init(self, net_id):
+        if net_id == '1':
+            self.network = self.network1
+            self.dots, self.labels = clans1v1(size=1000)
+        elif net_id == '2':
+            self.network = self.network2
+            self.dots, self.labels = circles()
+
+        emit('init_bar', {'life': self.network.life, 'age': self.network.age})
+        self.on_update({'age': self.network.age})
+
+    def get_image_name(self, age=None):
+        if age is None:
+            age = self.network.age
+
+        return f'tmp-{self.network.idi}-{age:03d}.svg'
+
+    def generate_image(self, img_name=None, folder="static/svg", age=None):
+        if img_name is None:
+            img_name = self.get_image_name()
+
+        if age is None:
+            age = self.network.age
+
+        self.network.visualisation(self.dots, self.labels, savemod=True, folder=folder, img_name=img_name, age=age)
         return url_for('static', filename=f'svg/{img_name}')
 
     def on_training(self, data):
-        os.makedirs('./static/svg', exist_ok=True)
         passages = data['passages']
-        dp = self.network.nb_pass
-        for i in range(dp + 1, passages + dp + 1):
+        for _ in range(passages):
             self.network.train(self.dots, self.labels)
             # image_name = er.visualisation(data, label, savemod=True, folder="static/svg", step=i)
-            image_path = self.generate_image(f'tmp-1-{i:03d}.svg')
+            image_path = self.generate_image()
             emit('nouvelle_image', {'image_path': image_path})
-            emit('avancement', i)
+            emit('avancement', self.network.life)
             # pprint(er.get_w(i))
-            emit('update_net', self.network.get_w(i))
+            emit('update_net', self.network.get_w())
 
     def on_resume_training(self):
-        self.network = ReseauSimple(xmod=True)
+        if self.network.idi == '1':
+            self.network1 = ReseauSimple(xmod=True, idi='1')
+        elif self.network.idi == '2':
+            self.network2 = ReseauSimple(xmod=True, idi='2')
+        self.on_init(self.network.idi)
 
-    def on_get_image(self, data):
-        step = data['step']
-        img_name = f'tmp-1-{step:03d}.svg'
-        img_path = url_for('static', filename=f'svg/{img_name}')
+    def on_update(self, data):
+        age = data['age']
+        self.network.age = age
+        if age == 0:
+            emit('nouvelle_image', {'image_path': url_for('static', filename=f'svg/1-000.svg')})
 
-        if not os.path.exists('.' + img_path):
-            self.generate_image(img_name, step=step)
+        else:
+            img_name = self.get_image_name()
+            img_path = url_for('static', filename=f'svg/{img_name}')
 
-        emit('nouvelle_image', {'image_path': img_path})
-        emit('update_net', self.network.get_w(step))
+            if not os.path.exists('.' + img_path):
+                self.generate_image()
+
+            emit('nouvelle_image', {'image_path': img_path})
+            emit('update_net', self.network.get_w(age))
 
 
 class PerceptronNamespace(Namespace):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.network = Perceptron()
-        self.dots, self.labels = clans1v1(size=1000, etendue=(10, 10))
+        self.dots, self.labels = clans1v1(size=50, dist=5)
 
-    def generate_image(self, img_name, folder="static/svg", show_data=True, show_previsu=True, step=-1):
-        self.network.visualisation(self.dots, self.labels, savemod=True, folder=folder, img_name=img_name, age=step)
+        os.makedirs('./static/svg', exist_ok=True)
+
+    def on_init(self):
+        emit('init_bar', {'life': self.network.life, 'age': self.network.age})
+        self.on_update({'age': self.network.age})
+
+    def get_image_name(self, age=None):
+        if age is None:
+            age = self.network.age
+
+        return f'tmp-0-{age:03d}.svg'
+
+    def generate_image(self, img_name=None, folder="static/svg", age=None):
+        if img_name is None:
+            img_name = self.get_image_name()
+
+        if age is None:
+            age = self.network.age
+
+        self.network.visualisation(self.dots, self.labels, savemod=True, folder=folder, img_name=img_name, age=age)
         return url_for('static', filename=f'svg/{img_name}')
 
     def on_training(self, data):
-        os.makedirs('./static/svg', exist_ok=True)
         passages = data['passages']
-        dp = self.network.nb_pass
-        for i in range(dp + 1, passages + dp + 1):
+        for _ in range(passages):
             self.network.train(self.dots, self.labels)
             # image_name = er.visualisation(data, label, savemod=True, folder="static/svg", step=i)
-            image_path = self.generate_image(f'tmp-0-{i:03d}.svg')
+            image_path = self.generate_image()
             emit('nouvelle_image', {'image_path': image_path})
-            emit('avancement', i)
+            emit('avancement', self.network.life)
             # pprint(er.get_w(i))
             emit('update_net', self.network.get_w())
 
     def on_resume_training(self):
         self.network = Perceptron()
+        self.on_init()
+        #self.on_update({'age': 0})
 
     def on_get_image(self, data):
-        step = data['step']
-        img_name = f'tmp-0-{step:03d}.svg'
+        age = data['step']
+        img_name = f'tmp-0-{age:03d}.svg'
         img_path = url_for('static', filename=f'svg/{img_name}')
 
         if not os.path.exists('.' + img_path):
-            self.generate_image(img_name, step=step)
+            self.generate_image(img_name, age=age)
 
         emit('nouvelle_image', {'image_path': img_path})
         emit('update_net', self.network.get_w())
+
+    def on_update(self, data):
+        age = data['age']
+        self.network.age = age
+        if age == 0:
+            emit('nouvelle_image', {'image_path': url_for('static', filename=f'svg/0-000.svg')})
+
+        else:
+            img_name = self.get_image_name()
+            img_path = url_for('static', filename=f'svg/{img_name}')
+
+            if not os.path.exists('.' + img_path):
+                self.generate_image()
+
+            emit('nouvelle_image', {'image_path': img_path})
+            emit('update_net', self.network.get_w(age))
+
+
+def cluster(pos, size=100, etendue=(2, 2)):
+    c = []
+    for n in range(1, size + 1):
+        x = rd.gauss(pos[0], etendue[0])
+        y = rd.gauss(pos[1], etendue[1])
+        c.append((x, y))
+
+    return c
+
+
+def clans1v1(center=(0, 0), dist=40, etendue=(2, 2), size=100, invert=1):
+    p = np.array(cluster((center[0] + invert*(dist / 2), center[1] + dist / 2), size=size, etendue=etendue) +
+                 cluster((center[0] - invert*(dist / 2), center[1] - dist / 2), size=size, etendue=etendue))
+    l = np.array([1 for _ in range(size)] + [0 for _ in range(size)])
+    return p, l
+
+
+def circles():
+    return make_circles(5000, noise=0.07, factor=0.1, random_state=42)
 
 
 if __name__ == '__main__':
