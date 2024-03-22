@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function changeNetwork() {
-    console.log(document.getElementById("network-selection").value)
     socket.emit('init', document.getElementById("network-selection").value)
 }
 
@@ -118,6 +117,8 @@ function disableButtons() {
     
     // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
     Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
+
+    document.getElementById("network-selection").disabled = true;
     
     document.querySelector('header').style.cursor = 'not-allowed';
 }
@@ -140,7 +141,9 @@ function reableButtons() {
 
     // document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
     Array.from(document.links).forEach(link => {link.onclick = null;});
-    
+
+    document.getElementById("network-selection").disabled = false;
+
     document.querySelector('header').style.cursor = 'auto';
 }
 

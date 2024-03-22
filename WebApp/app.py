@@ -45,10 +45,10 @@ def test_disconnect():
 @socketio.on('closing_page', namespace='/reseausimple')
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
-    #socketio.stop()
+    socketio.stop()
     for file in os.listdir('./static/svg'):
         if file.startswith('tmp-'):
-            #os.remove(os.path.join('./static/svg', file))
+            os.remove(os.path.join('./static/svg', file))
             pass
 
 

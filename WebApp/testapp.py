@@ -30,6 +30,11 @@ def perceptron():
     return render_template('perceptron.html')
 
 
+@app.route('/tictactoe')
+def tictactoe():
+    return render_template('tictactoe.html')
+
+
 class ReseauSimpleNamespace(Namespace):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -145,7 +150,7 @@ class PerceptronNamespace(Namespace):
     def on_resume_training(self):
         self.network = Perceptron()
         self.on_init()
-        #self.on_update({'age': 0})
+        # self.on_update({'age': 0})
 
     def on_get_image(self, data):
         age = data['step']
@@ -175,6 +180,15 @@ class PerceptronNamespace(Namespace):
             emit('update_net', self.network.get_w(age))
 
 
+def handle_closing_page():
+    print("Page is closing. Stopping the Python program.")
+    socketio.stop()
+    for file in os.listdir('./static/svg'):
+        if file.startswith('tmp-'):
+            os.remove(os.path.join('./static/svg', file))
+            pass
+
+
 def cluster(pos, size=100, etendue=(2, 2)):
     c = []
     for n in range(1, size + 1):
@@ -186,8 +200,8 @@ def cluster(pos, size=100, etendue=(2, 2)):
 
 
 def clans1v1(center=(0, 0), dist=40, etendue=(2, 2), size=100, invert=1):
-    p = np.array(cluster((center[0] + invert*(dist / 2), center[1] + dist / 2), size=size, etendue=etendue) +
-                 cluster((center[0] - invert*(dist / 2), center[1] - dist / 2), size=size, etendue=etendue))
+    p = np.array(cluster((center[0] + invert * (dist / 2), center[1] + dist / 2), size=size, etendue=etendue) +
+                 cluster((center[0] - invert * (dist / 2), center[1] - dist / 2), size=size, etendue=etendue))
     l = np.array([1 for _ in range(size)] + [0 for _ in range(size)])
     return p, l
 
@@ -202,3 +216,4 @@ if __name__ == '__main__':
 
     webbrowser.open('http://127.0.0.1:5000/')
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True, use_reloader=False)
+    handle_closing_page()

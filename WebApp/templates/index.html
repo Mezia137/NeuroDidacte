@@ -12,24 +12,26 @@
         <!-- ... votre bandeau d'entête existant ... -->
     </header>
 
-    <div class="main-content">
-        <div class="center-buttons">
-            <a href="./perceptron.html" class="page-link">
-                <button class="center-button">Perceptron</button>
-            </a>
-            <a href="./reseausimple.html" class="page-link">
-                <button class="center-button">Réseau Simple</button>
-            </a>
-            <a href="./morpion.html" class="page-link">
-                <button class="center-button">Morpion</button>
-            </a>
+    <div id="index-content">
+        <h1>NEURODIDACT</h1>
+        <p>fargfdasfgdsfgsdfgsdf
+        gsd
+        fg
+        sdf
+        gsd
+        fg
+        sdfgggggggggggggggsdf
+        gsd
+        fg
+        dsfggggggggggggggggg
+        sdf
+        </p>
+        <div>
+            <a href="{{ url_for('perceptron') }}"><img src="../static/icons/perceeptron-icon.svg"></a>
+            <a href="{{ url_for('reseausimple') }}"><img src="../static/icons/reseausimple-icon.svg"></a>
+            <a href="{{ url_for('tictactoe') }}"><img src="../static/icons/reseausimple-icon.svg"></a>
         </div>
-        <form action="{{ url_for('perceptron') }}" method="get">
-            <button type="submit">Accéder à la page Perceptron</button>
-        </form>
-        <form action="{{ url_for('reseausimple') }}" method="get">
-            <button type="submit">Accéder à la page ReseauSimple</button>
-        </form>
+        <button>quitter</button>
     </div>
 
 </body>

@@ -136,10 +136,11 @@ class ReseauSimple:
             img_path = os.path.join(folder, img_name)
             plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
             # print(f'{img_name} generated')
+            plt.close()
             return img_name
         else:
             plt.show()
-        plt.close()
+
 
     def visualisationb(self, X, y, savemod=False, folder="Saves", img_name=None, age=-1, nb_levels=10):
         # plt.figure(figsize=(12, 10), facecolor=LIGHT_COLOR)
@@ -169,10 +170,10 @@ class ReseauSimple:
             img_path = os.path.join(folder, img_name)
             plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
             # print(f'{img_name} generated')
+            plt.close()
             return img_name
         else:
             plt.show()
-        plt.close()
 
     def history(self):
         return self.stock
