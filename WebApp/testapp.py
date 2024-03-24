@@ -179,7 +179,7 @@ class PerceptronNamespace(Namespace):
             emit('nouvelle_image', {'image_path': img_path})
             emit('update_net', self.network.get_w(age))
 
-
+@socketio.on('close-app')
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
     socketio.stop()

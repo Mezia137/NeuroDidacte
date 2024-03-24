@@ -1,4 +1,3 @@
-// Connexion au namespace 'reseausimple'
 const socket = io.connect('http://' + document.domain + ':' + location.port + '/reseausimple');
 socket.emit('init', '1')
 
@@ -177,7 +176,3 @@ document.addEventListener('mouseup', () => {
         barContainer.style.height = '5px';
     }
 });
-
-window.onbeforeunload = function() {
-    socket.emit('closing_page');
-};

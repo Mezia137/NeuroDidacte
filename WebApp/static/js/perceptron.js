@@ -169,7 +169,3 @@ document.addEventListener('mouseup', () => {
         barContainer.style.height = '5px';
     }
 });
-
-window.onbeforeunload = function() {
-    socket.emit('closing_page');
-};

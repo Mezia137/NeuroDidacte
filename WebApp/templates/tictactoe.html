@@ -1,0 +1,68 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Page</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/reseausimple"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
+
+            <h1>MORPION</h1>
+
+            <a href="/"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Next" id="nextpage-icon"></div></a>
+
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-content" style="display: flex; flex-direction: column; align-items: center;">
+            <div id="tictactoe-configuration">
+                <select id="player1-selection">
+                      <option value="0">HUMAIN</option>
+                      <option value="1">HASARD</option>
+                      <option value="2">RESEAU v0</option>
+                      <option value="3">RESEAU v1</option>
+                      <option value="4">RESEAU v2</option>
+                </select>
+                <img height="30px" src="../static/icons/cross-shadow.svg"/>
+                <button id="play-tictactoe-button" onclick="play()">PLAY</button>
+                <img height="30px" src="../static/icons/round-shadow.svg"/>
+                <select id="player2-selection">
+                      <option value="0">HUMAIN</option>
+                      <option value="1">HASARD</option>
+                      <option value="2">RESEAU v0</option>
+                      <option value="3">RESEAU v1</option>
+                      <option value="4">RESEAU v2</option>
+                </select>
+            </div>
+            <svg id="board">
+                <rect class="board-cell" data-index="1" x="0%" y="0%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="2" x="33.33%" y="0%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="3" x="66.66%" y="0%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="4" x="0%" y="33.33%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="5" x="33.33%" y="33.33%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="6" x="66.66%" y="33.33%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="7" x="0%" y="66.66%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="8" x="33.33%" y="66.66%" width="33.33%" height="33.33%"></rect>
+                <rect class="board-cell" data-index="9" x="66.66%" y="66.66%" width="33.33%" height="33.33%"></rect>
+                <image x="0" y="0" width="100%" height="100%" href="../static/icons/board.svg"></image>
+
+            </svg>
+        </div>
+        <div class="right-content">
+            <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%" onclick="document.getElementById('forward-tile').classList.toggle('active')">
+            <svg id="schema">
+
+            </svg>
+            <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%">
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/tictactoe.js') }}"></script>
+</body>
+</html>

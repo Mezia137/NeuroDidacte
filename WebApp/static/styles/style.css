@@ -1,3 +1,5 @@
+/* GENERAL STYLES */
+
 :root {
 	--light-color : #c0bab2;
 	--dark-color : #353535;
@@ -5,6 +7,7 @@
 
 body {
     font-family : 'Ubuntu', sans-serif;
+    font-size: 20px;
     color : var(--light-color);
     background-color : #282b2d;
     margin: 0;
@@ -12,7 +15,146 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh; /* Utilisation de 100% de la hauteur de la fenêtre */
-    overflow: hidden;
+}
+
+h1 {
+	margin : 0px;
+	margin-left: 100px;
+	margin-right: 100px;
+	font-size : 50px;
+	font-weight : bold;
+}
+
+a {
+    all: unset; /* Réinitialise tous les styles par défaut du lien */
+    /* Ajoutez d'autres styles personnalisés si nécessaire */
+
+    cursor: pointer;
+}
+
+button {
+    border : none;
+    background-color : transparent;
+    padding : 0px;
+    cursor: pointer;
+}
+
+select {
+    cursor: pointer;
+}
+
+/* TILES STYLES*/
+
+#exit-help-button {
+  position: fixed;
+  top: 20px; /* Distance depuis le haut de la page */
+  left: 20px;
+    z-index: 1001;
+}
+
+
+@keyframes appear {
+	0% {opacity : 0; filter : blur(30px);}
+	100% {opacity : 100%; filter : blur(0);}
+}
+
+@keyframes disappear {
+	0% {opacity : 100%; filter : blur(0);}
+	100% {opacity : 0; filter : blur(30px);}
+}
+
+@keyframes bluring {
+	0% {backdrop-filter: blur(0);}
+	100% {backdrop-filter: blur(20px);}
+}
+
+@keyframes unbluring {
+	0% {backdrop-filter: blur(20px);}
+	100% {backdrop-filter: blur(0);}
+}
+
+.tile {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+
+  background-color: rgba(40, 43, 45, 0.7);
+
+  overflow: auto;
+  animation: disappear 1s forwards, unbluring 1s forwards;
+}
+
+.tile.active {
+    display: block;
+    animation: appear 1s forwards, bluring 1s forwards;
+}
+
+.tile-content {
+  width: 1000px; /* Largeur du div */
+  margin-left: auto; /* Marge à gauche automatique */
+  margin-right: auto;
+  border: 1px solid red;
+  padding: 20px;
+  overflow: auto;
+}
+
+/* INDEX STYLES*/
+
+footer {
+    background: #282b2d;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+
+    bottom: 0;
+}
+
+footer button {
+    font-family : 'Ubuntu', sans-serif;
+    color : var(--light-color);
+    font-size: 20px;
+    font-weight: bold;
+
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+
+    margin: 10px;
+    padding: 0;
+
+
+    text-align: center;
+}
+
+footer button:hover {
+    opacity: 1;
+}
+
+#help-button {
+    flex:1;
+}
+
+#exit-button{
+    flex: 1;
+}
+
+#git-icon {
+    height: 30px;
+    flex:2;
+
+    margin: 15px;
+
+    opacity:0.5;
+    transition: opacity 0.3s ease;
+}
+
+#git-icon:hover {
+    opacity:1;
 }
 
 #index-content {
@@ -20,26 +162,62 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center
+    align-items: center;
+    text-align: center;
 }
 
-#overlay{
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: transparent; /* Fond semi-transparent */
-    backdrop-filter: blur(0px); /* Applique un flou à l'arrière-plan */
-    z-index: 999; /* Empilement au-dessus de tout */
-    transition: backdrop-filter 0.3 ease;
+.page-icon {
+    width: 200px;
+    height: 200px;
+
+    margin: 30px;
+
+    background: #282b2d;
+    border: 4px solid var(--light-color);
+    border-radius: 30px;
+    transition: border-opacity 0.3s ease-in-out;
 }
 
-#overlay:hover {
-    display: block;
-    backdrop-filter: blur(20px);
+
+.main-title {
+    font-size : 100px;
+    margin: 60px;
 }
+
+.pages-links {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+
+    position: relative;
+    top: 5%;
+}
+
+.main-page-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+
+    cursor: pointer;
+}
+
+.main-page-link:hover {
+    opacity: 1;
+}
+
+.page-name {
+    font-size : 30px;
+    font-weight : bold;
+
+    margin: 0;
+}
+
+
+/* NETWORKS PAGES STYLES*/
 
 header {
     position: relative;
@@ -53,14 +231,6 @@ header {
     align-items: center;
     padding: 10px;
     padding-bottom: 15px;
-}
-
-h1 {
-	margin : 0px;
-	margin-left: 100px;
-	margin-right: 100px;
-	font-size : 50px;
-	font-weight : bold;
 }
 
 #network-selection {
@@ -82,7 +252,7 @@ h1 {
 }
 
 #previouspage-icon, #nextpage-icon {position: relative;height : 65px;}
-#previouspage-link, #nextpage-link {width : 100px;}
+#previouspage-link, #nextpage-link {width : 100px; cursor: pointer;}
 
 #previouspage-icon {left: 30px; transition: left 0.3s ease;}
 #previouspage-link:not(.disabled_button):hover #previouspage-icon {left: 0}
@@ -90,11 +260,6 @@ h1 {
 #nextpage-icon {right: 0px; transition: right 0.3s ease;}
 #nextpage-link:not(.disabled_button):hover #nextpage-icon {right: -30px}
 
-button {
-    border : none;
-    background-color : transparent;
-    padding : 0px;
-}
 
 .round-button {
     height : 50px;
@@ -197,7 +362,6 @@ button {
 .right-content {
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
     align-items: center;
 }
 
@@ -217,6 +381,7 @@ button {
     margin: 10px;
     opacity: 0.5;
     transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 .arrow-propagation:hover {
@@ -228,6 +393,21 @@ button {
     aspect-ratio: 3/2;
     z-index: 1;
     margin: 20px;
+}
+
+#schema rect {
+    rx: 20px;
+    ry: 20px;
+}
+
+.point {
+    fill: #ff0000;
+}
+
+.ligne {
+    stroke: #42484a;
+    stroke-width: 20px;
+    transition: stroke-width 0.3s;
 }
 
 .schema-text {
@@ -260,12 +440,7 @@ button {
     text-anchor: start;
 }
 
-rect {
-    rx: 20px;
-    ry: 20px;
-}
-
-.info-box {
+.info-box, .page-icon {
     fill: #282b2d;
     stroke: var(--light-color);
     stroke-width: 3px;
@@ -277,13 +452,69 @@ rect {
     stroke-opacity: 1;
 }
 
+/* MORPION STYLE */
 
 
-.point {
-    fill: #ff0000;
+#tictactoe-configuration {
+    width: 80%;
+    display: flex; /* Utilisation de flexbox */
+    align-items: center;
+    justify-content: space-between;
 }
 
-.ligne {
-    stroke: #42484a;
-    transition: stroke-width 0.3s;
+#tictactoe-configuration div{
+    display: flex; /* Utilisation de flexbox */
+    align-items: center;
+}
+
+
+#player1-selection, #player2-selection {
+    background: none;
+    border: none;
+    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-size: 30px;
+    font-weight : bold;
+    color: #BFBFBF;
+    background-color: #282b2d;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+#play-tictactoe-button{
+    height : 50px;
+    width : 100px;
+    border-radius : 25px;
+    margin : 10px;
+
+    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-size: 20px;
+    font-weight : bold;
+    color: #BFBFBF;
+
+    transition: border 0.3s;
+    border: 2px solid #BFBFBF50;
+
+    cursor: pointer;
+}
+
+#play-tictactoe-button:disabled{
+    opacity : 0.2;
+    border-color : #BFBFBF;
+    cursor: not-allowed;
+}
+
+#play-tictactoe-button:hover:not(:disabled) {
+    border-color : #BFBFBF;
+}
+
+#board {
+    width:60%;
+    aspect-ratio: 1/1;
+    margin: auto;
+
+}
+
+.board-cell {
+    fill: transparent;
 }
