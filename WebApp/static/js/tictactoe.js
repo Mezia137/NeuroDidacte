@@ -1,4 +1,4 @@
-
+const socket = io.connect('http://' + document.domain + ':' + location.port + '/tictactoe');
 
 const board = document.getElementById("board");
 
@@ -83,5 +83,10 @@ function init_board() {
 
 function play() {
     playing = true;
-    init_board()
+    player = "cross";
+    init_board();
+    const player1 = document.getElementById('player1-selection').value;
+    const player2 = document.getElementById('player2-selection').value;
+    
+    socket.emit('play', (player1, player2));
 }

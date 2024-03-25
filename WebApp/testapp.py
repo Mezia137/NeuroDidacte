@@ -8,6 +8,7 @@ from sklearn.datasets import make_circles
 
 from modules.ReseauSimple import ReseauSimple
 from modules.Perceptron import Perceptron
+from modules.Tictactoe import TicTacToe
 
 from pprint import pprint
 
@@ -179,6 +180,23 @@ class PerceptronNamespace(Namespace):
             emit('nouvelle_image', {'image_path': img_path})
             emit('update_net', self.network.get_w(age))
 
+
+class TicTacToeNamespace(Namespace):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.game = None
+
+    def on_play(self, data):
+        self.game = TicTacToe(data[0], data[1])
+        print(data)
+        
+    def on_move(self, data=None):
+        return self.game.move(data)
+        
+
+    
+
+
 @socketio.on('close-app')
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
@@ -213,6 +231,7 @@ def circles():
 if __name__ == '__main__':
     socketio.on_namespace(ReseauSimpleNamespace('/reseausimple'))
     socketio.on_namespace(PerceptronNamespace('/perceptron'))
+    #socketio.on_namespace(TicTacToeNamespace('/tictactoe'))
 
     webbrowser.open('http://127.0.0.1:5000/')
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True, use_reloader=False)

@@ -32,9 +32,8 @@ class NeuralNetwork(object):
 
     def __init__(self, game):
         """Initialise NeuralNetwork avec le graphe du reseau ResNet."""
-        self.row = game.row
-        self.column = game.column
-        self.action_size = game.action_size
+        self.row, self.column = game.board.shape
+        self.action_size = self.row * self.column 
         self.pi = None
         self.v = None
 
