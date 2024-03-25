@@ -187,11 +187,19 @@ class TicTacToeNamespace(Namespace):
         self.game = None
 
     def on_play(self, data):
-        self.game = TicTacToe(data[0], data[1])
         print(data)
+        self.game = TicTacToe(data["p1"], data["p2"])
         
     def on_move(self, data=None):
-        return self.game.move(data)
+        move_data = self.game.move(data)
+        print('move_data')
+        emit('moved', move_data)
+
+    def on_is_winner(self):
+        ans = self.game.is_winner()
+        print(ans)
+        if ans is not None:
+            emit('winner', ans)
         
 
     
@@ -231,7 +239,7 @@ def circles():
 if __name__ == '__main__':
     socketio.on_namespace(ReseauSimpleNamespace('/reseausimple'))
     socketio.on_namespace(PerceptronNamespace('/perceptron'))
-    #socketio.on_namespace(TicTacToeNamespace('/tictactoe'))
+    socketio.on_namespace(TicTacToeNamespace('/tictactoe'))
 
     webbrowser.open('http://127.0.0.1:5000/')
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True, use_reloader=False)

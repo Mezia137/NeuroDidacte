@@ -20,7 +20,7 @@
     </div>
 
     <footer>
-        <button id="exit-button">quitter</button>
+        <button id="exit-button" onclick="clos_app()">quitter</button>
         <a href="https://framagit.org/Mezia137/neuronalnet" target="_blank"><img id="git-icon" width="30px" src="../static/icons/git-icon.svg"></a>
         <button id="help-button" onclick="document.getElementById('help-tile').classList.toggle('active')">aide</button>
     </footer>
@@ -215,6 +215,10 @@ Nous ne prétendons pas que le portrait que nous faisons ici soit vraisemblable;
     </div>
 
     <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        function clos_app () {
+            socket.emit('close-app')
+        }
     </script>
 
 </body>

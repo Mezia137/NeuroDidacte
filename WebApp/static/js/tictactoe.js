@@ -1,12 +1,19 @@
 const socket = io.connect('http://' + document.domain + ':' + location.port + '/tictactoe');
 
+const pp_button = document.getElementById("previouspage-link");
+const np_button = document.getElementById("nextpage-link");
 const board = document.getElementById("board");
 
 const cellSize = 33.33;
 const imageSize = 20;
 
-var player = "cross";
+var player1 = null;
+var player2 = null;
+var player = null;
+var player_asset = "cross";
 var playing = false;
+var human_turn = false;
+var human_choice = null;
 
 for (let i = 0; i < 3; i++) {
   for (let j = 0; j < 3; j++) {
@@ -48,10 +55,10 @@ for (let i = 0; i < 3; i++) {
 
     const new_cell=document.getElementById(`cell${i * 3 + j + 1}`)
     new_cell.addEventListener("mouseenter", () => {
-        if (new_cell.getAttribute("data-index")==="free"){
-            if (player === "cross") {
+        if (human_turn && new_cell.getAttribute("data-index")==="free"){
+            if (player_asset === "cross") {
                 document.getElementById(`cross-shadow${i * 3 + j + 1}`).style.visibility = "visible";
-            } else if (player === "round") {
+            } else if (player_asset === "round") {
                 document.getElementById(`round-shadow${i * 3 + j + 1}`).style.visibility = "visible";
             }
         }
@@ -62,15 +69,10 @@ for (let i = 0; i < 3; i++) {
             document.getElementById(`round-shadow${i * 3 + j + 1}`).style.visibility = "hidden";
     });
     new_cell.addEventListener("click", () => {
-        if (new_cell.getAttribute("data-index")==="free"){
-            if (player === "cross") {
-                document.getElementById(`cross${i * 3 + j + 1}`).style.visibility = "visible";
-                player = "round";
-            } else if (player === "round") {
-                document.getElementById(`round${i * 3 + j + 1}`).style.visibility = "visible";
-                player = "cross";
-            }
-            new_cell.setAttribute("data-index", "taken");
+        if (human_turn && new_cell.getAttribute("data-index")==="free"){
+           human_choice = new_cell.id[new_cell.id.length-1];
+           human_turn = false;
+
         }
     });
   }
@@ -81,12 +83,113 @@ function init_board() {
     document.querySelectorAll(`.board-item`).forEach(element => element.style.visibility = "hidden");
 }
 
+function take_cell(n){
+    if (player_asset === "cross") {
+        document.getElementById(`cross${n}`).style.visibility = "visible";
+        player_asset = "round";
+    } else if (player_asset === "round") {
+        document.getElementById(`round${n}`).style.visibility = "visible";
+        player_asset = "cross";
+    }
+    document.getElementById(`cell${n}`).setAttribute("data-index", "taken");}
+
 function play() {
     playing = true;
-    player = "cross";
+    player_asset = "cross";
     init_board();
-    const player1 = document.getElementById('player1-selection').value;
-    const player2 = document.getElementById('player2-selection').value;
+    player1 = document.getElementById('player1-selection').value;
+    player2 = document.getElementById('player2-selection').value;
+    console.log(player1+player2);
+
+    document.querySelectorAll("#board > image").forEach(image => {
+        image.style.opacity = "1";
+    });
     
-    socket.emit('play', (player1, player2));
+    socket.emit('play', {p1:player1, p2:player2});
+    player = player1;
+    disableButtons()
+    game_loop();
+}
+
+async function game_loop(){
+    var iterations = 0;
+    while (iterations < 9 && playing){
+        if (player != "0") {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            socket.emit('move');
+
+        } else {
+            human_turn = true;
+            while (human_turn) {await new Promise(resolve => setTimeout(resolve, 100));};
+            socket.emit('move', human_choice);
+        }
+        if (player === player1){
+            player = player2;
+        } else {
+            player = player1;
+        }
+        iterations++;
+        socket.emit('is_winner');
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    if (playing){
+        end_game();
+    }
+
+}
+
+function end_game(win_cells=[]){
+    document.querySelectorAll("#board > image").forEach(image => {
+        if (!win_cells.includes(parseInt(image.id[image.id.length-1]))){
+            image.style.opacity = "0.5";
+        }
+    });
+    reableButtons()
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    socket.on('moved', function(data) {
+        take_cell(data);
+    });
+    socket.on('winner', function(data) {
+        playing = false;
+        end_game(data);
+    });
+});
+
+function disableButtons() {
+    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = true;});
+    document.querySelectorAll('.round-button').forEach(function(bouton) {bouton.classList.add('disabled_button')});
+
+    pp_button.style.cursor = "not-allowed";
+    pp_button.style.opacity = "0.2";
+    pp_button.classList.add('disabled_button');
+
+    np_button.style.cursor = "not-allowed";
+    np_button.style.opacity = "0.2";
+    np_button.classList.add('disabled_button');
+
+    // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
+    Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
+
+    document.querySelectorAll('select').forEach(function(selection) {selection.disabled = true;});
+}
+
+function reableButtons() {
+    isTraining = false;
+    document.querySelectorAll('button').forEach(function(bouton) {bouton.disabled = false;});
+    document.querySelectorAll('.round-button').forEach(function(bouton) {bouton.classList.remove('disabled_button')});
+
+    pp_button.style.cursor = "pointer";
+    pp_button.style.opacity = "1";
+    pp_button.classList.remove('disabled_button');
+
+    np_button.style.cursor = "pointer";
+    np_button.style.opacity = "1";
+    np_button.classList.remove('disabled_button');
+
+    // document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
+    Array.from(document.links).forEach(link => {link.onclick = null;});
+
+    document.querySelectorAll('select').forEach(function(selection) {selection.disabled = false;});
 }
