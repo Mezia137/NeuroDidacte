@@ -12,13 +12,17 @@
         <div class="header-content">
 
             <a href="{{ url_for('perceptron') }}"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
+            <div style="display: flex;">
+                <select id="network-selection" onchange="changeNetwork()">
+                      <option value="1">RESEAU SIMPLE 1</option>
+                      <option value="2">RESEAU SIMPLE 2</option>
+                </select>
+                <img class="info-icon" style="left: 20px;" src="../static/icons/info.svg" onclick="document.getElementById('reseau-tile').classList.toggle('active')" data-infobox-id="null"/>
+            </div>
 
-            <select id="network-selection" onchange="changeNetwork()">
-                  <option value="1">RESEAU SIMPLE 1</option>
-                  <option value="2">RESEAU SIMPLE 2</option>
-            </select>
             <h1 id="affichage_step">0</h1>
             <div id="control-buttons-container">
+                <img class="info-icon" style="right: 10px;" src="../static/icons/info.svg" data-infobox-id="infobox1"/>
                 <div class="round-button" id="play-button-container">
                     <input type="number" id="input-nombre_passages" name="nombre de passages" value=10 min="1" max="99">
                     <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Play" id="play-button-icon"></button>
@@ -42,20 +46,20 @@
 
         </div>
         <div class="right-content">
-            <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%">
+            <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%" onclick="document.getElementById('forward-tile').classList.toggle('active')">
             <svg id="schema">
 
-                <text x="22%" y="8%" class="schema-text layer-title" id="input-layer-title">
+                <text x="22%" y="8%" class="schema-text-title layer-title" id="input-layer-title">
                     <tspan x="22%" dy="-1em">COUCHE</tspan>
                     <tspan x="22%" dy="1.1em">D'ENTRÉE</tspan>
                 </text>
 
-                <text x="50%" y="8%" class="schema-text layer-title" id="hidden-layer-title">
+                <text x="50%" y="8%" class="schema-text-title layer-title" id="hidden-layer-title">
                     <tspan x="50%" dy="-1em">COUCHE</tspan>
                     <tspan x="50%" dy="1.1em">CACHÉE</tspan>
                 </text>
 
-                <text x="78%" y="8%" class="schema-text layer-title" id="output-layer-title">
+                <text x="78%" y="8%" class="schema-text-title layer-title" id="output-layer-title">
                     <tspan x="78%" dy="-1em">COUCHE</tspan>
                     <tspan x="78%" dy="1.1em">DE SORTIE</tspan>
                 </text>
@@ -86,9 +90,65 @@
                 <circle class="point" cx="78%" cy="55%" r="20" fill="#ff0000"/>
 
                 <rect class="info-box" x="2%" y="30%" width="15%" height="50%"/>
-                <rect class="info-box" x="83%" y="40%" width="15%" height="30%"/>
+                <rect class="info-box" x="82%" y="40%" width="17.5%" height="21%"/>
+
+                <text x="4%" y="53%" class="schema-text">
+                    <tspan>position</tspan>
+                    <tspan x="4%" dy="25px">du point</tspan>
+                </text>
+                <text x="13%" y="41%" class="schema-text-title">
+                    <tspan>X</tspan>
+                    <tspan x="13%" dy="32%">Y</tspan>
+                </text>
+
+                <text x="83.5%" y="52%" class="schema-text">
+                    <tspan>probabilité</tspan>
+                    <tspan x="83.5%" dy="25px">couleur</tspan>
+                </text>
+
+                <image class="info-icon" x="3.3%" y="32%" href="../static/icons/info.svg" data-infobox-id="infobox2"/>
+                <image class="info-icon" x="14.2%" y="13.7%" href="../static/icons/info.svg" data-infobox-id="infobox3"/>
+                <image class="info-icon" x="42.2%" y="13.7%" href="../static/icons/info.svg" data-infobox-id="infobox4"/>
+                <image class="info-icon" x="70.1%" y="13.7%" href="../static/icons/info.svg" data-infobox-id="infobox5"/>
+                <image class="info-icon" x="83.2%" y="41.7%" href="../static/icons/info.svg" data-infobox-id="infobox6"/>
             </svg>
-            <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%">
+            <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%" onclick="document.getElementById('backward-tile').classList.toggle('active')">
+        </div>
+    </div>
+    <div id="infobox1" class="infobox"><p>Ici vous pouvez controler l'entrainement du perceptron. Selectionner le nombre du passages du jeu de données et lancez l'entrainement avec la flèche. Vou pourrez ensuite revenir aux étapes précédentes en utilisant la barre d'avancement ou le réinitialiser avec le bouton réinitialiser</p></div>
+    <div id="infobox2" class="infobox"><p>Information pour le bouton 3. asddddddddddddddg sdfgsdffffffffff</p></div>
+    <div id="infobox3" class="infobox"><p>Information pour le bouton 3. asddddddddddddddg sdfgsdffffffffff</p></div>
+    <div id="infobox4" class="infobox"><p>Information pour le bouton 4. asddddddddddddddg sdfgsdffffffffff</p></div>
+    <div id="infobox5" class="infobox"><p>Information pour le bouton 5. asddddddddddddddg sdfgsdffffffffff</p></div>
+    <div id="infobox6" class="infobox"><p>Information pour le bouton 6. asddddddddddddddg sdfgsdffffffffff</p></div>
+    <div class='tile' id="reseau-tile">
+        <button class="exit-tile-button" onclick="document.getElementById('reseau-tile').classList.toggle('active')">fermer</button>
+        <div class="tile-content">
+            <h1>RESEAU SIMPLE</h1>
+            <div style="margin: 50px 0;">
+                <p>texte reseau simple...</p>
+            </div>
+
+        </div>
+    </div>
+    <div class='tile' id="forward-tile">
+        <button class="exit-tile-button" onclick="document.getElementById('forward-tile').classList.toggle('active')">fermer</button>
+        <div class="tile-content">
+            <h1>FORWARD PROPAGATION</h1>
+            <div style="margin: 50px 0;">
+                <p>texte forward...</p>
+            </div>
+
+        </div>
+    </div>
+    <div class='tile' id="backward-tile">
+        <button class="exit-tile-button" onclick="document.getElementById('backward-tile').classList.toggle('active')">fermer</button>
+        <div class="tile-content">
+            <h1>BACKWARD PROPAGATION</h1>
+            <div style="margin: 50px 0;">
+                <p>texte backward...</p>
+            </div>
+
         </div>
     </div>
 

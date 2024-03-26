@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, send_file, url_for
 from flask_socketio import SocketIO, Namespace, emit
 import webbrowser
 import os
+import sys
 import numpy as np
 import random as rd
 from sklearn.datasets import make_circles
@@ -96,7 +97,7 @@ class ReseauSimpleNamespace(Namespace):
         age = data['age']
         self.network.age = age
         if age == 0:
-            emit('nouvelle_image', {'image_path': url_for('static', filename=f'svg/1-000.svg')})
+            emit('nouvelle_image', {'image_path': url_for('static', filename=f'svg/{self.network.idi}-000.svg')})
 
         else:
             img_name = self.get_image_name()
@@ -113,7 +114,7 @@ class PerceptronNamespace(Namespace):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.network = Perceptron()
-        self.dots, self.labels = clans1v1(size=50, dist=5)
+        self.dots, self.labels = clans1v1(size=10, dist=5)
 
         os.makedirs('./static/svg', exist_ok=True)
 
@@ -208,11 +209,11 @@ class TicTacToeNamespace(Namespace):
 @socketio.on('close-app')
 def handle_closing_page():
     print("Page is closing. Stopping the Python program.")
-    socketio.stop()
     for file in os.listdir('./static/svg'):
         if file.startswith('tmp-'):
             os.remove(os.path.join('./static/svg', file))
-            pass
+
+    os._exit(0)
 
 
 def cluster(pos, size=100, etendue=(2, 2)):

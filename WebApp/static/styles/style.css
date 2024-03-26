@@ -43,9 +43,43 @@ select {
     cursor: pointer;
 }
 
+p {
+    margin: 0;
+}
+
+/* INFO BOX STYLES */
+
+.info-icon {
+    position: relative;
+    width: 25px;
+    opacity: 0.5;
+
+    cursor: pointer;
+}
+
+.info-icon:hover {
+    opacity: 1;
+}
+
+.infobox {
+    display: none;
+    position: fixed; /* ou "absolute" selon vos besoins */
+    z-index: 900;
+    width: 300px;
+    background-color : rgba(40, 43, 45, 0.7);
+    backdrop-filter: blur(20px);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.infobox.show {
+    display: block;
+}
+
 /* TILES STYLES*/
 
-#exit-help-button {
+.exit-tile-button {
   position: fixed;
   top: 20px; /* Distance depuis le haut de la page */
   left: 20px;
@@ -97,7 +131,7 @@ select {
   width: 1000px; /* Largeur du div */
   margin-left: auto; /* Marge à gauche automatique */
   margin-right: auto;
-  border: 1px solid red;
+  /*border: 1px solid red;*/
   padding: 20px;
   overflow: auto;
 }
@@ -115,7 +149,7 @@ footer {
     bottom: 0;
 }
 
-footer button {
+footer button, .tile button {
     font-family : 'Ubuntu', sans-serif;
     color : var(--light-color);
     font-size: 20px;
@@ -131,23 +165,20 @@ footer button {
     text-align: center;
 }
 
-footer button:hover {
+footer button:hover, .tile button:hover {
     opacity: 1;
 }
 
-#help-button {
-    flex:1;
-}
-
 #exit-button{
-    flex: 1;
+    padding: 15px;
+    margin-left: 20px;
 }
 
 #git-icon {
     height: 30px;
-    flex:2;
 
-    margin: 15px;
+    padding: 15px;
+    margin-right: 20px;
 
     opacity:0.5;
     transition: opacity 0.3s ease;
@@ -412,6 +443,22 @@ header {
 
 .schema-text {
     font-family:Ubuntu;
+    font-size: 20px;
+    font-weight: bold;
+    fill: var(--light-color);
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+
+}
+
+.schema-text:hover {
+    opacity: 1;
+
+}
+
+
+.schema-text-title {
+    font-family:Ubuntu;
     font-size: 25px;
     font-weight: bold;
     fill: var(--light-color);
@@ -419,7 +466,7 @@ header {
     transition: opacity 0.3s ease-in-out;
 }
 
-.schema-text:not(.layer-title):hover {
+.schema-text-title:hover {
     opacity: 1;
 }
 
@@ -428,7 +475,7 @@ header {
     dominant-baseline: middle;
 }
 
-#input-layer-box:hover ~ #input-layer-title {
+.layer-title:hover {
     opacity: 1;
 }
 
@@ -448,7 +495,7 @@ header {
     transition: stroke-opacity 0.3s ease-in-out;
 }
 
-.info-box:not(.net-layer):hover {
+.info-box:hover {
     stroke-opacity: 1;
 }
 

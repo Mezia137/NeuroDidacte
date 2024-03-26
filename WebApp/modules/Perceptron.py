@@ -75,7 +75,7 @@ class Perceptron:
         # Tracé des données
         sns.scatterplot(x=X[:, 0], y=X[:, 1], hue=y).set_aspect('equal')
 
-        plt.colorbar(contour, label='prediction')
+        plt.colorbar(contour)
 
         # Paramètres esthétiques
         plt.xlabel('Feature 1')
@@ -96,7 +96,7 @@ class Perceptron:
 
     def visualisation(self, data, labels, savemod=True, folder="../", img_name=None, age=-1, nb_levels=10,
                       show_data=True, show_previsu=True):
-        plt.figure(figsize=(12, 8))
+        plt.figure()
         if show_previsu:
             hh = .02
             x_r = data[:, 0].max() - data[:, 0].min()
@@ -116,7 +116,7 @@ class Perceptron:
         if show_data:
             sns.scatterplot(x=data[:, 0], y=data[:, 1], hue=labels).set_aspect('equal')
 
-        plt.colorbar(contour, label='prediction')
+        plt.colorbar(contour)
         if savemod:
             if img_name is None:
                 img_name = f'fig{age:03d}.svg'

@@ -83,11 +83,8 @@ function startTraining() {
 }
 
 function restartTraining() {
-    // totalSteps = 0;
-    // updateBar(0);
-    // document.getElementById('affichage_etape').textContent = 0;
-    // updateImage('static/svg/0-000.svg');
     document.querySelectorAll('.ligne').forEach(function(element) {element.style.strokeWidth = '20px';});
+    document.getElementById('image-display').innerHTML = '';
     socket.emit('resume_training');
 }
 
@@ -168,4 +165,28 @@ document.addEventListener('mouseup', () => {
         barContainer.style.userSelect = '';
         barContainer.style.height = '5px';
     }
+});
+
+
+document.querySelectorAll('.info-icon').forEach(function(icon) {
+    if (icon.dataset.infoboxId != "null") {
+        icon.addEventListener('click', function(event) {
+    const infoboxId = icon.dataset.infoboxId;
+    console.log(infoboxId)
+    const infobox = document.getElementById(infoboxId);
+
+    infobox.style.left = event.clientX + 'px';
+    infobox.style.top = event.clientY + 'px';
+
+    infobox.classList.add('show');
+  });
+
+  icon.addEventListener('mouseleave', function() {
+    const infoboxId = icon.dataset.infoboxId;
+    const infobox = document.getElementById(infoboxId);
+
+    infobox.classList.remove('show');
+  });
+    }
+
 });
