@@ -40,7 +40,7 @@ function updateBar(toStep) {
             console.log(new_width);
             bar.style.width = new_width + '%';
     }
-    document.getElementById('affichage_step').textContent = toStep;
+    document.getElementById('affichage_etape').textContent = toStep;
 }
 
 function updateNet(weights) {

@@ -172,7 +172,7 @@ function disableButtons() {
     // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
     Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
 
-    document.querySelectorAll('select').forEach(function(selection) {selection.disabled = true;});
+    document.querySelectorAll('select').forEach(function(selection) {selection.disabled = true; selection.style.cursor = "not-allowed";});
 }
 
 function reableButtons() {
@@ -191,5 +191,29 @@ function reableButtons() {
     // document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
     Array.from(document.links).forEach(link => {link.onclick = null;});
 
-    document.querySelectorAll('select').forEach(function(selection) {selection.disabled = false;});
+    document.querySelectorAll('select').forEach(function(selection) {selection.disabled = false; selection.style.cursor = "pointer";});
 }
+
+
+document.querySelectorAll('.info-icon').forEach(function(icon) {
+    if (icon.dataset.infoboxId != "null") {
+        icon.addEventListener('click', function(event) {
+    const infoboxId = icon.dataset.infoboxId;
+    console.log(infoboxId)
+    const infobox = document.getElementById(infoboxId);
+
+    infobox.style.left = event.clientX + 'px';
+    infobox.style.top = event.clientY + 'px';
+
+    infobox.classList.add('show');
+  });
+
+  icon.addEventListener('mouseleave', function() {
+    const infoboxId = icon.dataset.infoboxId;
+    const infobox = document.getElementById(infoboxId);
+
+    infobox.classList.remove('show');
+  });
+    }
+
+});

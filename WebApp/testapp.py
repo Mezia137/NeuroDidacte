@@ -193,7 +193,7 @@ class TicTacToeNamespace(Namespace):
         
     def on_move(self, data=None):
         move_data = self.game.move(data)
-        print('move_data')
+        print(move_data)
         emit('moved', move_data)
 
     def on_is_winner(self):
