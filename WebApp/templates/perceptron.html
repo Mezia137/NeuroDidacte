@@ -1,16 +1,17 @@
-    <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ma Page</title>
+    <title>Perceptron</title>
     <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+    <link rel="icon" type="image/png" href="../static/icons/favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <a href="/"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
+            <a href="/"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Précédent" id="previouspage-icon"></div></a>
 
             <div style="display: flex;">
                 <h1>PERCEPTRON</h1>
@@ -21,12 +22,12 @@
                 <img class="info-icon" style="right: 10px;" src="../static/icons/info.svg" data-infobox-id="infobox1"/>
                 <div class="round-button" id="play-button-container">
                     <input type="number" id="input-nombre_passages" name="nombre de passages" value=10 min="1" max="99">
-                    <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Play" id="play-button-icon"></button>
+                    <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Jouer" id="play-button-icon"></button>
                 </div>
-                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Rewind" id="rewind-button-icon"></button>
+                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Revenir en arrière" id="rewind-button-icon"></button>
             </div>
 
-            <a href="{{ url_for('reseausimple') }}"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Next" id="nextpage-icon"></div></a>
+            <a href="{{ url_for('reseausimple') }}"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Suivant" id="nextpage-icon"></div></a>
 
         </div>
 
@@ -90,36 +91,36 @@
             <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%" onclick="document.getElementById('backward-tile').classList.toggle('active')">
         </div>
     </div>
-    <div id="infobox1" class="infobox"><p>Ici vous pouvez controler l'entrainement du perceptron. Selectionnez le nombre du passages du jeu de données et lancez l'entrainement avec la flèche. Vou pourrez ensuite revenir aux étapes précédentes en utilisant la barre d'avancement ou le réinitialiser avec le bouton réinitialiser.</p></div>
-    <div id="infobox2" class="infobox"><p>L'abscisse et l'ordonnée du point sont multipliés par leur poids respectifs et sommés avec le biais.</p></div>
+    <div id="infobox1" class="infobox"><p>Ici vous pouvez contrôler l'entraînement du perceptron. Sélectionnez le nombre de passages du jeu de données et lancez l'entraînement avec la flèche. Vous pourrez ensuite revenir aux étapes précédentes en utilisant la barre d'avancement ou le réinitialiser avec le bouton réinitialiser.</p></div>
+    <div id="infobox2" class="infobox"><p>Les données d'entrée sont l'abscisse et l'ordonnée du point. Elles sont multipliées par leur poids respectifs et sommées avec le biais.</p></div>
     <div id="infobox3" class="infobox"><p>Le biais est un nombre qui est ajouté à la somme des données d'entrée.</p></div>
-    <div id="infobox4" class="infobox"><p>Dans cet exemple la sortie du perceptron est un nombre compris entre 0 et 1 qui nous donne la probabilité de couleur du point à la position donnée en entrée (bleu plus on se rapproche de 0 et orange plus on se rapproche de 1).</p></div>
-    <div id="infobox5" class="infobox"><p>La fonction somme va simplement sommer les données d'entrée multipliées par leurs poids et le biais et ce resultat sera entré dans la fonction d'activation.</p></div>
-    <div id="infobox6" class="infobox"><p>La fonction d'activation va prendre en entrée le résultat de la fonction somme et sortir le resultat du perceptron. Ici c'est la fonction sigmoid donc on est assurés que le resutlat est entre 0 et 1.</p></div>
+    <div id="infobox4" class="infobox"><p>Dans cet exemple, la sortie du perceptron est un nombre compris entre 0 et 1 qui nous donne la probabilité de couleur du point à la position donnée en entrée (bleu plus on se rapproche de 0 et orange plus on se rapproche de 1).</p></div>
+    <div id="infobox5" class="infobox"><p>La fonction somme va simplement sommer les données d'entrée multipliées par leurs poids et le biais et ce résultat sera entré dans la fonction d'activation.</p></div>
+    <div id="infobox6" class="infobox"><p>La fonction d'activation va prendre en entrée le résultat de la fonction somme et sortir le résultat du perceptron. Ici c'est la fonction sigmoïde donc on est assurés que le résultat est entre 0 et 1.</p></div>
     <div class='tile' id="perceptron-tile">
         <button class="exit-tile-button" onclick="document.getElementById('perceptron-tile').classList.toggle('active')">fermer</button>
         <div class="tile-content">
             <h1>PERCEPTRON</h1>
             <div style="margin: 50px 0;">
-                <p>Cette page vous présente le fonctionnement du percpeptron, le neurone d'un reseau de neurones.</p>
+                <p>Cette page vous présente le fonctionnement du perceptron, le neurone d'un réseau de neurones.</p>
                 <br>
-                <p>Le perceptron est un modèle mathématique inspiré du fonctionnement des neurones du cerveau humain. Il est utilisé en intelligence artificielle pour résoudre des problèmes de classification et de prédiction. Concrètement, il s'agit d'un algorithme qui prend des données en entrée, les traite, et fournit des prédictions en sortie.</p>
+                <p>Le <a href="https://fr.wikipedia.org/wiki/Perceptron" target="_blank">perceptron</a> est un modèle mathématique inspiré du fonctionnement des neurones du cerveau humain. Il est utilisé en intelligence artificielle pour résoudre des problèmes de classification et de prédiction. Concrètement, il s'agit d'un algorithme qui prend des données en entrée, les traite et fournit des prédictions en sortie.</p>
                 <br>
                 <p>Le perceptron fonctionne en combinant linéairement les données d'entrée pondérées par des coefficients, puis en appliquant une fonction d'activation pour produire une sortie. Cette sortie est comparée à des valeurs cibles pour évaluer la performance du modèle, et les poids du perceptron sont ajustés en conséquence pour minimiser les erreurs.</p>
                 <br>
-                <p>Ici, notre perceptron est utilisé pour distinguer les points bleus des points oranges en fonction de leur position. L'image de la partie gauche montre le jeu de données donné à l'entrainement du perceptron (les points) et la prédiction que fait le parceptron pour chaque position (le fond en deǵradé). La partie jaune indique donc que le perceptron prédit comme orange tout point de cette partie, la partie bleu indique l'inverse et le dégradé est la zone ou il est moins sûr. On observe que plus on l'entraine plus le dégradé s'affine.</p>
+                <p>Ici, notre perceptron est utilisé pour distinguer les points bleus des points oranges en fonction de leur position. L'image de la partie gauche montre le jeu de données donné à l'entraînement du perceptron (les points) et la prédiction que fait le perceptron pour chaque position (le fond en dégradé). La partie jaune indique donc que le perceptron prédit comme orange tout point de cette partie, la partie bleue indique l'inverse et le dégradé est la zone où il est moins sûr. On observe que plus on l'entraîne, plus le dégradé s'affine.</p>
                 <br>
                 <br>
-                <p>La partie droite vous montre le shéma de notre perceptron: </p>
+                <p>La partie droite vous montre le schéma de notre perceptron : </p>
                 <ul>
-                  <li>Il a deux entrée pour les positions X et Y d'un point donné, l'épaisseur des liens montre l'importance de leur poids</li>
-                  <li>On voit aussi son biais dont l'importance est aussi montrée par l'epaisseur de sa liaison.</li>
+                  <li>Il a deux entrées pour les positions X et Y d'un point donné, l'épaisseur des liens montre l'importance de leur poids.</li>
+                  <li>On voit aussi son biais dont l'importance est aussi montrée par l'épaisseur de sa liaison.</li>
                   <li>Le tout est sommé dans la fonction somme.</li>
-                  <li>Enfin on voit la fonction d'activation à la fin qui va rendre le résultat exploitable.</li>
+                  <li>Enfin, on voit la fonction d'activation à la fin qui va rendre le résultat exploitable.</li>
                 </ul>
-                <p>Vous pouvez entrainer ce perceptron à différencier la zone des points bleus de celle des points oranges avec les controles en haut à droite en selectionnant le nombre de passage du jeu de données et en cliqaunt sur le bouton <em>play</em>. Ensuite vous pouvez naviguer dans l'apprentissage avec la barre rouge ou le réinitialiser avec le bouton <em>réinitialiser</em>.</p>
+                <p>Vous pouvez entraîner ce perceptron à différencier la zone des points bleus de celle des points oranges avec les contrôles en haut à droite en sélectionnant le nombre de passages du jeu de données et en cliquant sur le bouton <em>jouer</em>. Ensuite, vous pouvez naviguer dans l'apprentissage avec la barre rouge ou le réinitialiser avec le bouton <em>réinitialiser</em>.</p>
                 <br>
-                <p>Pour plus d'informations n'hésitez pas à cliquer sur les points d'interrogation ou sur les boutons <em>forward propagation</em> et <em>backward propagation</em>.</p>
+                <p>Pour plus d'informations, n'hésitez pas à cliquer sur les points d'interrogation ou sur les boutons <em>forward propagation</em> et <em>backward propagation</em>.</p>
             </div>
 
         </div>
@@ -134,9 +135,9 @@
                 <img src="../static/images/perceptron-forward.png" width="100%"/>
                 <br>
                 <br>
-                <p>Dans notre cas, chaque point du plan est représenté par ses coordonnées, qui sont les données d'entrée du perceptron (X et Y). Ces données sont combinées linéairement avec les poids du modèle (représentés par l'épaisseur des liaisons), puis passent à travers une fonction d'activation, généralement une fonction sigmoïde, qui produit une probabilité de couleur pour chaque point.</p>
+                <p>Dans notre cas, chaque point du plan est représenté par ses coordonnées, qui sont les données d'entrée du perceptron (X et Y). Ces données sont combinées linéairement avec les poids du modèle (représentés par l'épaisseur des liaisons), puis passent à travers une <a href="https://fr.wikipedia.org/wiki/Fonction_d%27activation" target="_blank">fonction d'activation</a>, généralement une fonction sigmoïde, qui produit une probabilité de couleur pour chaque point.</p>
                 <br>
-                <p>La fonction sigmoïde est une fonction mathématique qui prend en entrée une valeur réelle et la transforme en une valeur entre 0 et 1. Elle est utilisée ici pour modéliser la probabilité qu'un point soit bleu ou orange en fonction de sa position sur le plan.</p>
+                <p>La fonction <a href="https://fr.wikipedia.org/wiki/Sigmo%C3%AFde_(math%C3%A9matiques)" target="_blank">sigmoïde</a> est une fonction mathématique qui prend en entrée une valeur réelle et la transforme en une valeur entre 0 et 1. Elle est utilisée ici pour modéliser la probabilité qu'un point soit bleu ou orange en fonction de sa position sur le plan.</p>
                 <br>
             </div>
 
@@ -152,7 +153,7 @@
                 <img src="../static/images/perceptron-backward.png" width="100%"/>
                 <br>
                 <br>
-                <p>Après avoir calculé les prédictions du perceptron, une fonction de perte est utilisée pour mesurer l'écart entre ces prédictions et les valeurs cibles. Cette erreur est ensuite rétro-propagée à travers les différentes couches du perceptron à l'aide de la règle de la chaîne, permettant de calculer les gradients des poids par rapport à la fonction de perte.</p>
+                <p>Après avoir calculé les prédictions du perceptron, une fonction de perte est utilisée pour mesurer l'écart entre ces prédictions et les valeurs cibles. Cette erreur est ensuite rétro-propagée à travers les différentes couches du perceptron à l'aide de la <a href="https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_d%C3%A9rivation_des_fonctions_compos%C3%A9es" target="_blank">règle de la chaîne</a>, permettant de calculer les <a href="https://fr.wikipedia.org/wiki/Algorithme_du_gradient" target="_blank">gradients</a> des poids par rapport à la fonction de perte.</p>
                 <br>
                 <p>En ajustant les poids du modèle en fonction de ces gradients, le perceptron est capable d'apprendre à mieux représenter les données d'entrée et à améliorer ses performances de prédiction. Dans notre exemple, cela se traduit par une meilleure capacité à distinguer les points bleus des points oranges en fonction de leur position sur le plan.</p>
             </div>

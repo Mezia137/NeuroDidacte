@@ -1,0 +1,605 @@
+/* GENERAL STYLES */
+
+:root {
+	--light-color : #c0bab2;
+	--dark-color : #353535;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./Ubuntu-R.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./Ubuntu-B.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./Ubuntu-RI.ttf') format('truetype');
+    font-style: italic;
+    font-weight: normal;
+}
+
+body {
+    font-family : 'Ubuntu', sans-serif;
+    font-size: 20px;
+    color : var(--light-color);
+    background-color : #282b2d;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+h1 {
+	margin : 0px;
+	margin-left: 100px;
+	margin-right: 100px;
+	font-size : 50px;
+	font-weight : bold;
+}
+
+a {
+    all: unset;
+
+    cursor: pointer;
+}
+
+button {
+    border : none;
+    background-color : transparent;
+    padding : 0px;
+    cursor: pointer;
+}
+
+select {
+    cursor: pointer;
+}
+
+p {
+    margin: 0;
+}
+
+/* INFO BOX STYLES */
+
+.info-icon {
+    position: relative;
+    width: 25px;
+    opacity: 0.5;
+
+    cursor: pointer;
+}
+
+.info-icon:hover {
+    opacity: 1;
+}
+
+.infobox {
+    display: none;
+    position: fixed; /* ou "absolute" selon vos besoins */
+    z-index: 900;
+    width: 300px;
+    background-color : rgba(40, 43, 45, 0.7);
+    backdrop-filter: blur(20px);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.infobox.show {
+    display: block;
+}
+
+/* TILES STYLES*/
+
+.exit-tile-button {
+  position: sticky;
+  top: 20px; /* Distance depuis le haut de la page */
+  left: 20px;
+    z-index: 1001;
+}
+
+
+@keyframes appear {
+	0% {opacity : 0; filter : blur(30px);}
+	100% {opacity : 100%; filter : blur(0);}
+}
+
+@keyframes disappear {
+	0% {opacity : 100%; filter : blur(0);}
+	100% {opacity : 0; filter : blur(30px);}
+}
+
+@keyframes bluring {
+	0% {backdrop-filter: blur(0);}
+	100% {backdrop-filter: blur(20px);}
+}
+
+@keyframes unbluring {
+	0% {backdrop-filter: blur(20px);}
+	100% {backdrop-filter: blur(0);}
+}
+
+.tile {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+
+  background-color: rgba(40, 43, 45, 0.7);
+
+  overflow: auto;
+  animation: disappear 1s forwards, unbluring 1s forwards;
+}
+
+.tile.active {
+    display: block;
+    animation: appear 1s forwards, bluring 1s forwards;
+}
+
+.tile-content {
+  width: 1000px; /* Largeur du div */
+  margin-left: auto; /* Marge à gauche automatique */
+  margin-right: auto;
+  padding: 20px;
+  overflow: auto;
+}
+
+.tile a {
+    border-bottom: 2px solid var(--light-color);;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tile a:hover {
+    color: rgb(40, 43, 45);
+    background-color: var(--light-color);
+}
+
+.tile img {
+    width: 100%;
+    border: 2px solid #74726f;
+    border-radius: 20px;
+
+}
+
+/* INDEX STYLES*/
+
+footer {
+    background: #282b2d;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+
+    bottom: 0;
+}
+
+footer button, .tile button {
+    font-family : 'Ubuntu', sans-serif;
+    color : var(--light-color);
+    font-size: 20px;
+    font-weight: bold;
+
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+
+    margin: 10px;
+    padding: 0;
+
+
+    text-align: center;
+}
+
+footer button:hover, .tile button:hover {
+    opacity: 1;
+}
+
+#exit-button{
+    padding: 15px;
+    margin-left: 20px;
+}
+
+#git-icon {
+    height: 30px;
+
+    padding: 15px;
+    margin-right: 20px;
+
+    opacity:0.5;
+    transition: opacity 0.3s ease;
+}
+
+#git-icon:hover {
+    opacity:1;
+}
+
+#index-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#index-content p {
+    width: 60%;
+}
+
+.page-icon {
+    width: 200px;
+    height: 200px;
+
+    margin: 30px;
+
+    background: #282b2d;
+    border: 4px solid var(--light-color);
+    border-radius: 30px;
+    transition: border-opacity 0.3s ease-in-out;
+}
+
+
+.main-title {
+    font-size : 100px;
+    margin: 60px;
+}
+
+.pages-links {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+
+    position: relative;
+    top: 5%;
+}
+
+.main-page-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+
+    cursor: pointer;
+}
+
+.main-page-link:hover {
+    opacity: 1;
+}
+
+.page-name {
+    font-size : 30px;
+    font-weight : bold;
+
+    margin: 0;
+}
+
+
+/* NETWORKS PAGES STYLES*/
+
+header {
+    position: relative;
+    background-color: rgb(29, 31, 32);
+}
+
+.header-content {
+    display: flex;
+    height : 100px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    padding-bottom: 15px;
+}
+
+#network-selection {
+    background: none;
+    border: none;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 50px;
+    font-weight : bold;
+    color: var(--light-color);
+    background-color: rgb(29, 31, 32);
+    padding: 0;
+    margin: 0 -5px 0 13px;
+    outline: none; /* Supprime la bordure de focus */
+}
+
+#affichage_etape {
+    opacity : 0.5;
+    width : 100px;
+}
+
+#previouspage-icon, #nextpage-icon {position: relative;height : 65px;}
+#previouspage-link, #nextpage-link {width : 100px; cursor: pointer;}
+
+#previouspage-icon {left: 30px; transition: left 0.3s ease;}
+#previouspage-link:not(.disabled_button):hover #previouspage-icon {left: 0}
+
+#nextpage-icon {right: 0px; transition: right 0.3s ease;}
+#nextpage-link:not(.disabled_button):hover #nextpage-icon {right: -30px}
+
+
+.round-button {
+    height : 50px;
+    min-width : 50px;
+    border-radius : 25px;
+    margin : 10px;
+
+
+    transition: border 0.3s;
+    border: 2px solid #c0bab250;
+
+    cursor: pointer;
+}
+
+.round-button:hover:not(.disabled_button) {
+    border-color : var(--light-color);
+}
+
+.round-button:disabled {
+    opacity : 0.2;
+    border-color : var(--light-color);
+    cursor: not-allowed;
+}
+
+.round-button.disabled_button {
+    opacity : 0.2;
+    border-color : var(--light-color);
+    cursor: not-allowed;
+}
+
+#control-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#play-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius : 27px;
+}
+
+#play-button-icon {
+    height : 40px;
+    margin-right: 5px;
+}
+
+#rewind-button-icon {
+    height : 30px;
+}
+
+#input-nombre_passages {
+    background: none;
+    border: none;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 30px;
+    color: var(--light-color);
+    width: 50px;
+    height: 30px;
+    padding: 0;
+    margin: 0 -5px 0 13px;
+    outline: none;
+}
+
+#loading-bar-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    background-color: rgb(53, 57, 59);
+
+    transition: width 0.3s;
+    cursor: pointer;
+}
+
+#loading-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #FF0000;
+    transition: width 0.3s;
+}
+
+.main-content {
+    display: flex;
+    height: 100vh;
+}
+
+.left-content, .right-content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    width:50%;
+    height: 100%;
+}
+.right-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#image-display{
+    position: relative;
+}
+
+.image {
+    position : absolute;
+    top : 0;
+    left : 0;
+    width : 100%;
+
+}
+
+.arrow-propagation {
+    margin: 10px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.arrow-propagation:hover {
+    opacity: 1;
+}
+
+#schema {
+    width:80%;
+    aspect-ratio: 3/2;
+    z-index: 1;
+    margin: 20px;
+}
+
+#schema rect {
+    rx: 20px;
+    ry: 20px;
+}
+
+.point {
+    fill: #ff0000;
+}
+
+.ligne {
+    stroke: #42484a;
+    stroke-width: 20px;
+    transition: stroke-width 0.3s;
+}
+
+.schema-text {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    fill: var(--light-color);
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+
+}
+
+.schema-text:hover {
+    opacity: 1;
+
+}
+
+
+.schema-text-title {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    fill: var(--light-color);
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.schema-text-title:hover {
+    opacity: 1;
+}
+
+.layer-title {
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+.layer-title:hover {
+    opacity: 1;
+}
+
+#perceptron-title-left {
+    text-anchor: end;
+}
+
+#perceptron-title-right {
+    text-anchor: start;
+}
+
+.info-box, .page-icon {
+    fill: #282b2d;
+    stroke: var(--light-color);
+    stroke-width: 3px;
+    stroke-opacity: 0.5;
+    transition: stroke-opacity 0.3s ease-in-out;
+}
+
+.info-box:hover {
+    stroke-opacity: 1;
+}
+
+/* MORPION STYLE */
+
+
+#tictactoe-configuration {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#tictactoe-configuration div{
+    display: flex;
+    align-items: center;
+}
+
+
+#player1-selection, #player2-selection {
+    background: none;
+    border: none;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 30px;
+    font-weight : bold;
+    color: #BFBFBF;
+    background-color: #282b2d;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+#play-tictactoe-button{
+    height : 50px;
+    width : 100px;
+    border-radius : 25px;
+    margin : 10px;
+
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    font-weight : bold;
+    color: #BFBFBF;
+
+    transition: border 0.3s;
+    border: 2px solid #BFBFBF50;
+
+    cursor: pointer;
+}
+
+#play-tictactoe-button:disabled{
+    opacity : 0.2;
+    border-color : #BFBFBF;
+    cursor: not-allowed;
+}
+
+#play-tictactoe-button:hover:not(:disabled) {
+    border-color : #BFBFBF;
+}
+
+#board {
+    width:60%;
+    aspect-ratio: 1/1;
+    margin: auto;
+
+}
+
+.board-cell {
+    fill: transparent;
+}

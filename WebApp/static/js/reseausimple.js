@@ -37,7 +37,6 @@ function updateBar(toStep) {
             bar.style.width = '0';
     } else {
             let new_width = toStep * 100 / totalSteps;
-            console.log(new_width);
             bar.style.width = new_width + '%';
     }
     document.getElementById('affichage_etape').textContent = toStep;
@@ -80,10 +79,9 @@ function changeNetwork() {
 function startTraining() {
     disableButtons()
     var nombre_passages = parseInt(document.getElementById('input-nombre_passages').value, 10);
-    // console.log(nombre_passages);
     totalSteps += nombre_passages;
     socket.emit('training', {passages:nombre_passages});
-    return false;  // Empêche le formulaire de recharger la page
+    return false;
 }
 
 function restartTraining() {
@@ -111,8 +109,7 @@ function disableButtons() {
     np_button.style.cursor = "not-allowed";
     np_button.style.opacity = "0.2";
     np_button.classList.add('disabled_button');
-    
-    // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
+
     Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
 
     document.getElementById("network-selection").disabled = true;
@@ -179,11 +176,18 @@ document.querySelectorAll('.info-icon').forEach(function(icon) {
     if (icon.dataset.infoboxId != "null") {
         icon.addEventListener('click', function(event) {
     const infoboxId = icon.dataset.infoboxId;
-    console.log(infoboxId)
     const infobox = document.getElementById(infoboxId);
 
-    infobox.style.left = event.clientX + 'px';
-    infobox.style.top = event.clientY + 'px';
+    cx = event.clientX;
+    cy = event.clientY;
+
+    if (cx > (window.innerWidth - 400)){
+        infobox.style.left = cx-300 + 'px';
+        infobox.style.top = cy+10 + 'px';
+    } else {
+        infobox.style.left = cx + 'px';
+        infobox.style.top = cy+10 + 'px';
+    }
 
     infobox.classList.add('show');
   });

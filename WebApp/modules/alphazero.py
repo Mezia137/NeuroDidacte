@@ -437,7 +437,7 @@ class CFG(object):
 
 
     c_puct = 2                  # Niveau d'exploration utilise dans MCTS. Il controle le degre d'exploration versus l'exploitation dans l'algorithme de recherche MCTS.
-    temp_init = 1               # Parametre de temperature initial pour controler l'exploration. Il est utilise dans les strategies d'exploration-exploitation dans l'apprentissage par renforcement.
+    temp_init = 0.001              # Parametre de temperature initial pour controler l'exploration. Il est utilise dans les strategies d'exploration-exploitation dans l'apprentissage par renforcement.
     temp_final = 0.001            # Parametre de temperature final pour controler l'exploration. Il represente la temperature apres laquelle l'exploration est reduite.   
     temp_thresh = 10             # Seuil ou l'initialisation de la temperature passe a la finale. Il definit le point a partir duquel la temperature initiale est reduite jusqu'a la temperature finale.
     dirichlet_alpha = 0.5       # Valeur alpha pour le bruit de Dirichlet. Le bruit de Dirichlet est utilise pour augmenter la diversite des coups explores lors de la recherche MCTS.

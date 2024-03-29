@@ -36,7 +36,6 @@ class ReseauSimple:
         else:
             raise ValueError("Invalid weight_init option. Choose 'default', 'he' or 'xavier'.")
 
-        # self.stock = [[np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)]]
         self.stock = [[np.copy(self.W_1), np.copy(self.W_2), np.copy(self.b_1), np.copy(self.b_2)]]
         self.life = 0
         self.age = 0
@@ -68,20 +67,16 @@ class ReseauSimple:
     def dJdW_1(self, X, d1):
         return d1 @ X.T
 
-    def train(self, X, y, passages=1, lr=0.01):
-        n = passages // 50
+    def train(self, X, y, passages=1, lr=0.01, show_loading_bar=False):
         for _ in range(passages):
             self.life += 1
             self.age = self.life
-            # n = int(np.ceil(100*j/passages))
-            n = round(100 * (self.life + 1) / passages)
-            # print(f'|{n*"█"}{(100-n)*" "}|', end='\r')
-            print(f'{n * "▣"}{(100 - n) * "▢"}', end='\r')
+            if show_loading_bar:
+                n = round(100 * (self.life + 1) / passages)
+                print(f'{n * "▣"}{(100 - n) * "▢"}', end='\r')
             for i in range(X.shape[0]):
                 h = self.hidden(X[i], self.W_1, self.b_1)
                 o = self.output(h, self.W_2, self.b_2)
-
-                # backward propagation
 
                 d2 = self.delta_2(o, y[i])
                 djdb_2 = d2
@@ -109,10 +104,8 @@ class ReseauSimple:
         return y_hat
 
     def visualisation(self, X, y, savemod=False, folder="Saves", img_name=None, age=-1, nb_levels=10):
-        # plt.figure(figsize=(12, 8), facecolor=LIGHT_COLOR)
         plt.figure()
 
-        hh = .02
         x_r = X[:, 0].max() - X[:, 0].min()
         y_r = X[:, 1].max() - X[:, 1].min()
         x_min, x_max = X[:, 0].min() - x_r / 10, X[:, 0].max() + x_r / 10
@@ -121,8 +114,6 @@ class ReseauSimple:
                              np.arange(y_min, y_max, (y_max - y_min) / 100))
         Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], age=age))
         Z = Z.reshape(xx.shape)
-
-        # plt.title('Prédiction du réseau en fonction de la position', fontsize=16, color=LIGHT_COLOR)
 
         contour = plt.contourf(xx, yy, Z, alpha=1, levels=[i / nb_levels for i in range(nb_levels + 1)],
                                cmap='plasma')
@@ -135,41 +126,6 @@ class ReseauSimple:
                 img_name = f'fig{age:03d}.svg'
             img_path = os.path.join(folder, img_name)
             plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
-            # print(f'{img_name} generated')
-            plt.close()
-            return img_name
-        else:
-            plt.show()
-
-
-    def visualisationb(self, X, y, savemod=False, folder="Saves", img_name=None, age=-1, nb_levels=10):
-        # plt.figure(figsize=(12, 10), facecolor=LIGHT_COLOR)
-        fig, ax = plt.subplots(figsize=(10, 10))
-        if show_previsu:
-            hh = .02
-            x_r = X[:, 0].max() - X[:, 0].min()
-            y_r = X[:, 1].max() - X[:, 1].min()
-            x_min, x_max = X[:, 0].min() - x_r / 10, X[:, 0].max() + x_r / 10
-            y_min, y_max = X[:, 1].min() - y_r / 10, X[:, 1].max() + y_r / 10
-            xx, yy = np.meshgrid(np.arange(x_min, x_max, (x_max - x_min) / 100),
-                                 np.arange(y_min, y_max, (y_max - y_min) / 100))
-            Z = np.array(self.predict_list(np.c_[xx.ravel(), yy.ravel()], age=age))
-            Z = Z.reshape(xx.shape)
-
-            plt.contourf(xx, yy, Z, alpha=1, levels=[i / nb_levels for i in range(nb_levels + 1)], cmap='plasma')
-
-        ax.scatter(x=X[:, 0], y=X[:, 1], c=y, cmap='plasma', alpha=1, edgecolors='white', linewidths=0.5)
-        ax.axis('equal')
-        ax.legend()
-
-        # plt.colorbar(label='prediction')
-        plt.colorbar(label='prediction', boundaries=np.linspace(y.min(), y.max(), nb_levels + 1))
-        if savemod:
-            if img_name is None:
-                img_name = f'fig{age:03d}.svg'
-            img_path = os.path.join(folder, img_name)
-            plt.savefig(img_path, format='svg', transparent=True, bbox_inches='tight', pad_inches=0)
-            # print(f'{img_name} generated')
             plt.close()
             return img_name
         else:

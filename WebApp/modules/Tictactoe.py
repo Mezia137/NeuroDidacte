@@ -4,7 +4,7 @@ from modules.alphazero import NeuralNetworkWrapper
 
 
 class TicTacToe:
-    def __init__(self, player1, player2):
+    def __init__(self, player1, player2, cplayer=1):
         self.config = (player1, player2)
         self.board = np.zeros((3, 3), dtype=int)
         players_refs = {"0": PlayerHuman, "1": PlayerHasard, "2": PlayerNN}
@@ -13,7 +13,10 @@ class TicTacToe:
         self.player2 = players_refs[player2](self)
         self.player1.num = 1
         self.player2.num = -1
-        self.player = self.player1
+        if cplayer == 1:
+            self.player = self.player1
+        else:
+            self.player = self.player2
 
     def change_player(self):
         if self.player == self.player1:
@@ -22,9 +25,8 @@ class TicTacToe:
             self.player = self.player1
 
     def clone(self):
-        clone_game = TicTacToe(self.config[0], self.config[1])
+        clone_game = TicTacToe(self.config[0], self.config[1], cplayer=self.player.num)
         clone_game.board = np.copy(self.board)
-        clone_game.player = self.player
         return clone_game
 
     def print_board(self):
@@ -46,17 +48,18 @@ class TicTacToe:
         return np.array(valid_moves)
 
     def move(self, cell_id=None):
+        net_data = None
         if cell_id is not None:
             cell_id = int(cell_id)
             cell = ((cell_id - 1) // 3, (cell_id - 1) % 3)
+        elif isinstance(self.player, PlayerNN):
+            cell, net_data = self.player.make_move()
         else:
             cell = self.player.make_move()
 
-        print(cell)
         self.board[cell[0], cell[1]] = self.player.num
-        self.print_board()
         self.change_player()
-        return int(cell[0] * 3 + cell[1] + 1)
+        return int(cell[0] * 3 + cell[1] + 1), net_data
 
     def is_winner(self):
         for i in range(3):
@@ -124,15 +127,10 @@ class PlayerNN:
     def __init__(self, game, level=0):
         self.game = game
         if level == 0:
-            self.network = NeuralNetworkWrapper(game, model="./models2/")
+            self.network = NeuralNetworkWrapper(game, model="./models/")
 
     def make_move(self):
-        state = self.game.board
         move_probs = self.network.play(self.game.clone())
-        print(move_probs)
         best_move_index = np.argmax(move_probs)
-        print(best_move_index)
         best_move = (best_move_index // 3, best_move_index % 3)
-        print(best_move)
-        return (best_move[0],best_move[1])
-        return best_move_index
+        return (best_move[0], best_move[1]), move_probs

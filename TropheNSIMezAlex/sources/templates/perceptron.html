@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perceptron</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+    <link rel="icon" type="image/png" href="../static/icons/favicon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Précédent" id="previouspage-icon"></div></a>
+
+            <div style="display: flex;">
+                <h1>PERCEPTRON</h1>
+                <img class="info-icon" style="left: -90px;" src="../static/icons/info.svg" data-infobox-id="null"  onclick="document.getElementById('perceptron-tile').classList.toggle('active')"/>
+            </div>
+            <h1 id="affichage_etape">0</h1>
+            <div id="control-buttons-container">
+                <img class="info-icon" style="right: 10px;" src="../static/icons/info.svg" data-infobox-id="infobox1"/>
+                <div class="round-button" id="play-button-container">
+                    <input type="number" id="input-nombre_passages" name="nombre de passages" value=10 min="1" max="99">
+                    <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Jouer" id="play-button-icon"></button>
+                </div>
+                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Revenir en arrière" id="rewind-button-icon"></button>
+            </div>
+
+            <a href="{{ url_for('reseausimple') }}"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Suivant" id="nextpage-icon"></div></a>
+
+        </div>
+
+        <div id="loading-bar-container"><div id="loading-bar" ></div></div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-content">
+            <div id="image-display">
+            </div>
+
+
+        </div>
+        <div class="right-content">
+            <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%" onclick="document.getElementById('forward-tile').classList.toggle('active')">
+            <svg id="schema">
+
+                <line class="ligne" id="w0" x1="10%" y1="32%" x2="40%" y2="50%"/>
+                <line class="ligne" id="w1" x1="10%" y1="68%" x2="40%" y2="50%"/>
+
+                <line class="ligne" id="b" x1="30%" y1="18%" x2="40%" y2="50%"/>
+
+                <rect class="info-box" x="2%" y="25%" width="15%" height="50%"/>
+                <circle class="info-box" cx="30%" cy="18%" r="7%"/>
+
+                <image class="info-box" href="../static/icons/perceptron.svg" x="30%" y="30%" width="40%" height="40%"/>
+
+                <rect class="info-box" x="70%" y="40%" width="19%" height="21%"/>
+
+                <text x="42.5%" y="85%" class="schema-text-title" id="perceptron-title-left">
+                    <tspan x="43.5%" dy="-1em">FONCTION</tspan>
+                    <tspan x="42.5%" dy="1.1em">DE SOMME</tspan>
+                </text>
+                <text x="52%" y="85%" class="schema-text-title" id="perceptron-title-right">
+                    <tspan x="52%" dy="-1em">FONCTION</tspan>
+                    <tspan x="52%" dy="1.1em">D'ACTIVATION</tspan>
+                </text>
+
+
+                <text x="4%" y="50%" class="schema-text">
+                    <tspan>position</tspan>
+                    <tspan x="4%" dy="25px">du point</tspan>
+                </text>
+                <text x="13%" y="37%" class="schema-text-title">
+                    <tspan>X</tspan>
+                    <tspan x="13%" dy="30%">Y</tspan>
+                </text>
+                <text x="27%" y="22%" class="schema-text">biais</text>
+                <text x="72%" y="52%" class="schema-text">
+                    <tspan>probabilité</tspan>
+                    <tspan x="72%" dy="25px">couleur</tspan>
+                </text>
+
+                <image class="info-icon" x="3.3%" y="27%" href="../static/icons/info.svg" data-infobox-id="infobox2"/>
+                <image class="info-icon" x="28%" y="11%" href="../static/icons/info.svg" data-infobox-id="infobox3"/>
+                <image class="info-icon" x="71.3%" y="42%" href="../static/icons/info.svg" data-infobox-id="infobox4"/>
+                <image class="info-icon" x="20%" y="75.5%" href="../static/icons/info.svg" data-infobox-id="infobox5"/>
+                <image class="info-icon" x="71%" y="75.5%" href="../static/icons/info.svg" data-infobox-id="infobox6"/>
+
+            </svg>
+            <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%" onclick="document.getElementById('backward-tile').classList.toggle('active')">
+        </div>
+    </div>
+    <div id="infobox1" class="infobox"><p>Ici vous pouvez contrôler l'entraînement du perceptron. Sélectionnez le nombre de passages du jeu de données et lancez l'entraînement avec la flèche. Vous pourrez ensuite revenir aux étapes précédentes en utilisant la barre d'avancement ou le réinitialiser avec le bouton réinitialiser.</p></div>
+    <div id="infobox2" class="infobox"><p>Les données d'entrée sont l'abscisse et l'ordonnée du point. Elles sont multipliées par leur poids respectifs et sommées avec le biais.</p></div>
+    <div id="infobox3" class="infobox"><p>Le biais est un nombre qui est ajouté à la somme des données d'entrée.</p></div>
+    <div id="infobox4" class="infobox"><p>Dans cet exemple, la sortie du perceptron est un nombre compris entre 0 et 1 qui nous donne la probabilité de couleur du point à la position donnée en entrée (bleu plus on se rapproche de 0 et orange plus on se rapproche de 1).</p></div>
+    <div id="infobox5" class="infobox"><p>La fonction somme va simplement sommer les données d'entrée multipliées par leurs poids et le biais et ce résultat sera entré dans la fonction d'activation.</p></div>
+    <div id="infobox6" class="infobox"><p>La fonction d'activation va prendre en entrée le résultat de la fonction somme et sortir le résultat du perceptron. Ici c'est la fonction sigmoïde donc on est assurés que le résultat est entre 0 et 1.</p></div>
+    <div class='tile' id="perceptron-tile">
+        <button class="exit-tile-button" onclick="document.getElementById('perceptron-tile').classList.toggle('active')">fermer</button>
+        <div class="tile-content">
+            <h1>PERCEPTRON</h1>
+            <div style="margin: 50px 0;">
+                <p>Cette page vous présente le fonctionnement du perceptron, le neurone d'un réseau de neurones.</p>
+                <br>
+                <p>Le <a href="https://fr.wikipedia.org/wiki/Perceptron" target="_blank">perceptron</a> est un modèle mathématique inspiré du fonctionnement des neurones du cerveau humain. Il est utilisé en intelligence artificielle pour résoudre des problèmes de classification et de prédiction. Concrètement, il s'agit d'un algorithme qui prend des données en entrée, les traite et fournit des prédictions en sortie.</p>
+                <br>
+                <p>Le perceptron fonctionne en combinant linéairement les données d'entrée pondérées par des coefficients, puis en appliquant une fonction d'activation pour produire une sortie. Cette sortie est comparée à des valeurs cibles pour évaluer la performance du modèle, et les poids du perceptron sont ajustés en conséquence pour minimiser les erreurs.</p>
+                <br>
+                <p>Ici, notre perceptron est utilisé pour distinguer les points bleus des points oranges en fonction de leur position. L'image de la partie gauche montre le jeu de données donné à l'entraînement du perceptron (les points) et la prédiction que fait le perceptron pour chaque position (le fond en dégradé). La partie jaune indique donc que le perceptron prédit comme orange tout point de cette partie, la partie bleue indique l'inverse et le dégradé est la zone où il est moins sûr. On observe que plus on l'entraîne, plus le dégradé s'affine.</p>
+                <br>
+                <br>
+                <p>La partie droite vous montre le schéma de notre perceptron : </p>
+                <ul>
+                  <li>Il a deux entrées pour les positions X et Y d'un point donné, l'épaisseur des liens montre l'importance de leur poids.</li>
+                  <li>On voit aussi son biais dont l'importance est aussi montrée par l'épaisseur de sa liaison.</li>
+                  <li>Le tout est sommé dans la fonction somme.</li>
+                  <li>Enfin, on voit la fonction d'activation à la fin qui va rendre le résultat exploitable.</li>
+                </ul>
+                <p>Vous pouvez entraîner ce perceptron à différencier la zone des points bleus de celle des points oranges avec les contrôles en haut à droite en sélectionnant le nombre de passages du jeu de données et en cliquant sur le bouton <em>jouer</em>. Ensuite, vous pouvez naviguer dans l'apprentissage avec la barre rouge ou le réinitialiser avec le bouton <em>réinitialiser</em>.</p>
+                <br>
+                <p>Pour plus d'informations, n'hésitez pas à cliquer sur les points d'interrogation ou sur les boutons <em>forward propagation</em> et <em>backward propagation</em>.</p>
+            </div>
+
+        </div>
+    </div>
+    <div class='tile' id="forward-tile">
+        <button class="exit-tile-button" onclick="document.getElementById('forward-tile').classList.toggle('active')">fermer</button>
+        <div class="tile-content">
+            <h1>FORWARD PROPAGATION</h1>
+            <div style="margin: 50px 0;">
+                <p>La forward propagation est le processus par lequel les données sont transmises à travers les différentes couches du perceptron pour produire une prédiction en sortie :</p>
+                <br>
+                <img src="../static/images/perceptron-forward.png" width="100%"/>
+                <br>
+                <br>
+                <p>Dans notre cas, chaque point du plan est représenté par ses coordonnées, qui sont les données d'entrée du perceptron (X et Y). Ces données sont combinées linéairement avec les poids du modèle (représentés par l'épaisseur des liaisons), puis passent à travers une <a href="https://fr.wikipedia.org/wiki/Fonction_d%27activation" target="_blank">fonction d'activation</a>, généralement une fonction sigmoïde, qui produit une probabilité de couleur pour chaque point.</p>
+                <br>
+                <p>La fonction <a href="https://fr.wikipedia.org/wiki/Sigmo%C3%AFde_(math%C3%A9matiques)" target="_blank">sigmoïde</a> est une fonction mathématique qui prend en entrée une valeur réelle et la transforme en une valeur entre 0 et 1. Elle est utilisée ici pour modéliser la probabilité qu'un point soit bleu ou orange en fonction de sa position sur le plan.</p>
+                <br>
+            </div>
+
+        </div>
+    </div>
+    <div class='tile' id="backward-tile">
+        <button class="exit-tile-button" onclick="document.getElementById('backward-tile').classList.toggle('active')">fermer</button>
+        <div class="tile-content">
+            <h1>BACKWARD PROPAGATION</h1>
+            <div style="margin: 50px 0;">
+                <p>La backward propagation est le processus par lequel les erreurs de prédiction sont propagées en arrière à travers le réseau de neurones pour ajuster ses poids et ses biais. L'objectif est de minimiser les différences entre les prédictions du modèle et les valeurs cibles en modifiant ses paramètres internes.</p>
+                <br>
+                <img src="../static/images/perceptron-backward.png" width="100%"/>
+                <br>
+                <br>
+                <p>Après avoir calculé les prédictions du perceptron, une fonction de perte est utilisée pour mesurer l'écart entre ces prédictions et les valeurs cibles. Cette erreur est ensuite rétro-propagée à travers les différentes couches du perceptron à l'aide de la <a href="https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_d%C3%A9rivation_des_fonctions_compos%C3%A9es" target="_blank">règle de la chaîne</a>, permettant de calculer les <a href="https://fr.wikipedia.org/wiki/Algorithme_du_gradient" target="_blank">gradients</a> des poids par rapport à la fonction de perte.</p>
+                <br>
+                <p>En ajustant les poids du modèle en fonction de ces gradients, le perceptron est capable d'apprendre à mieux représenter les données d'entrée et à améliorer ses performances de prédiction. Dans notre exemple, cela se traduit par une meilleure capacité à distinguer les points bleus des points oranges en fonction de leur position sur le plan.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/perceptron.js') }}"></script>
+</body>
+</html>

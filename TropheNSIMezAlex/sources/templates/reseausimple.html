@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseau Simple</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+    <link rel="icon" type="image/png" href="../static/icons/favicon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+
+            <a href="{{ url_for('perceptron') }}"><div id="previouspage-link"><img src="../static/icons/previous.svg" alt="Previous" id="previouspage-icon"></div></a>
+            <div style="display: flex;">
+                <select id="network-selection" onchange="changeNetwork()">
+                      <option value="1">RESEAU SIMPLE 1</option>
+                      <option value="2">RESEAU SIMPLE 2</option>
+                </select>
+                <img class="info-icon" style="left: 20px;" src="../static/icons/info.svg" onclick="document.getElementById('reseau-tile').classList.toggle('active')" data-infobox-id="null"/>
+            </div>
+
+            <h1 id="affichage_etape">0</h1>
+            <div id="control-buttons-container">
+                <img class="info-icon" style="right: 10px;" src="../static/icons/info.svg" data-infobox-id="infobox1"/>
+                <div class="round-button" id="play-button-container">
+                    <input type="number" id="input-nombre_passages" name="nombre de passages" value=10 min="1" max="99">
+                    <button onclick="startTraining()"><img src="../static/icons/play.svg" alt="Play" id="play-button-icon"></button>
+                </div>
+                <button class="round-button" onclick="restartTraining()"><img src="../static/icons/rewind.svg" alt="Rewind" id="rewind-button-icon"></button>
+            </div>
+
+            <a href="{{ url_for('tictactoe') }}"><div id="nextpage-link"><img src="../static/icons/next.svg" alt="Next" id="nextpage-icon"></div></a>
+
+        </div>
+
+        <div id="loading-bar-container"><div id="loading-bar" ></div></div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-content">
+            <div id="image-display">
+
+            </div>
+
+
+        </div>
+        <div class="right-content">
+            <img class="arrow-propagation" src="../static/icons/fparrow.svg" width="60%" onclick="document.getElementById('forward-tile').classList.toggle('active')">
+            <svg id="schema">
+
+                <text x="22%" y="8%" class="schema-text-title layer-title" id="input-layer-title">
+                    <tspan x="22%" dy="-1em">COUCHE</tspan>
+                    <tspan x="22%" dy="1.1em">D'ENTRÉE</tspan>
+                </text>
+
+                <text x="50%" y="8%" class="schema-text-title layer-title" id="hidden-layer-title">
+                    <tspan x="50%" dy="-1em">COUCHE</tspan>
+                    <tspan x="50%" dy="1.1em">CACHÉE</tspan>
+                </text>
+
+                <text x="78%" y="8%" class="schema-text-title layer-title" id="output-layer-title">
+                    <tspan x="78%" dy="-1em">COUCHE</tspan>
+                    <tspan x="78%" dy="1.1em">DE SORTIE</tspan>
+                </text>
+
+                <rect id="input-layer-box" class="info-box net-layer" x="13%" y="12%" width="18%" height="86%"/>
+                <rect id="hidden-layer-box" class="info-box net-layer" x="41%" y="12%" width="18%" height="86%"/>
+                <rect id="output-layer-box" class="info-box net-layer" x="69%" y="12%" width="18%" height="86%"/>
+
+                <line class="ligne" id="w000" x1="22%" y1="39%" x2="50%" y2="23%"/>
+                <line class="ligne" id="w010" x1="22%" y1="39%" x2="50%" y2="55%"/>
+                <line class="ligne" id="w020" x1="22%" y1="39%" x2="50%" y2="87%"/>
+
+                <line class="ligne" id="w001" x1="22%" y1="71%" x2="50%" y2="23%"/>
+                <line class="ligne" id="w011" x1="22%" y1="71%" x2="50%" y2="55%"/>
+                <line class="ligne" id="w021" x1="22%" y1="71%" x2="50%" y2="87%"/>
+
+                <line class="ligne" id="w10" x1="50%" y1="23%" x2="78%" y2="55%"/>
+                <line class="ligne" id="w11" x1="50%" y1="55%" x2="78%" y2="55%"/>
+                <line class="ligne" id="w12" x1="50%" y1="87%" x2="78%" y2="55%"/>
+
+                <circle class="point" cx="22%" cy="39%" r="20" fill="#ff0000"/>
+                <circle class="point" cx="22%" cy="71%" r="20" fill="#ff0000"/>
+
+                <circle class="point" cx="50%" cy="23%" r="20" fill="#ff0000"/>
+                <circle class="point" cx="50%" cy="55%" r="20" fill="#ff0000"/>
+                <circle class="point" cx="50%" cy="87%" r="20" fill="#ff0000"/>
+
+                <circle class="point" cx="78%" cy="55%" r="20" fill="#ff0000"/>
+
+                <rect class="info-box" x="2%" y="30%" width="15%" height="50%"/>
+                <rect class="info-box" x="82%" y="40%" width="17.5%" height="21%"/>
+
+                <text x="4%" y="53%" class="schema-text">
+                    <tspan>position</tspan>
+                    <tspan x="4%" dy="25px">du point</tspan>
+                </text>
+                <text x="13%" y="41%" class="schema-text-title">
+                    <tspan>X</tspan>
+                    <tspan x="13%" dy="32%">Y</tspan>
+                </text>
+
+                <text x="83.5%" y="52%" class="schema-text">
+                    <tspan>probabilité</tspan>
+                    <tspan x="83.5%" dy="25px">couleur</tspan>
+                </text>
+
+                <image class="info-icon" x="3.3%" y="32%" href="../static/icons/info.svg" data-infobox-id="infobox2"/>
+                <image class="info-icon" x="14.2%" y="13.7%" href="../static/icons/info.svg" data-infobox-id="infobox3"/>
+                <image class="info-icon" x="42.2%" y="13.7%" href="../static/icons/info.svg" data-infobox-id="infobox4"/>
+                <image class="info-icon" x="70.1%" y="13.7%" href="../static/icons/info.svg" data-infobox-id="infobox5"/>
+                <image class="info-icon" x="83.2%" y="41.7%" href="../static/icons/info.svg" data-infobox-id="infobox6"/>
+            </svg>
+            <img class="arrow-propagation" src="../static/icons/bparrow.svg" width="60%" onclick="document.getElementById('backward-tile').classList.toggle('active')">
+        </div>
+    </div>
+    <div id="infobox1" class="infobox"><p>Ici, vous pouvez contrôler l'entraînement du perceptron. Sélectionnez le nombre de passages du jeu de données et lancez l'entraînement avec la flèche. Vous pourrez ensuite revenir aux étapes précédentes en utilisant la barre d'avancement ou la réinitialiser avec le bouton "réinitialiser".</p></div>
+<div id="infobox2" class="infobox"><p>Les données d'entrée sont l'abscisse et l'ordonnée du point. Elles sont multipliées par leurs poids respectifs et sommées avec le biais.</p></div>
+<div id="infobox3" class="infobox"><p>La couche d'entrée comporte des neurones qui vont simplement prendre les données d'entrée, ici la position du point, mais qui ne vont pas les traiter. Cette couche sert simplement à distribuer ces données aux couches suivantes.</p></div>
+<div id="infobox4" class="infobox"><p>Lorsque la ou les couches cachées reçoivent les données, elles les traitent et les passent à la couche suivante. Les données suivent les chemins gris et c'est ce parcours qui permet aux perceptrons de résoudre ensemble des problèmes non linéaires. Ici, une seule couche cachée suffit.</p></div>
+<div id="infobox5" class="infobox"><p>La couche de sortie est comme une couche cachée mais elle doit renvoyer les données dans un format exploitable après les avoir traitées, ici un nombre entre 0 et 1.</p></div>
+<div id="infobox6" class="infobox"><p>Dans cet exemple, la sortie du perceptron est un nombre compris entre 0 et 1 qui nous donne la probabilité de la couleur du point à la position donnée en entrée (bleue plus on se rapproche de 0 et orange plus on se rapproche de 1).</p></div>
+<div class='tile' id="reseau-tile">
+    <button class="exit-tile-button" onclick="document.getElementById('reseau-tile').classList.toggle('active')">fermer</button>
+    <div class="tile-content">
+        <h1>RESEAU SIMPLE</h1>
+        <div style="margin: 50px 0;">
+            <p>Maintenant que vous savez ce qu'est le perceptron, nous allons pouvoir voir ce qu'est le réseau de neurones dont il fait partie.</p>
+            <br>
+            <p>Les <a href="https://fr.wikipedia.org/wiki/R%C3%A9seau_de_neurones_artificiels" target="_blank">réseaux de neurones</a> sont donc des modèles mathématiques inspirés du fonctionnement du cerveau humain. Ils sont utilisés en intelligence artificielle pour résoudre une variété de problèmes tels que la classification, la prédiction et la reconnaissance de motifs, mais beaucoup plus complexes que ceux des perceptrons. Ces réseaux sont constitués de plusieurs couches de neurones interconnectés, qui transforment les données en entrée en des prédictions ou des classifications.</p>
+            <br>
+            <p>Un réseau de neurones simple est composé de 3 types de couches :</p>
+            <ul>
+              <li>La couche d'entrée qui va simplement distribuer les données d'entrée aux couches cachées.</li>
+              <li>La ou les couches cachées qui vont chacune traiter ces données ; chaque neurone est un perceptron donc le traitement est le même que celui vu sur la page précédente, simplement il va être répété un certain nombre de fois dans une certaine configuration pour traiter des problèmes beaucoup plus complexes que le perceptron n'est capable.</li>
+              <li>La couche de sortie qui se comporte comme une couche cachée mais qui doit sortir des données dans un format exploitable.</li>
+            </ul>
+            <p>L'architecture du réseau dépend de la tâche qu'il doit effectuer.</p>
+            <br>
+            <p>Dans notre cas, on retrouve comme sur la page précédente les données traitées à gauche et le réseau à droite. Les données traitées sont beaucoup plus nombreuses que celles pour le perceptron car plus un réseau est gros plus il a besoin de données pour s'entraîner. En changeant le jeu de données, on remarque aussi qu'il n'est pas limité qu'aux problèmes linéaires. Sur le réseau, on observe les liaisons qui changent d'épaisseur au fur et à mesure de l'apprentissage, c'est pour représenter le poids de données qui y transitent. On ne voit pas les biais par souci de présentation, mais ils sont bien présents dans chacun des perceptrons.</p>
+            <br>
+            <p>Vous pouvez entraîner ce réseau à différencier la zone des points bleus de celle des points oranges avec les contrôles en haut à droite en sélectionnant le nombre de passages du jeu de données et en cliquant sur le bouton "jouer". Ensuite, vous pouvez naviguer dans l'apprentissage avec la barre rouge ou le réinitialiser avec le bouton "réinitialiser". Vous pouvez aussi changer les données d'apprentissage en cliquant sur le nom du réseau.</p>
+            <br>
+            <p>Pour plus d'informations, n'hésitez pas à cliquer sur les points d'interrogation ou sur les boutons "forward propagation" et "backward propagation".</p>
+        </div>
+    </div>
+</div>
+<div class='tile' id="forward-tile">
+    <button class="exit-tile-button" onclick="document.getElementById('forward-tile').classList.toggle('active')">fermer</button>
+    <div class="tile-content">
+        <h1>FORWARD PROPAGATION</h1>
+        <div style="margin: 50px 0;">
+            <br>
+            <br>
+            <img src="../static/images/reseau-forward.png" width="100%"/>
+            <br>
+            <br>
+            <p>La forward propagation est le processus par lequel les données sont transmises à travers les différentes couches d'un réseau de neurones pour produire une prédiction en sortie. Ce processus se déroule en plusieurs étapes clés :</p>
+            <br>
+            <p>1. <strong>Propagation des Entrées :</strong> Les données d'entrée sont propagées à travers le réseau, couche par couche. Chaque neurone dans la couche d'entrée reçoit les données d'entrée et les transmet aux neurones de la couche suivante.</p>
+            <br>
+            <p>2. <strong>Combinaison Linéaire :</strong> Dans chaque couche, les entrées sont combinées linéairement avec les poids associés à chaque connexion neuronale. C'est la fonction somme du perceptron.</p>
+            <br>
+            <p>3. <strong>Fonction d'Activation :</strong> Après la combinaison linéaire, la sortie de chaque neurone est passée à travers une <a href="https://fr.wikipedia.org/wiki/Fonction_d%27activation" target="_blank">fonction d'activation</a> non linéaire. Cette fonction introduit une non-linéarité dans le réseau, permettant au réseau de capturer des relations complexes entre les données d'entrée et de sortie.</p>
+            <br>
+            <p>4. <strong>Propagation des Sorties :</strong> Les sorties des neurones dans chaque couche deviennent les entrées des neurones de la couche suivante. Ce processus est répété jusqu'à ce que les données atteignent la couche de sortie du réseau.</p>
+            <br>
+            <p>5. <strong>Prédiction en Sortie :</strong> Une fois que les données ont été propagées à travers toutes les couches du réseau, la couche de sortie produit une prédiction finale. Cette prédiction peut être utilisée pour effectuer des tâches telles que la classification, la régression ou la génération de séquences.</p>
+            <br>
+            <br>
+            <p>Notre cas reste le même problème de classification que pour le perceptron, bien évidemment ces problèmes sont des exemples car ils pourraient être résolus avec des méthodes de régression beaucoup plus simples mais ils permettent tout de même de bien visualiser ce que fait le réseau.</p>
+        </div>
+    </div>
+</div>
+<div class='tile' id="backward-tile">
+    <button class="exit-tile-button" onclick="document.getElementById('backward-tile').classList.toggle('active')">fermer</button>
+    <div class="tile-content">
+        <h1>BACKWARD PROPAGATION</h1>
+        <div style="margin: 50px 0;">
+            <br>
+            <br>
+            <img src="../static/images/reseau-backward.png" width="100%"/>
+            <br>
+            <br>
+            <p>La backward propagation est le processus par lequel les erreurs de prédiction sont propagées en arrière à travers le réseau de neurones pour ajuster ses poids et ses biais. Ce processus comprend plusieurs étapes importantes :</p>
+            <br>
+            <p>1. <strong>Calcul de l'Erreur :</strong> Tout d'abord, l'erreur entre les prédictions du réseau et les valeurs cibles est calculée à l'aide d'une fonction de perte, comme l'<a href="https://fr.wikipedia.org/wiki/Erreur_quadratique_moyenne" target="_blank">erreur quadratique moyenne</a> (MSE) pour les tâches de régression ou l'<a href="https://fr.wikipedia.org/wiki/Entropie_crois%C3%A9e" target="_blank">entropie croisée</a> pour les tâches de classification.</p>
+            <br>
+            <p>2. <strong>Propagation de l'Erreur :</strong> Ensuite, l'erreur est propagée en arrière à travers le réseau à l'aide de la <a href="https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_d%C3%A9rivation_des_fonctions_compos%C3%A9es" target="_blank">règle de la chaîne</a>. Cette propagation de l'erreur permet de calculer les <a href="https://fr.wikipedia.org/wiki/Algorithme_du_gradient" target="_blank">gradients</a> des poids par rapport à la fonction de perte, ce qui indique dans quelle direction et dans quelle mesure les poids doivent être ajustés pour minimiser l'erreur.</p>
+            <br>
+            <p>3. <strong>Mise à Jour des Poids :</strong> Les gradients des poids sont utilisés pour mettre à jour les poids du réseau à l'aide d'algorithmes d'optimisation. Cette mise à jour des poids permet au réseau de s'ajuster progressivement pour mieux représenter les données d'entrée et améliorer ses performances de prédiction.</p>
+            <br>
+            <p>4. <strong>Répétition du Processus :</strong> La backward propagation est généralement répétée sur plusieurs mini-batchs de données pour entraîner le réseau sur l'ensemble du jeu de données. Ce processus d'entraînement itératif permet au réseau de converger vers des poids optimaux qui minimisent l'erreur de prédiction sur les données d'entraînement.</p>
+            <br>
+            <br>
+            <p>Dans notre cas, la backward propagation ajuste les poids et les biais du réseau pour minimiser l'erreur de classification entre les points bleus et les points oranges. En ajustant les poids du réseau, le processus d'apprentissage permet au réseau de mieux représenter les relations entre les données d'entrée et de produire des prédictions plus précises.</p>
+        </div>
+    </div>
+</div>
+
+
+    <script src="{{ url_for('static', filename='js/reseausimple.js') }}"></script>
+</body>
+</html>

@@ -5,6 +5,25 @@
 	--dark-color : #353535;
 }
 
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./Ubuntu-R.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./Ubuntu-B.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('./Ubuntu-RI.ttf') format('truetype');
+    font-style: italic;
+    font-weight: normal;
+}
+
 body {
     font-family : 'Ubuntu', sans-serif;
     font-size: 20px;
@@ -14,7 +33,7 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Utilisation de 100% de la hauteur de la fenêtre */
+    height: 100vh;
 }
 
 h1 {
@@ -26,8 +45,7 @@ h1 {
 }
 
 a {
-    all: unset; /* Réinitialise tous les styles par défaut du lien */
-    /* Ajoutez d'autres styles personnalisés si nécessaire */
+    all: unset;
 
     cursor: pointer;
 }
@@ -131,9 +149,18 @@ p {
   width: 1000px; /* Largeur du div */
   margin-left: auto; /* Marge à gauche automatique */
   margin-right: auto;
-  /*border: 1px solid red;*/
   padding: 20px;
   overflow: auto;
+}
+
+.tile a {
+    border-bottom: 2px solid var(--light-color);;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tile a:hover {
+    color: rgb(40, 43, 45);
+    background-color: var(--light-color);
 }
 
 .tile img {
@@ -202,6 +229,10 @@ footer button:hover, .tile button:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
+}
+
+#index-content p {
+    width: 60%;
 }
 
 .page-icon {
@@ -274,7 +305,7 @@ header {
 #network-selection {
     background: none;
     border: none;
-    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
     font-size: 50px;
     font-weight : bold;
     color: var(--light-color);
@@ -353,36 +384,36 @@ header {
 #input-nombre_passages {
     background: none;
     border: none;
-    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
     font-size: 30px;
     color: var(--light-color);
     width: 50px;
     height: 30px;
     padding: 0;
     margin: 0 -5px 0 13px;
-    outline: none; /* Supprime la bordure de focus */
+    outline: none;
 }
 
 #loading-bar-container {
     position: absolute;
-    bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
+    bottom: 0;
     left: 0;
-    height: 5px; /* Hauteur de la barre de chargement */
-    width: 100%; /* La largeur initiale est 0, elle augmentera avec l'animation */
-    background-color: rgb(53, 57, 59); /* Couleur de la barre de chargement */
+    height: 5px;
+    width: 100%;
+    background-color: rgb(53, 57, 59);
 
-    transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+    transition: width 0.3s;
     cursor: pointer;
 }
 
 #loading-bar {
     position: absolute;
-    bottom: 0; /* Ajustez en fonction de la hauteur de votre header */
+    bottom: 0;
     left: 0;
-    height: 100%; /* Hauteur de la barre de chargement */
-    width: 0; /* La largeur initiale est 0, elle augmentera avec l'animation */
-    background-color: #FF0000; /* Couleur de la barre de chargement */
-    transition: width 0.3s; /* Animation de la largeur de la barre de chargement */
+    height: 100%;
+    width: 0;
+    background-color: #FF0000;
+    transition: width 0.3s;
 }
 
 .main-content {
@@ -449,7 +480,7 @@ header {
 }
 
 .schema-text {
-    font-family:Ubuntu;
+    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
     font-weight: bold;
     fill: var(--light-color);
@@ -465,7 +496,7 @@ header {
 
 
 .schema-text-title {
-    font-family:Ubuntu;
+    font-family: 'Ubuntu', sans-serif;
     font-size: 25px;
     font-weight: bold;
     fill: var(--light-color);
@@ -511,13 +542,13 @@ header {
 
 #tictactoe-configuration {
     width: 80%;
-    display: flex; /* Utilisation de flexbox */
+    display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 #tictactoe-configuration div{
-    display: flex; /* Utilisation de flexbox */
+    display: flex;
     align-items: center;
 }
 
@@ -525,7 +556,7 @@ header {
 #player1-selection, #player2-selection {
     background: none;
     border: none;
-    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
     font-size: 30px;
     font-weight : bold;
     color: #BFBFBF;
@@ -541,7 +572,7 @@ header {
     border-radius : 25px;
     margin : 10px;
 
-    font-family: 'Ubuntu', sans-serif; /* Utilise la police Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
     font-weight : bold;
     color: #BFBFBF;

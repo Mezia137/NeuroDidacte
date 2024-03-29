@@ -14,6 +14,7 @@ var player_asset = "cross";
 var playing = false;
 var human_turn = false;
 var human_choice = null;
+var waiting_request = false;
 
 for (let i = 0; i < 3; i++) {
   for (let j = 0; j < 3; j++) {
@@ -24,7 +25,6 @@ for (let i = 0; i < 3; i++) {
       y: `${(i * cellSize) + (cellSize - imageSize) / 2}%`,
       width: `${imageSize}%`,
       height: `${imageSize}%`,
-      //display: "None",
       visibility: "hidden",
     };
 
@@ -33,7 +33,6 @@ for (let i = 0; i < 3; i++) {
         Object.keys(image_attributes).forEach(key => image.setAttributeNS(null, key, image_attributes[key]));
         image.setAttribute("href", `../static/icons/${file_name}.svg`);
         image.setAttribute("id", `${file_name}${i * 3 + j + 1}`);
-        //image.setAttribute("style", "z-index: 99;");
         board.appendChild(image);
     });
 
@@ -54,7 +53,7 @@ for (let i = 0; i < 3; i++) {
     board.appendChild(cell);
 
     const new_cell=document.getElementById(`cell${i * 3 + j + 1}`)
-    new_cell.addEventListener("mouseenter", () => {
+    new_cell.addEventListener("mouseover", () => {
         if (human_turn && new_cell.getAttribute("data-index")==="free"){
             if (player_asset === "cross") {
                 document.getElementById(`cross-shadow${i * 3 + j + 1}`).style.visibility = "visible";
@@ -99,7 +98,6 @@ function play() {
     init_board();
     player1 = document.getElementById('player1-selection').value;
     player2 = document.getElementById('player2-selection').value;
-    console.log(player1+player2);
 
     document.querySelectorAll("#board > image").forEach(image => {
         image.style.opacity = "1";
@@ -107,16 +105,19 @@ function play() {
     
     socket.emit('play', {p1:player1, p2:player2});
     player = player1;
-    disableButtons()
+    disableButtons();
     game_loop();
+
 }
 
 async function game_loop(){
     var iterations = 0;
+    setTimeout( async function() {
     while (iterations < 9 && playing){
         if (player != "0") {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            socket.emit('move');
+            waiting_request = true;
+            setTimeout(function() {socket.emit('move')}, 500);
+            while (waiting_request) {await new Promise(resolve => setTimeout(resolve, 100));};
 
         } else {
             human_turn = true;
@@ -124,7 +125,7 @@ async function game_loop(){
             socket.emit('move', human_choice);
         }
         if (player === player1){
-            player = player2;
+            player = player2
         } else {
             player = player1;
         }
@@ -134,7 +135,7 @@ async function game_loop(){
     }
     if (playing){
         end_game();
-    }
+    }},500);
 
 }
 
@@ -144,12 +145,13 @@ function end_game(win_cells=[]){
             image.style.opacity = "0.5";
         }
     });
-    reableButtons()
+    reableButtons();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     socket.on('moved', function(data) {
         take_cell(data);
+        waiting_request = false;
     });
     socket.on('winner', function(data) {
         playing = false;
@@ -169,7 +171,6 @@ function disableButtons() {
     np_button.style.opacity = "0.2";
     np_button.classList.add('disabled_button');
 
-    // document.querySelectorAll('a').forEach(function(link) {link.addEventListener("click", function(event) {event.preventDefault();});});
     Array.from(document.links).forEach(link => {link.onclick = function(){return false;};});
 
     document.querySelectorAll('select').forEach(function(selection) {selection.disabled = true; selection.style.cursor = "not-allowed";});
@@ -188,7 +189,6 @@ function reableButtons() {
     np_button.style.opacity = "1";
     np_button.classList.remove('disabled_button');
 
-    // document.querySelectorAll('a').forEach(function(link) {link.removeEventListener("click", function(event) {event.preventDefault();});});
     Array.from(document.links).forEach(link => {link.onclick = null;});
 
     document.querySelectorAll('select').forEach(function(selection) {selection.disabled = false; selection.style.cursor = "pointer";});
@@ -199,11 +199,18 @@ document.querySelectorAll('.info-icon').forEach(function(icon) {
     if (icon.dataset.infoboxId != "null") {
         icon.addEventListener('click', function(event) {
     const infoboxId = icon.dataset.infoboxId;
-    console.log(infoboxId)
     const infobox = document.getElementById(infoboxId);
 
-    infobox.style.left = event.clientX + 'px';
-    infobox.style.top = event.clientY + 'px';
+    cx = event.clientX;
+    cy = event.clientY;
+
+    if (cx > (window.innerWidth - 300)){
+        infobox.style.left = cx-300 + 'px';
+        infobox.style.top = cy+10 + 'px';
+    } else {
+        infobox.style.left = cx + 'px';
+        infobox.style.top = cy+10 + 'px';
+    }
 
     infobox.classList.add('show');
   });

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="156.89894mm"
+   height="25.612907mm"
+   viewBox="0 0 156.89894 25.612907"
+   version="1.1"
+   id="svg166221"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="fparrow.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview166223"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     showborder="false"
+     inkscape:zoom="0.64052329"
+     inkscape:cx="336.44366"
+     inkscape:cy="71.035669"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs166218">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient17358"
+       id="linearGradient163652"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-545.12788,-114.3686)"
+       x1="293.08353"
+       y1="73.363014"
+       x2="135.96532"
+       y2="73.400787" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient17358">
+      <stop
+         style="stop-color:#303335;stop-opacity:1"
+         offset="0"
+         id="stop17354" />
+      <stop
+         style="stop-color:#c0bab2;stop-opacity:0;"
+         offset="1"
+         id="stop17356" />
+    </linearGradient>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(71.42722,-30.566286)">
+    <g
+       id="g163650"
+       transform="translate(337.67441,84.40176)"
+       style="display:inline">
+      <path
+         id="path163638"
+         style="fill:url(#linearGradient163652);fill-opacity:1;stroke:none;stroke-width:25;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m -264.5301,-53.835474 12.32741,12.806455 -12.32741,12.806452 h -5.81462 l 12.0065,-12.805936 -12.006,-12.806971 z m -11.15746,0 12.00547,12.806971 -12.00597,12.805936 h -121.55796 l 11.97239,-12.805936 -11.97343,-12.806971 z m -126.89664,0 11.97448,12.806971 -11.97293,12.805936 h -6.51898 l 12.32845,-12.806452 -12.32845,-12.806455 z" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-370.26712"
+         y="-42.525257"
+         id="text163644"><tspan
+           sodipodi:role="line"
+           id="tspan163640"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-370.26712"
+           y="-42.525257">FORWARD</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-370.26712"
+           y="-29.296133"
+           id="tspan163642" /></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#c0bab2;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-360.4921"
+         y="-31.421469"
+         id="text163648"><tspan
+           sodipodi:role="line"
+           id="tspan163646"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#c0bab2;fill-opacity:1;stroke-width:0.264583"
+           x="-360.4921"
+           y="-31.421469">PROPAGATION</tspan></text>
+    </g>
+  </g>
+</svg>
