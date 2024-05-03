@@ -29,7 +29,7 @@ NeuroDidacte
 NeuroDidacte is a project aimed at providing a simple and accessible explanation of how neural networks work, with a focus on
 educational aspects. This project includes the implementation of three types of neural networks: a perceptron, a simple neural
 network for classification, and a more complex neural network for playing tic-tac-toe. The goal is to make learning about neural
-networks easy and accessible to everyone by providing detailed explanations and concrete examples to facilitate understanding.
+networks easy and accessible to everyone by providing detailed explanations and concrete examples to facilitate understanding. For more informations refers the doc file.
 
 ## Installation
 
@@ -68,10 +68,12 @@ feedback from the community are appreciated.
 
 ## Running the Project
 
-To launch the NeuroDidacte project, navigate to the project directory in your terminal or command prompt. Then, run the following
+To launch the NeuroDidacte project, navigate to the source directory in your terminal or command prompt. Then, run the following
 command to start the Flask server:
-python app.py     (windows)
-python3 app.py    (linux)
+
+- python app.py     (windows)
+- python3 app.py    (linux)
+
 If the command above does not work, you can alternatively open the app.py file in a code editor and execute it directly from
 there.
-Make sure you have installed all the dependencies and are connected to the internet before accessing the project. For a better experience, it is recommended to install the Ubuntu font.
+Make sure you have installed all the dependencies and are connected to the internet before accessing the project.
