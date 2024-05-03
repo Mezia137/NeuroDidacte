@@ -1,5 +1,25 @@
 # NeuroDidacte
 
+
+<table>
+  <tr>
+    <td><img src="doc/screenshots/Screenshot2.png"></td>
+    <td><img src="doc/screenshots/Screenshot3.png"></td>
+  </tr>
+  <tr>
+    <td><img src="doc/screenshots/Screenshot4.png"></td>
+    <td><img src="doc/screenshots/Screenshot5.png"></td>
+  </tr>
+  <tr>
+    <td><img src="doc/screenshots/Screenshot6.png"></td>
+    <td><img src="doc/screenshots/Screenshot7.png"></td>
+  </tr>
+
+
+</table>
+
+
+
 ## Name
 
 NeuroDidacte
